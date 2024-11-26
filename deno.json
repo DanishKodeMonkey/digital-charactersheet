@@ -3,11 +3,7 @@
   "compilerOptions": {
     "strict": false,
     "types": ["vite/client", "./src/vite-env.d.ts"],
-    "lib": [
-      "deno.window",
-      "dom",
-      "deno.ns"
-    ],
+    "lib": ["esnext", "dom", "deno.ns"],
     "jsx": "react-jsx",
     "jsxImportSource": "react"
   },
