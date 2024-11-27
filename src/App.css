@@ -38,12 +38,14 @@
         @apply grid grid-cols-subgrid col-span-5 items-center;
     }
     .input-base {
-        @apply border rounded focus:ring focus:ring-blue-300 text-center  w-1/2 md:w-2/3;
+        @apply border rounded focus:ring focus:ring-blue-300 text-center w-1/2
+      md:w-2/3;
         @apply text-2xl md:text-3xl lg:text-5xl; /* Responsive text size */
     }
 
     .input-title {
-        @apply text-3xl sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl text-center; /* Responsive title size */
+        @apply text-3xl sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl
+      text-center; /* Responsive title size */
     }
     .input-container {
         @apply flex flex-row max-h-20 min-w-20 justify-center align-middle;
@@ -61,5 +63,11 @@
     }
     .input-label {
         @apply text-xs sm:text-sm md:text-base;
+    }
+
+    /* Statusbar components */
+    /* AC */
+    .small-input {
+        @apply input-base align-middle;
     }
 }
