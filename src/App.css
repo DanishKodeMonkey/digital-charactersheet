@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @layer utilities {
+    /* Remove built in incremementers in favor of custom ones */
     input[type='number']::-webkit-inner-spin-button,
     input[type='number']::-webkit-outer-spin-button {
         -webkit-appearance: none;
@@ -15,6 +16,7 @@
 }
 
 @layer components {
+    /* Character ability stats component */
     .input-base {
         @apply border rounded px-2 py-1 focus:ring focus:ring-blue-300 text-5xl min-w-16 max-w-28 text-center;
     }
