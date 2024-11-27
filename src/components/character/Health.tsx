@@ -16,22 +16,24 @@ function Health() {
   };
 
   return (
-    <div>
-      <div className="grid grid-cols-3 m-2">
+    <div className="grid grid-rows-2">
+      <div className="grid grid-cols-4 text-center">
         <label htmlFor="HP" className="input-label col-span-1">Health <br /> Points</label>
+        <span  className="col-span-1 text-xs md:input-label">+</span>
         <label htmlFor="hitDie" className="input-label col-span-1">Hit die</label>
     </div>
-    <div className="grid grid-cols-3">
+    <div className="grid grid-cols-4 gap-3 text-center">
         <input
           type="number"
-          className="small-input"
+          className="small-input w-full col-span-1"
           name="HP"
           id="HP"
           disabled
           value={healthPoints}
         />
+        <span  className="col-span-1 text-xs md:input-label">+</span>
                 <input
-          className="small-input"
+          className="small-input w-full col-span-1"
           type="number"
           name="hitDie"
           id="hitDie"
@@ -40,7 +42,7 @@ function Health() {
         />
              <button
         type="submit"
-        className="ring-2 ring-blue-500 self-end h-full w-1/2 bg-blue-300"
+        className="col-span-1 ring-2 ring-blue-500 bg-blue-300"
         onClick={handleSubmit}
       >
         Add
