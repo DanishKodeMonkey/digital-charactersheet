@@ -1,13 +1,13 @@
 /// <reference path="./images.d.ts" />
 import React from "react";
 import "./App.css";
-import Ability from "./components/character/Ability.tsx";
+import Overview from "./pages/character/Overview.tsx";
 
 function App() {
   return (
-    <>
-      <Ability />
-    </>
+    <div className="App">
+      <Overview />
+    </div>
   );
 }
 

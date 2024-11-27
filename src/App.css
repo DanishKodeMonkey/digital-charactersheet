@@ -2,6 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+    html {
+        background-color: black;
+        scroll-behavior: smooth;
+    }
+    .App {
+        @apply min-h-screen bg-slate-300 mx-auto m-0 p-0;
+    }
+    input {
+        @apply text-center;
+    }
+}
+
 @layer utilities {
     /* Remove built in incremementers in favor of custom ones */
     input[type='number']::-webkit-inner-spin-button,
@@ -17,19 +30,36 @@
 
 @layer components {
     /* Character ability stats component */
-    .input-base {
-        @apply border rounded px-2 py-1 focus:ring focus:ring-blue-300 text-5xl min-w-16 max-w-28 text-center;
+    .ability-row-headers {
+        @apply text-sm text-gray-700 m-2;
+        @apply text-xs sm:text-sm md:text-base;
     }
+    .ability-row {
+        @apply grid grid-cols-subgrid col-span-5 items-center;
+    }
+    .input-base {
+        @apply border rounded focus:ring focus:ring-blue-300 text-center  w-1/2 md:w-2/3;
+        @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl; /* Responsive text size */
+    }
+
     .input-title {
-        @apply text-5xl;
+        @apply text-3xl sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl text-center; /* Responsive title size */
     }
     .input-container {
-        @apply flex flex-row;
+        @apply flex flex-row max-h-20 min-w-20 justify-center align-middle;
     }
     .input-incrementers {
-        @apply flex flex-col justify-between ml-1 gap-1;
+        @apply flex flex-col justify-between md:ml-1 gap-1;
     }
     .input-button {
-        @apply text-xl m-0 p-0 bg-slate-200 h-1/2 w-5 text-center rounded-md;
+        @apply m-0 p-0 bg-slate-200 h-8 w-8 text-center rounded-md;
+    }
+
+    /* Character information component */
+    .input-container-col {
+        @apply flex flex-col m-2;
+    }
+    .input-label {
+        @apply text-xs sm:text-sm md:text-base;
     }
 }
