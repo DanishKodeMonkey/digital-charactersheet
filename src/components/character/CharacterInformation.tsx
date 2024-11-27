@@ -1,7 +1,7 @@
 
 function CharacterInformation() {
     return (
-        <div className="container">
+        <div className="container mx-auto">
             <div className="grid grid-cols-8 grid-rows-3">
                 <div className="row-start-1 col-span-4 input-container-col">
                     <input type="text" name="characterName" id="characterName" />
