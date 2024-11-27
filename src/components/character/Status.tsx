@@ -3,7 +3,7 @@ import Health from "./Health.tsx";
 
 function Status() {
   return (
-    <div className="flex flex-col md:flex-row justify-center">
+    <div className="flex flex-col md:flex-row justify-center mx-5">
       <div className="w-1/3">
           <Health />
       </div>

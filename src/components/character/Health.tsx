@@ -16,36 +16,38 @@ function Health() {
   };
 
   return (
-    <div className="flex m-2 gap-2">
-      <div className="flex flex-col">
-        <label htmlFor="HP" className="input-label my-auto">Health <br /> Points</label>
+    <div>
+      <div className="grid grid-cols-3 m-2">
+        <label htmlFor="HP" className="input-label col-span-1">Health <br /> Points</label>
+        <label htmlFor="hitDie" className="input-label col-span-1">Hit die</label>
+    </div>
+    <div className="grid grid-cols-3">
         <input
           type="number"
-          className="small-input min-w-12"
+          className="small-input"
           name="HP"
           id="HP"
           disabled
           value={healthPoints}
         />
-      </div>
-      <div className="flex flex-col">
-        <label htmlFor="hitDie" className="input-label my-auto">Hit die</label>
-        <input
-          className="small-input min-w-12"
+                <input
+          className="small-input"
           type="number"
           name="hitDie"
           id="hitDie"
           value={hitDie}
           onChange={(e) => setHitDie(Number(e.target.value))}
         />
-      </div>
-      <button
+             <button
         type="submit"
-        className="ring-2 ring-blue-500  py-1 md:py-2 md:px-8 self-end bg-blue-300"
+        className="ring-2 ring-blue-500 self-end h-full w-1/2 bg-blue-300"
         onClick={handleSubmit}
       >
         Add
       </button>
+      </div>
+
+ 
     </div>
   );
 }
