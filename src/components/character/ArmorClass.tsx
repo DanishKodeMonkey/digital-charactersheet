@@ -1,8 +1,8 @@
 function ArmorClass() {
   return (
-    <div className="w-4/5">
-        <div className="grid grid-rows-2">
-          <div className="grid grid-cols-10 font-bold">
+    <div>
+        <div className="grid grid-rows-2 m-2">
+          <div className="grid grid-cols-8 font-bold">
             <span className="col-span-1 text-center">#</span>
             <span className="col-span-1">Total</span>
             <span className="col-span-1">Base</span>
@@ -22,8 +22,8 @@ function ArmorClass() {
               Misc <br /> modifier
             </span>
           </div>
-          <div className="grid grid-cols-10 items-center text-center">
-            <label htmlFor="totalAC">AC</label>
+          <div className="grid grid-cols-8 items-center">
+            <label htmlFor="totalAC" className="text-center">AC</label>
             <input
               type="number"
               name="totalAC"

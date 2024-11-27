@@ -16,22 +16,22 @@ function Health() {
   };
 
   return (
-    <div className="flex m-2 gap-5">
-      <div className="flex flex-col min-w-32 w-1/6">
-        <label htmlFor="HP" className="input-label">Health Points</label>
+    <div className="flex m-2 gap-2">
+      <div className="flex flex-col">
+        <label htmlFor="HP" className="input-label my-auto">Health <br /> Points</label>
         <input
           type="number"
-          className="input-base w-full"
+          className="small-input min-w-12"
           name="HP"
           id="HP"
           disabled
           value={healthPoints}
         />
       </div>
-      <div className="flex flex-col min-w-32 w-1/6">
-        <label htmlFor="hitDie" className="input-label">Hit die</label>
+      <div className="flex flex-col">
+        <label htmlFor="hitDie" className="input-label my-auto">Hit die</label>
         <input
-          className="input-base  w-full"
+          className="small-input min-w-12"
           type="number"
           name="hitDie"
           id="hitDie"
@@ -41,7 +41,7 @@ function Health() {
       </div>
       <button
         type="submit"
-        className="ring-2 ring-blue-500 p-2 md:py-4 md:px-8 self-end bg-blue-300"
+        className="ring-2 ring-blue-500  py-1 md:py-2 md:px-8 self-end bg-blue-300"
         onClick={handleSubmit}
       >
         Add
