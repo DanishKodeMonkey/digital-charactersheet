@@ -19,7 +19,7 @@ function AbilityRow({ ability }: AbilityRowProps) {
     setter((prev) => prev-1)
   }
   return (
-    <div className="abilityRow grid grid-cols-subgrid col-span-5 gap-4">
+    <div className="ability-row">
       <label htmlFor={`${abilityId}Score`} className="font-bold input-title">
         {ability}
       </label>
