@@ -3,17 +3,17 @@ import { useEffect, useState } from "react";
 function Initiative() {
   /* HUSKAT - Centraliser abliity modifiers og send via props */
   const [dexterity, setDexterity] = useState<number>(5);
-  const [miscModifier, setMiscModifier] = useState<number>(0);
+  const [miscModifier, setMiscModifier] = useState<number>("");
   const [initiativeTotal, setInitiativeTotal] = useState<number>(0);
 
   // update initiativeTotal whenever dex or misc changes
   useEffect(() => {
-    setInitiativeTotal(dexterity + miscModifier);
+    setInitiativeTotal(dexterity + (miscModifier ? miscModifier : 0));
   }, [dexterity, miscModifier]);
 
   // event handler for misc modifier
   const handleMiscModifierChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value, 10) || 0;
+    const value = parseInt(e.target.value, 10);
     setMiscModifier(value);
   };
   return (

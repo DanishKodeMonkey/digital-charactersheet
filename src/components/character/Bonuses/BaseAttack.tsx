@@ -14,7 +14,7 @@ function BaseAttackBonus() {
 
   const [baseAtk, setBaseAtk] = useState<number>(5);
   const handleBaseAtkChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value, 10) || 0;
+    const value = parseInt(e.target.value, 10);
     setBaseAtk(value);
   };
   return (

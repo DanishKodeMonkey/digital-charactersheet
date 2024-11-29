@@ -1,4 +1,21 @@
+import {useState, useEffect} from 'react'
+
 function ArmorClass() {
+  const [acTotal, setAcTotal] = useState<number>(0)
+  const [aBonus, setABonus] = useState<number>("")
+  const [dexterity, setDexterity] = useState<number>(5)
+  const [sizeModifier, setSizeModifier] = useState<number>("")
+  const [naturalArmor, setNaturalArmor] = useState<number>("")
+  const [miscModifier, setMiscModifier] = useState<number>("")
+
+
+  useEffect(() => {
+  setAcTotal(10 + (aBonus? aBonus: 0) + dexterity - (sizeModifier ? sizeModifier : 0) + (naturalArmor ? naturalArmor : 0) + (miscModifier ? miscModifier : 0))  
+  
+  }, [aBonus, sizeModifier, naturalArmor, miscModifier]);
+  
+
+
   return (
     <div className="grid grid-rows-2">
       {/* Header Row */}
@@ -37,6 +54,7 @@ function ArmorClass() {
           name="totalAC"
           id="totalAC"
           disabled
+          value={acTotal}
           className="col-span-1 small-input w-full"
         />
         <span>=</span>
@@ -47,6 +65,8 @@ function ArmorClass() {
           name="armorBonus"
           id="armorBonus"
           className="col-span-1 small-input w-full"
+          value={aBonus}
+          onChange={(e) => setABonus(parseInt((e.target.value))) }
         />
         <span>+</span>
         <input
@@ -54,6 +74,7 @@ function ArmorClass() {
           name="dexMod"
           id="dexMod"
           disabled
+          value={dexterity}
           className="col-span-1 small-input w-full"
         />
         <span>-</span>
@@ -62,6 +83,8 @@ function ArmorClass() {
           name="sizeMod"
           id="sizeMod"
           className="col-span-1 small-input w-full"
+          value={sizeModifier}
+          onChange={(e) => setSizeModifier(parseInt((e.target.value))) }
         />
         <span>+</span>
         <input
@@ -69,6 +92,8 @@ function ArmorClass() {
           name="natArmor"
           id="natArmor"
           className="col-span-1 small-input w-full"
+          value={naturalArmor}
+          onChange={(e) => setNaturalArmor(parseInt((e.target.value))) }
         />
         <span>+</span>
         <input
@@ -76,6 +101,8 @@ function ArmorClass() {
           name="miscMod"
           id="miscMod"
           className="col-span-1 small-input w-full"
+          value={miscModifier}
+          onChange={(e) => setMiscModifier(parseInt((e.target.value))) }
         />
       </div>
     </div>
