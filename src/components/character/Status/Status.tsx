@@ -1,5 +1,5 @@
-import ArmorClass from "./ArmorClass.tsx";
-import Health from "./Health.tsx";
+import ArmorClass from "../Status/ArmorClass.tsx";
+import Health from "../Status/Health.tsx";
 
 function Status() {
   return (

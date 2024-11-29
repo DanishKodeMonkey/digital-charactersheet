@@ -1,7 +1,7 @@
 import React from "react";
-import Ability from "../../components/character/Ability.tsx";
-import CharacterInformation from "../../components/character/CharacterInformation.tsx";
-import Status from "../../components/character/Status.tsx";
+import Ability from "../../components/character/Stats/Ability.tsx";
+import CharacterInformation from "../../components/character/Details/CharacterInformation.tsx";
+import Status from "../../components/character/Status/Status.tsx";
 
 function Overview() {
   return (
