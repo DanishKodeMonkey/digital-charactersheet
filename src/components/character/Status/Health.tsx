@@ -18,11 +18,15 @@ function Health() {
   return (
     <div className="grid grid-rows-2">
       <div className="grid grid-cols-4 text-center">
-        <label htmlFor="HP" className="input-label col-span-1">Health <br /> Points</label>
-        <span  className="col-span-1 text-xs md:input-label">+</span>
-        <label htmlFor="hitDie" className="input-label col-span-1">Hit die</label>
-    </div>
-    <div className="grid grid-cols-4 gap-3 text-center">
+        <label htmlFor="HP" className="input-label col-span-1">
+          Health <br /> Points
+        </label>
+        <span className="col-span-1 text-xs md:input-label">+</span>
+        <label htmlFor="hitDie" className="input-label col-span-1">
+          Hit die
+        </label>
+      </div>
+      <div className="grid grid-cols-4 gap-3 text-center">
         <input
           type="number"
           className="small-input w-full col-span-1"
@@ -31,8 +35,8 @@ function Health() {
           disabled
           value={healthPoints}
         />
-        <span  className="col-span-1 text-xs md:input-label">+</span>
-                <input
+        <span className="col-span-1 text-xs md:input-label">+</span>
+        <input
           className="small-input w-full col-span-1"
           type="number"
           name="hitDie"
@@ -40,16 +44,14 @@ function Health() {
           value={hitDie}
           onChange={(e) => setHitDie(Number(e.target.value))}
         />
-             <button
-        type="submit"
-        className="col-span-1 ring-2 ring-blue-500 bg-blue-300"
-        onClick={handleSubmit}
-      >
-        Add
-      </button>
+        <button
+          type="submit"
+          className="col-span-1 ring-2 ring-blue-500 bg-blue-300"
+          onClick={handleSubmit}
+        >
+          Add
+        </button>
       </div>
-
- 
     </div>
   );
 }

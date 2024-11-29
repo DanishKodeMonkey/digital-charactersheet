@@ -5,7 +5,7 @@ type AbilityRowProps = {
 };
 
 function AbilityRow({ ability }: AbilityRowProps) {
-      /* HUSKAT - Centraliser abliity modifiers og send via props */
+  /* HUSKAT - Centraliser abliity modifiers og send via props */
 
   const abilityId = ability.toLowerCase();
 
