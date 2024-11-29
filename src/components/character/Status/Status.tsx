@@ -2,6 +2,8 @@ import ArmorClass from "../Status/ArmorClass.tsx";
 import Health from "../Status/Health.tsx";
 
 function Status() {
+      /* HUSKAT - Centraliser abliity modifiers og send via props */
+
   return (
     <div className="flex flex-col md:flex-row justify-center mx-5 my-2">
       <div className="w-1/2 md:w-1/4">

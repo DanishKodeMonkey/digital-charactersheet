@@ -40,12 +40,12 @@
     .input-base {
         @apply border rounded focus:ring focus:ring-blue-300 text-center w-1/2
       md:w-2/3;
-        @apply text-2xl md:text-3xl lg:text-5xl; /* Responsive text size */
+        @apply text-2xl md:text-3xl lg:text-5xl;
     }
 
     .input-title {
         @apply text-3xl sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl
-      text-center; /* Responsive title size */
+      text-center;
     }
     .input-container {
         @apply flex flex-row max-h-20 min-w-20 justify-center align-middle;

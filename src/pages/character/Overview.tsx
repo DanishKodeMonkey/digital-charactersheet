@@ -2,8 +2,11 @@ import React from "react";
 import Ability from "../../components/character/Stats/Ability.tsx";
 import CharacterInformation from "../../components/character/Details/CharacterInformation.tsx";
 import Status from "../../components/character/Status/Status.tsx";
+import Bonuses from "../../components/character/Bonuses/Bonuses.tsx";
 
 function Overview() {
+  /* HUSKAT - Centraliser abliity modifiers og send via props */
+
   return (
     <div className="container min-h-screen lg:mx-auto max-xl:min-w-full grid grid-cols-1 md:grid-cols-3">
       <div className="col-span-full lg:col-span-3 bg-red-300">
@@ -16,7 +19,7 @@ function Overview() {
         <Ability />
       </div>
       <div className="col-span-full md:row-start-3 md:col-span-1 md:col-start-3 lg:col-start-2 bg-pink-300">
-        INITIATIVE AND <br /> BASE ATTACK BONUS
+        <Bonuses />
       </div>
       <div className="col-span-full md:row-start-4 md:col-span-1 md:col-start-3 lg:col-start-2 bg-yellow-300">
         SAVING THROWS
