@@ -31,15 +31,16 @@
 @layer components {
     /* Character ability stats component */
     .ability-row-headers {
-        @apply text-sm text-gray-700 m-2;
+        @apply text-sm text-gray-700;
         @apply text-xs sm:text-sm md:text-base;
     }
     .ability-row {
         @apply grid grid-cols-subgrid col-span-5 items-center;
     }
+
+    /* Input styles */
     .input-base {
-        @apply border rounded focus:ring focus:ring-blue-300 text-center w-1/2
-      md:w-2/3;
+        @apply border rounded focus:ring focus:ring-blue-300 text-center w-1/2 md:w-2/3;
         @apply text-2xl md:text-3xl lg:text-4xl;
     }
 
@@ -56,17 +57,16 @@
         @apply m-0 p-0 bg-slate-200 h-8 w-8 text-center rounded-md;
     }
 
-    /* Character information component */
     .input-container-col {
         @apply flex flex-col m-2;
     }
     .input-label {
         @apply text-xs sm:text-sm md:text-base;
     }
-
-    /* Statusbar components */
-    /* AC */
     .small-input {
         @apply input-base align-middle;
+    }
+    .input-tiny {
+        @apply input-base text-base md:text-xl;
     }
 }

@@ -3,6 +3,7 @@ import Ability from "../../components/character/Stats/Ability.tsx";
 import CharacterInformation from "../../components/character/Details/CharacterInformation.tsx";
 import Status from "../../components/character/Status/Status.tsx";
 import Bonuses from "../../components/character/Bonuses/Bonuses.tsx";
+import SavingThrows from "../../components/character/SavingThrows/SavingThrows.tsx";
 
 function Overview() {
   /* HUSKAT - Centraliser abliity modifiers og send via props */
@@ -22,7 +23,7 @@ function Overview() {
         <Bonuses />
       </div>
       <div className="col-span-full md:row-start-4 md:col-span-1 md:col-start-3 lg:col-start-2 bg-yellow-300">
-        SAVING THROWS
+        <SavingThrows />
       </div>
       <div className="col-span-full lg:col-span-2 bg-amber-500">
         WEAPONS AND ARMOR <div>WEP 1</div> <div>WEP 2</div> <div>WEP 3</div>
