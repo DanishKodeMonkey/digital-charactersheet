@@ -17,95 +17,101 @@ function ArmorClass() {
   }, [aBonus, sizeModifier, naturalArmor, miscModifier]);
 
   return (
-    <div className="grid grid-rows-2">
-      {/* Header Row */}
-      <div className="grid grid-cols-[repeat(14,minmax(0,1fr))] font-bold items-center text-center">
-        <span className="col-span-1 md:col-span-1 text-xs">#</span>
-        <span className="col-span-1 md:col-span-1 text-xs">Total</span>
-        <span className="col-span-1 text-xs max-sm:hidden">=</span>
-        <span className="col-span-2 md:col-span-1 text-xs">Base</span>
-        <span className="col-span-1 text-xs max-sm:hidden">+</span>
-        <span className="col-span-2 md:col-span-1 text-xs">
-          Armor<br />Bonus
-        </span>
-        <span className="col-span-1 text-xs max-sm:hidden">+</span>
-        <span className="col-span-2 md:col-span-1 text-xs">
-          Dex<br />Modifier
-        </span>
-        <span className="col-span-1 text-xs max-sm:hidden">-</span>
-        <span className="col-span-2 md:col-span-1 text-xs">
-          Size<br />Modifier
-        </span>
-        <span className="col-span-1 text-xs max-sm:hidden">+</span>
-        <span className="col-span-2 md:col-span-1 text-xs">
-          Natural<br />Armor
-        </span>
-        <span className="col-span-1 text-xs max-sm:hidden">+</span>
-        <span className="col-span-2 md:col-span-1 text-xs">
-          Misc<br />Modifier
-        </span>
-      </div>
-
+    <>
+    <h1 className="sm:hidden input-title">AC</h1>
+    <div className="flex flex-col md:m-5">
       {/* Input Row */}
-      <div className="grid grid-cols-[repeat(14,minmax(0,1fr))] items-center text-center">
-        <label htmlFor="totalAC" className="col-span-1">AC</label>
-        <input
-          type="number"
-          name="totalAC"
-          id="totalAC"
-          disabled
-          value={acTotal}
-          className="col-span-1 small-input w-full"
-        />
-        <span >=</span>
-        <span className="text-2xl">10</span>
-        <span>+</span>
-        <input
-          type="number"
-          name="armorBonus"
-          id="armorBonus"
-          className="col-span-1 small-input w-full"
-          value={aBonus}
-          onChange={(e) => setABonus(parseInt(e.target.value))}
-        />
-        <span>+</span>
-        <input
-          type="number"
-          name="dexMod"
-          id="dexMod"
-          disabled
-          value={dexterity}
-          className="col-span-1 small-input w-full"
-        />
-        <span>-</span>
-        <input
-          type="number"
-          name="sizeMod"
-          id="sizeMod"
-          className="col-span-1 small-input w-full"
-          value={sizeModifier}
-          onChange={(e) => setSizeModifier(parseInt(e.target.value))}
-        />
-        <span>+</span>
-        <input
-          type="number"
-          name="natArmor"
-          id="natArmor"
-          className="col-span-1 small-input w-full"
-          value={naturalArmor}
-          onChange={(e) => setNaturalArmor(parseInt(e.target.value))}
-        />
-        <span>+</span>
-        <input
-          type="number"
-          name="miscMod"
-          id="miscMod"
-          className="col-span-1 small-input w-full"
-          value={miscModifier}
-          onChange={(e) => setMiscModifier(parseInt(e.target.value))}
-        />
+      <div className="flex flex-row flex-grow justify-around">
+        <h1 className="max-sm:hidden self-center md:input-title">AC</h1>
+        <div className="w-14 text-center mt-auto">
+          <label htmlFor="totalAC" className="input-label">TOTAL</label>
+          <input
+            type="number"
+            name="totalAC"
+            id="totalAC"
+            disabled
+            value={acTotal}
+            className=" small-input w-full"
+          />
+        </div>
+        <span className="mt-auto mb-3">=</span>
+
+        <div className="w-14 text-center mt-auto">
+          <label htmlFor="baseAC" className="input-label">BASE</label>
+          <input
+            type="number"
+            name="baseAC"
+            id="baseAC"
+            value="10"
+            className="small-input w-full"
+            disabled
+          />
+        </div>
+        <span className="mt-auto mb-3">+</span>
+        <div className="w-14 text-center mt-auto">
+
+            <label htmlFor="armorBonus" className="input-label">Armor <br />bonus</label>
+            <input
+              type="number"
+              name="armorBonus"
+              id="armorBonus"
+              className=" small-input w-full"
+              value={aBonus}
+              onChange={(e) => setABonus(parseInt(e.target.value))}
+            />
+
+        </div>
+        <span className="mt-auto mb-3">+</span>
+        <div className="w-14 text-center mt-auto">
+          <label htmlFor="dexMod" className="input-label">Dex <br />modifier</label>
+          <input
+            type="number"
+            name="dexMod"
+            id="dexMod"
+            disabled
+            value={dexterity}
+            className=" small-input w-full"
+          />
+        </div>
+        <span className="mt-auto mb-3">-</span>
+        <div className="w-14 text-center mt-auto">
+          <label htmlFor="sizeMod" className="input-label">Size <br />modifier</label>
+          <input
+            type="number"
+            name="sizeMod"
+            id="sizeMod"
+            className=" small-input w-full"
+            value={sizeModifier}
+            onChange={(e) => setSizeModifier(parseInt(e.target.value))}
+          />
+        </div>
+        <span className="mt-auto mb-3">+</span>
+        <div className="w-14 text-center mt-auto">
+          <label htmlFor="natArmor" className="input-label">Natural <br />Armor</label>
+          <input
+            type="number"
+            name="natArmor"
+            id="natArmor"
+            className=" small-input w-full"
+            value={naturalArmor}
+            onChange={(e) => setNaturalArmor(parseInt(e.target.value))}
+          />
+        </div>
+        <span className="mt-auto mb-3">+</span>
+        <div className="w-14 text-center mt-auto">
+          <label htmlFor="miscMod" className="input-label">Misc <br />modifier</label>
+          <input
+            type="number"
+            name="miscMod"
+            id="miscMod"
+            className=" small-input w-full"
+            value={miscModifier}
+            onChange={(e) => setMiscModifier(parseInt(e.target.value))}
+          />
+        </div>
       </div>
     </div>
+    </>
   );
 }
 

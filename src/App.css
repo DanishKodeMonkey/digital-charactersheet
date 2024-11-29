@@ -40,7 +40,8 @@
 
     /* Input styles */
     .input-base {
-        @apply border rounded focus:ring focus:ring-blue-300 text-center w-1/2 md:w-2/3;
+        @apply border rounded focus:ring focus:ring-blue-300 text-center w-1/2
+      md:w-2/3;
         @apply text-2xl md:text-3xl lg:text-4xl;
     }
 

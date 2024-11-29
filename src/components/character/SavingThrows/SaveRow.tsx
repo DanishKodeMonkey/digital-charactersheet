@@ -18,7 +18,14 @@ function SaveRow() {
 
   return (
     <div className="flex">
-      <input type="number" name="Total" id="Total" value={saveTotal} disabled         className="input-tiny"/>
+      <input
+        type="number"
+        name="Total"
+        id="Total"
+        value={saveTotal}
+        disabled
+        className="input-tiny"
+      />
       <span>=</span>
       <input
         type="number"
@@ -35,7 +42,7 @@ function SaveRow() {
         id="ability"
         value={abilityMod}
         disabled
-                className="input-tiny"
+        className="input-tiny"
       />
       <span>+</span>
       <input
@@ -44,7 +51,7 @@ function SaveRow() {
         id="magicMod"
         value={saveMagicMod}
         onChange={(e) => setSaveMagicMod(parseInt(e.target.value))}
-                className="input-tiny"
+        className="input-tiny"
       />
       <span>+</span>
       <input
@@ -53,7 +60,7 @@ function SaveRow() {
         id="miscMod"
         value={saveMiscMod}
         onChange={(e) => setSaveMiscMod(parseInt(e.target.value))}
-                className="input-tiny"
+        className="input-tiny"
       />
       <span>+</span>
       <input
@@ -62,7 +69,7 @@ function SaveRow() {
         id="tempMod"
         value={saveTempMod}
         onChange={(e) => setSaveTempMod(parseInt(e.target.value))}
-                className="input-tiny"
+        className="input-tiny"
       />
     </div>
   );
