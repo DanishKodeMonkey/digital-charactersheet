@@ -3,10 +3,10 @@ import AbilityRow from "./AbilityRow.tsx";
 function Ability() {
   const abilities = ["Str", "Dex", "Con", "Int", "Wis", "Cha"];
   return (
-    <div className="container ">
+    <div className="container">
       <h1 className="text-xl font-bold text-center">Character Stats</h1>
 
-      <div className="grid grid-cols-5 gap-1 font-bold ability-row-headers ">
+      <div className="grid grid-cols-5 font-bold ability-row-headers ">
         <span className="col-start-1"></span>
         <span className="col-start-2">
           Ability <br /> Score

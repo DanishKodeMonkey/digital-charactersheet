@@ -62,13 +62,15 @@ function AbilityRow({ ability }: AbilityRowProps) {
           onChange={(e) => setMod(Number(e.target.value))}
         />
         <div className="input-incrementers">
-          <button
-            type="button"
-            className="input-button"
-            onClick={() => increment(setMod)}
-          >
-            +
-          </button>
+          <div>
+            <button
+              type="button"
+              className="input-button"
+              onClick={() => increment(setMod)}
+            >
+              +
+            </button>
+          </div>
           <button
             type="button"
             className="input-button"
