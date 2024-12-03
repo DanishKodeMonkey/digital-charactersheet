@@ -9,7 +9,7 @@ interface ShieldTypeProp {
 function Shield({name}:ShieldTypeProp){
 
     return(
-        <div>
+        <div className="bg-green-300 bg-opacity-80">
             <h2>{name}</h2>
 
         </div>

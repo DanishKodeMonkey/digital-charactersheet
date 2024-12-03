@@ -9,7 +9,7 @@ interface MiscItemTypeProp {
 function MiscItem({name}:MiscItemTypeProp){
 
     return(
-        <div>
+        <div className="bg-yellow-500 bg-opacity-80">
             <h2>{name}</h2>
 
         </div>

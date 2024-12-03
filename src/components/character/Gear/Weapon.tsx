@@ -9,7 +9,7 @@
 function Weapon({name}:WeaponTypeProp){
 
     return(
-        <div>
+        <div className="bg-red-300 bg-opacity-80"> 
             <h2>{name}</h2>
 
         </div>
