@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 
 // huskat: seperate types to typefile
@@ -18,9 +18,13 @@ function SkillRow({ skill }: SkillRowProps) {
   const [ranks, setRanks] = useState<number>("");
   const [miscMod, setMiscMod] = useState<number>("");
 
+
   const toggleLearned = () =>{
     setLearned((prevLearned) => !prevLearned)
   }
+useEffect(() => {
+  setSkillMod((abilityMod ? abilityMod : 0)+(ranks? ranks : 0) + (miscMod ? miscMod : 0))
+}, [abilityMod, ranks, miscMod]);
 
   // HUSKAT: Styling to sheet
   return (
@@ -46,9 +50,9 @@ function SkillRow({ skill }: SkillRowProps) {
           <div className="w-1/4">
           <input className="input-micro" type="number" name="abilityModifier" id={`abilityModifier-${skill.name}`} value={abilityMod}    disabled    /></div>
           <div className="w-1/4">
-          <input className="input-micro" type="number" name="ranksModifier" id={`ranksModifier-${skill.name}`} value={ranks ? ranks : 0}        onChange={(e) => setRanks(parseInt(e.target.value))}/></div>
+          <input className="input-micro" type="number" name="ranksModifier" id={`ranksModifier-${skill.name}`} value={ranks}        onChange={(e) => setRanks(Number(e.target.value))}/></div>
           <div className="w-1/4">
-          <input className="input-micro" type="number" name="miscModifier" id={`miscModifier-${skill.name}`} value={miscMod ? miscMod : 0}        onChange={(e) => setMiscMod(parseInt(e.target.value))}/></div>
+          <input className="input-micro" type="number" name="miscModifier" id={`miscModifier-${skill.name}`} value={miscMod}        onChange={(e) => setMiscMod(Number(e.target.value))}/></div>
           
               </div>
       </div>

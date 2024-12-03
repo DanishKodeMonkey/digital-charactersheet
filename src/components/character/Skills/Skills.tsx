@@ -21,8 +21,8 @@ function Skills() {
               <div>
                 <label className="header-text text-[.6rem]" htmlFor="skillPoints">Max ranks / Skill Points</label></div>
               <div className="flex w-2/6">
-<input className="input-micro" type="number" name="maxRanks" id="maxRanks"  value={maxRanks} onChange={(e)=> setMaxRanks(e.target.value)}/>
-<input className="input-micro" type="number" name="skillPoints" id="skillPoints"  value={skillPoints} onChange={(e)=> setSkillPoints(e.target.value)}/>
+                <input className="input-micro" type="number" name="maxRanks" id="maxRanks"  value={maxRanks} onChange={(e)=> setMaxRanks(e.target.value)}/>
+                <input className="input-micro" type="number" name="skillPoints" id="skillPoints"  value={skillPoints} onChange={(e)=> setSkillPoints(e.target.value)}/>
               </div>
           </div>
       </div>
