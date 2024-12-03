@@ -5,6 +5,7 @@ import Status from "../../components/character/Status/Status.tsx";
 import Bonuses from "../../components/character/Bonuses/Bonuses.tsx";
 import SavingThrows from "../../components/character/SavingThrows/SavingThrows.tsx";
 import Skills from "../../components/character/Skills/Skills.tsx";
+import Gear from "../../components/character/Gear/Gear.tsx";
 
 function Overview() {
   /* HUSKAT - Centraliser abliity modifiers og send via props */
@@ -27,9 +28,7 @@ function Overview() {
         <SavingThrows />
       </div>
       <div className="col-span-full lg:col-span-2 bg-amber-500">
-        WEAPONS AND ARMOR <div>WEP 1</div> <div>WEP 2</div> <div>WEP 3</div>
-        {" "}
-        <div>ARMOR</div> <div>SHIELD</div> <div>Misc</div>
+      <Gear />
       </div>
 
       <div className="col-span-full lg:col-start-3 lg:row-start-3 lg:row-span-3 bg-purple-300">
