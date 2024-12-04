@@ -40,8 +40,7 @@
 
   /* Input styles */
   .input-base {
-    @apply border rounded focus:ring focus:ring-blue-300 text-center w-1/2
-      md:w-2/3;
+    @apply border rounded focus:ring focus:ring-blue-300 text-center w-1/2;
     @apply text-2xl md:text-3xl lg:text-4xl;
   }
   .input-title {
@@ -62,16 +61,19 @@
     @apply flex flex-col m-2;
   }
   .input-label {
-    @apply text-xs sm:text-sm md:text-base;
+    @apply text-xs sm:text-sm md:text-lg;
   }
   .small-input {
-    @apply input-base align-middle;
+    @apply input-base align-middle text-2xl w-full;
   }
   .input-tiny {
-    @apply input-base text-base md:text-xl;
+    @apply input-base text-base md:text-xl w-full;
   }
   .input-micro {
     @apply input-base w-full h-2/3 text-[0.9rem];
+  }
+  .input-string-text {
+    @apply text-base sm:text-lg md:text-xl lg:text-2xl;
   }
   .header-title {
     @apply input-title;
@@ -82,4 +84,5 @@
   .sideways {
     @apply rotate-90 whitespace-nowrap transform h-5 text-xs;
   }
+  .fold-container {}
 }
