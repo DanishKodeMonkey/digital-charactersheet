@@ -28,7 +28,7 @@ function Overview() {
         <SavingThrows />
       </div>
       <div className="col-span-full lg:col-span-2 bg-amber-500">
-      <Gear />
+        <span></span>
       </div>
 
       <div className="col-span-full lg:col-start-3 lg:row-start-3 lg:row-span-3 bg-purple-300">
