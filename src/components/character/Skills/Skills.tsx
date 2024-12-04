@@ -7,7 +7,7 @@ function Skills() {
   const [skillPoints, setSkillPoints] = useState<number>(0);
 
   return (
-    <div className="mx-2 my-2">
+    <div className="mx-2 my-2 h-full flex flex-col overflow-hidden">
       <div className="flex flex-col">
         <div className="flex gap-7">
           <div>
@@ -58,9 +58,9 @@ function Skills() {
           </span>
         </div>
       </div>
-      <div className="skills-list flex flex-col">
-        <hr className="my-2 border-y-2" />
-        <div className=" h-screen overflow-scroll">
+      <hr className="my-2 border-y-2" />
+      <div className="skills-list min-h-0 h-5 flex-grow overflow-y-auto">
+        <div className="h-auto overflow-scroll">
           {skillList.map((skill, index) => (
             <SkillRow key={index} skill={skill} />
           ))}

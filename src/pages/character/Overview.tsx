@@ -28,10 +28,10 @@ function Overview() {
         <SavingThrows />
       </div>
       <div className="col-span-full lg:col-span-2 bg-amber-500">
-        <span></span>
+        <Gear />
       </div>
 
-      <div className="col-span-full lg:col-start-3 lg:row-start-3 lg:row-span-3 bg-purple-300">
+      <div className="col-span-full lg:col-start-3 lg:row-start-3 lg:row-span-3 bg-purple-300 min-h-0 flex flex-col">
         <Skills />
       </div>
     </div>
