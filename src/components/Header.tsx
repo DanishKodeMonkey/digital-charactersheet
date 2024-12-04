@@ -6,7 +6,7 @@ function Header() {
   return (
 <header>
   <div className="flex flex-col justify-between items-center">
-    <div><h1>Digital Character sheet</h1><h2>---placeholder charactername---</h2></div>
+    <div><h1>Digital Character sheet</h1></div>
     <nav><ul className="flex gap-6">
       <li><Link to={"/"} className="text-lg hover:text-yellow-400">Overview</Link></li><li>
         <Link to={"/character"} className="text-lg hover:text-yellow-400">Character</Link>
