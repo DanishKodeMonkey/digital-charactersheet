@@ -29,7 +29,7 @@ function Feats() {
   };
 
   const removeFeat = (index: number) => {
-    const updatedFeats = feats.filter((item:Feat) => item.index !== index);
+    const updatedFeats = feats.filter((item: Feat) => item.index !== index);
     setFeats(updatedFeats);
   };
 
@@ -37,13 +37,27 @@ function Feats() {
     <div>
       <h1>Feats</h1>
       <ul>
-        {feats.map((feat:Feat) => (
+        {feats.map((feat: Feat) => (
           <ItemRow key={feat.index} item={feat} onRemove={removeFeat} />
         ))}
       </ul>
       <div>
-        <input type="text" name="featName" id="featName" placeholder="name" value={featName} onChange={(e) => setFeatName(e.target.value)} />
-        <input type="text" name="featNote" id="featNote" placeholder="Notes" value={featNote} onChange={(e) => setFeatNote(e.target.value)} />
+        <input
+          type="text"
+          name="featName"
+          id="featName"
+          placeholder="name"
+          value={featName}
+          onChange={(e) => setFeatName(e.target.value)}
+        />
+        <input
+          type="text"
+          name="featNote"
+          id="featNote"
+          placeholder="Notes"
+          value={featNote}
+          onChange={(e) => setFeatNote(e.target.value)}
+        />
 
         <button
           type="submit"
@@ -56,5 +70,4 @@ function Feats() {
   );
 }
 
-
-export default Feats
+export default Feats;

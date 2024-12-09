@@ -3,7 +3,9 @@ interface Item {
   name: string;
   note: string;
 }
-function ItemRow({ item, onRemove }: { item: Item; onRemove: (index:number) => void; }) {
+function ItemRow(
+  { item, onRemove }: { item: Item; onRemove: (index: number) => void },
+) {
   return (
     <li className="flex justify-between">
       <span>{item.name}</span>

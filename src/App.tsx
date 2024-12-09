@@ -1,6 +1,6 @@
 /// <reference path="./images.d.ts" />
 import React from "react";
-import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Header from "./components/Header.tsx";
 
@@ -8,7 +8,6 @@ import Overview from "./pages/character/Overview.tsx";
 import Character from "./pages/character/Character.tsx";
 import Inventory from "./pages/character/Inventory.tsx";
 import Spells from "./pages/character/Spells.tsx";
-
 
 function App() {
   return (
