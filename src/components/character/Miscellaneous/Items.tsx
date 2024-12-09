@@ -7,8 +7,14 @@ interface Item {
   note: string;
 }
 
-function Items({itemType, items, addItem, removeItem}: {itemType: string; items: Item[]; addItem: (item:Item) => void; removeItem: (index:number) => void;}) {
-
+function Items(
+  { itemType, items, addItem, removeItem }: {
+    itemType: string;
+    items: Item[];
+    addItem: (item: Item) => void;
+    removeItem: (index: number) => void;
+  },
+) {
   const [itemName, setItemName] = useState<string>("");
   const [itemNote, setItemNote] = useState<string>("");
 
