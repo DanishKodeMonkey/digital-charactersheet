@@ -1,8 +1,10 @@
 import InventoryRow from "./InventoryRow.tsx";
 
+interface PossessionsProps {
+    possessions: Possession[];
+}
 
 function Possessions(){
-
 
     return(
         <div>
