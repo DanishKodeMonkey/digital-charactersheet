@@ -35,7 +35,7 @@ function Items(
   };
 
   return (
-    <div>
+    <div className="bg-red-500 bg-opacity-50">
       <h1>{itemType}</h1>
       <ul>
         {items.map((item: Item) => (
