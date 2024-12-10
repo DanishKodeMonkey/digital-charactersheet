@@ -2,8 +2,6 @@ import { useState } from "react";
 import { ArmorTypeProp } from "../../../types/inventory.ts";
 // huskat: seperate types to typefile
 
-
-
 function Armor({ name }: ArmorTypeProp) {
   const [armorName, setArmorName] = useState<string>(name ? name : "");
   const [armorType, setArmorType] = useState<string>("");

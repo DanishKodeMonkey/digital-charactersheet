@@ -1,32 +1,32 @@
 export interface ArmorTypeProp {
-    name: string;
+  name: string;
 }
 
 export interface MiscItemTypeProp {
-    name: string;
+  name: string;
 }
 
 export interface ShieldTypeProp {
-    name: string;
+  name: string;
 }
 
 export interface WeaponTypeProp {
-    name: string;
+  name: string;
 }
 export interface Item {
-    index: number;
-    name: string;
-    note: string;
+  index: number;
+  name: string;
+  note: string;
 }
 
 export interface Possession {
-    item: string;
-    amount: number;
-    weight: number;
+  item: string;
+  amount: number;
+  weight: number;
 }
 
 export interface wallet {
-    gold: number;
-    silver: number;
-    copper: number;
+  gold: number;
+  silver: number;
+  copper: number;
 }

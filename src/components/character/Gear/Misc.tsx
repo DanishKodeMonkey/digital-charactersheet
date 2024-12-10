@@ -3,7 +3,6 @@ import { MiscItemTypeProp } from "../../../types/inventory.ts";
 
 // huskat: seperate types to typefile
 
-
 function MiscItem({ name }: MiscItemTypeProp) {
   const [itemName, setItemName] = useState<string>(name ? name : "");
   const [itemACMod, setItemACMod] = useState<string>("");

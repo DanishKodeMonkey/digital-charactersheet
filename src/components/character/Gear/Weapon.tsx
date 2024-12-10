@@ -2,7 +2,6 @@ import { useState } from "react";
 import { WeaponTypeProp } from "../../../types/inventory.ts";
 // huskat: seperate types to typefile
 
-
 function Weapon({ name }: WeaponTypeProp) {
   const [wepName, setWepName] = useState<string>(name ? name : "");
   const [atkBonus, setAtkBonus] = useState<string>("");
