@@ -1,11 +1,6 @@
 import { useState } from "react";
 import ItemRow from "./ItemRow.tsx";
-
-interface Item {
-  index: number;
-  name: string;
-  note: string;
-}
+import { Item } from "../../../types/inventory.ts";
 
 function Items(
   { itemType, items, addItem, removeItem }: {

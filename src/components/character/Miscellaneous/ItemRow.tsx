@@ -1,8 +1,5 @@
-interface Item {
-  index: number;
-  name: string;
-  note: string;
-}
+import { Item } from "../../../types/inventory.ts";
+
 function ItemRow(
   { item, onRemove }: { item: Item; onRemove: (index: number) => void },
 ) {

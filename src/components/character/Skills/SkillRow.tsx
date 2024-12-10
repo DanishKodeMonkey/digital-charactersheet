@@ -1,14 +1,7 @@
 import { useEffect, useState } from "react";
+import { SkillRowProps } from "../../../types/character.ts";
 
 // huskat: seperate types to typefile
-interface Skill {
-  name: string;
-  keyAbility: string;
-}
-
-interface SkillRowProps {
-  skill: Skill;
-}
 
 function SkillRow({ skill }: SkillRowProps) {
   const [learned, setLearned] = useState<boolean>(false);

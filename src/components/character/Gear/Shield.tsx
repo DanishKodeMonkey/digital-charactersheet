@@ -1,19 +1,15 @@
 import { useState } from "react";
-
+import { ShieldTypeProp } from "../../../types/inventory.ts";
 // huskat: seperate types to typefile
-
-interface ShieldTypeProp {
-  name: string;
-}
 
 function Shield({ name }: ShieldTypeProp) {
   const [shieldName, setShieldName] = useState<string>(name ? name : "");
-  const [shieldType, setShieldType] = useState<string>("");
+
   const [shieldAC, setShieldAc] = useState<number>("");
-  const [shieldDexMax, setShieldDexMax] = useState<number>("");
+
   const [shieldPenalty, setShieldPenalty] = useState<number>("");
   const [shieldSpellFail, setShieldSpellFail] = useState<number>("");
-  const [shieldSpeedMod, setShieldSpeedMod] = useState<number>("");
+
   const [shieldWeight, setShieldWeight] = useState<number>("");
   const [shieldSpecials, setShieldSpecials] = useState<string>("");
 

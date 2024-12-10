@@ -1,8 +1,5 @@
 import { useState } from "react";
-
-type AbilityRowProps = {
-  ability: string;
-};
+import { AbilityRowProps } from "../../../types/character.ts";
 
 function AbilityRow({ ability }: AbilityRowProps) {
   /* HUSKAT - Centraliser abliity modifiers og send via props */
