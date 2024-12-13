@@ -25,21 +25,23 @@ function InventoryRow({
         value={possession.item}
         onChange={(e) => handleInputChange("item", +e.target.value)}
         placeholder="Item name"
-        className="col-span-5"
+        className="col-span-5 input-small"
       />
       <input
         type="number"
         value={possession.amount}
         onChange={(e) => handleInputChange("amount", +e.target.value)}
-        placeholder="Amount"
+        placeholder="Amount "
+        className="input-small"
       />
       <input
         type="number"
         value={possession.weight}
         onChange={(e) => handleInputChange("weight", +e.target.value)}
-        placeholder="Weight"
+        placeholder="Weight input-small"
+        className="input-small"
       />
-      <button onClick={onRemove}>Remove</button>
+      <button onClick={onRemove} className="btn-sm btn-danger">Remove</button>
     </div>
   );
 }

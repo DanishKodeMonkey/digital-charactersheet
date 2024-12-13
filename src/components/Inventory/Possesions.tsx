@@ -41,7 +41,8 @@ function Possessions(
           <label htmlFor="">Quantity</label>
           <label htmlFor="">Weight</label>
         </div>
-        {possessionsList.map((possession, index) => (
+        {possessionsList.length < 1 ? ("No items found") : (
+        possessionsList.map((possession, index) => (
           <InventoryRow
             key={index}
             index={index}
@@ -50,13 +51,13 @@ function Possessions(
               updatePossession(index, updatedPossession)}
             onRemove={() => removePossession(index)}
           />
-        ))}
+        )))}
       </div>
       <div>
         <h2>New item</h2>
 
         <div className="grid grid-cols-8 gap-2">
-          <label className="col-span-6" htmlFor="">Item Name</label>
+          <label className="col-span-5" htmlFor="">Item Name</label>
           <label htmlFor="">Quantity</label>
           <label htmlFor="">Weight</label>
         </div>
@@ -68,7 +69,7 @@ function Possessions(
             value={newItemName}
             onChange={(e) => setNewItemName(e.target.value)}
             placeholder="Item name"
-            className="col-span-6"
+            className="col-span-5 input-small"
           />
 
           <input
@@ -77,6 +78,7 @@ function Possessions(
             id="itemAmount"
             value={newItemAmount}
             onChange={(e) => setNewItemAmount(Number(e.target.value))}
+            className="input-small"
           />
 
           <input
@@ -85,9 +87,10 @@ function Possessions(
             id="itemWeight"
             value={newItemWeight}
             onChange={(e) => setNewItemWeight(Number(e.target.value))}
+            className="input-small"
           />
         </div>
-        <button onClick={handleAddPossession}>Add item</button>
+        <button onClick={handleAddPossession} className="btn btn-primary mt-2">Add item</button>
       </div>
     </div>
   );
