@@ -22,7 +22,7 @@ function Armor({ name }: ArmorTypeProp) {
           name="armorName"
           id={`armor-name-${name}`}
           defaultValue={armorName}
-          className="small-input input-string-text "
+          className="input-small input-string-text "
           onChange={(e) => setArmorName(e.target.value)}
         />
       </div>
@@ -33,7 +33,7 @@ function Armor({ name }: ArmorTypeProp) {
           name="armorType"
           id={`armor-type-${name}`}
           value={armorType}
-          className="small-input input-string-text "
+          className="input-small input-string-text "
           onChange={(e) => setArmorType(e.target.value)}
         />
       </div>
@@ -44,7 +44,7 @@ function Armor({ name }: ArmorTypeProp) {
           name="armorAC"
           id={`armor-AC-${name}`}
           value={armorAC}
-          className="small-input input-string-text "
+          className="input-small input-string-text "
           onChange={(e) => setArmorAc(e.target.value)}
         />
       </div>
@@ -55,7 +55,7 @@ function Armor({ name }: ArmorTypeProp) {
           name="armorDexMax"
           id={`armor-Dex-${name}`}
           value={armorDexMax}
-          className="small-input input-string-text "
+          className="input-small input-string-text "
           onChange={(e) => setArmorDexMax(e.target.value)}
         />
       </div>
@@ -68,7 +68,7 @@ function Armor({ name }: ArmorTypeProp) {
           name="armorPenalty"
           id={`armor-Penalty-${name}`}
           value={armorPenalty}
-          className="small-input input-string-text "
+          className="input-small input-string-text "
           onChange={(e) => setArmorPenalty(e.target.value)}
         />
       </div>
@@ -81,7 +81,7 @@ function Armor({ name }: ArmorTypeProp) {
           name="armorSpellFail"
           id={`armor-Spell-${name}`}
           value={armorSpellFail}
-          className="small-input input-string-text "
+          className="input-small input-string-text "
           onChange={(e) => setArmorSpellFail(e.target.value)}
         />
       </div>
@@ -92,7 +92,7 @@ function Armor({ name }: ArmorTypeProp) {
           name="armorSpeed"
           id={`armor-speed-${name}`}
           value={armorSpeedMod}
-          className="small-input input-string-text "
+          className="input-small input-string-text "
           onChange={(e) => setArmorSpeedMod(e.target.value)}
         />
       </div>
@@ -103,7 +103,7 @@ function Armor({ name }: ArmorTypeProp) {
           name="armorWeight"
           id={`armor-weight-${name}`}
           value={armorWeight}
-          className="small-input input-string-text "
+          className="input-small input-string-text "
           onChange={(e) => setArmorWeight(e.target.value)}
         />
       </div>
@@ -116,7 +116,7 @@ function Armor({ name }: ArmorTypeProp) {
           name="armorSpecials"
           id={`armor-specials-${name}`}
           value={armorSpecials}
-          className="small-input input-string-text "
+          className="input-small input-string-text "
           onChange={(e) => setArmorSpecials(e.target.value)}
         />
       </div>

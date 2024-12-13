@@ -29,7 +29,7 @@ function Health() {
       <div className="grid grid-cols-4 gap-3 text-center">
         <input
           type="number"
-          className="small-input w-full col-span-1"
+          className="input-small w-full col-span-1"
           name="HP"
           id="HP"
           disabled
@@ -37,7 +37,7 @@ function Health() {
         />
         <span className="col-span-1 text-xs md:input-label">+</span>
         <input
-          className="small-input w-full col-span-1"
+          className="input-small w-full col-span-1"
           type="number"
           name="hitDie"
           id="hitDie"

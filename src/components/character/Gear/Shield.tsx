@@ -22,7 +22,7 @@ function Shield({ name }: ShieldTypeProp) {
           name="shieldName"
           id={`shield-name-${name}`}
           defaultValue={shieldName}
-          className="small-input input-string-text "
+          className="input-small input-string-text "
           onChange={(e) => setShieldName(e.target.value)}
         />
       </div>

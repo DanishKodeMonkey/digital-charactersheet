@@ -28,7 +28,7 @@ function AbilityRow({ ability }: AbilityRowProps) {
           name={`${abilityId}Score`}
           id={`${abilityId}Score`}
           value={score}
-          className="input-base"
+          className="input-base w-1/2"
           onChange={(e) => setScore(Number(e.target.value))}
         />
         <div className="input-incrementers">
@@ -55,7 +55,7 @@ function AbilityRow({ ability }: AbilityRowProps) {
           name={`${abilityId}Mod`}
           id={`${abilityId}Mod`}
           value={mod}
-          className="input-base"
+          className="input-base w-1/2"
           onChange={(e) => setMod(Number(e.target.value))}
         />
         <div className="input-incrementers">
@@ -82,7 +82,7 @@ function AbilityRow({ ability }: AbilityRowProps) {
           type="number"
           name={`${abilityId}TempScore`}
           id={`${abilityId}TempScore`}
-          className="input-base"
+          className="input-base w-1/2"
           value={tempScore}
           onChange={(e) => setTempScore(Number(e.target.value))}
         />
@@ -108,7 +108,7 @@ function AbilityRow({ ability }: AbilityRowProps) {
           type="number"
           name={`${abilityId}TempMod`}
           id={`${abilityId}TempMod`}
-          className="input-base"
+          className="input-base w-1/2"
           value={tempMod}
           onChange={(e) => setTempMod(Number(e.target.value))}
         />

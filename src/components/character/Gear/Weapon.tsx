@@ -19,7 +19,7 @@ function Weapon({ name }: WeaponTypeProp) {
         <label className="input-label" htmlFor="weapon-name">ATTACK</label>
 
         <input
-          className="small-input input-string-text "
+          className="input-small input-string-text "
           type="text"
           name="weapon-name"
           id={`weapon-id-${name}`}
@@ -33,7 +33,7 @@ function Weapon({ name }: WeaponTypeProp) {
         </label>
 
         <input
-          className="small-input input-string-text "
+          className="input-small input-string-text "
           type="text"
           name="attack-bonus"
           id={`weapon-atkBonus-${name}`}
@@ -45,7 +45,7 @@ function Weapon({ name }: WeaponTypeProp) {
         <label className="input-label" htmlFor="weapon-damage">DAMAGE</label>
 
         <input
-          className="small-input input-string-text "
+          className="input-small input-string-text "
           type="text"
           name="weapon-damage"
           id={`weapon-damage-${name}`}
@@ -57,7 +57,7 @@ function Weapon({ name }: WeaponTypeProp) {
         <label className="input-label" htmlFor="weapon-crit">CRIT</label>
 
         <input
-          className="small-input input-string-text "
+          className="input-small input-string-text "
           type="text"
           name="weapon-crit"
           id={`weapon-crit-${name}`}
@@ -71,7 +71,7 @@ function Weapon({ name }: WeaponTypeProp) {
 
         <input
           type="text"
-          className="small-input input-string-text "
+          className="input-small input-string-text "
           name="weapon-range"
           id={`weapon-range-${name}`}
           value={wepRange}
@@ -82,7 +82,7 @@ function Weapon({ name }: WeaponTypeProp) {
         <label className="input-label" htmlFor="weapon-type">TYPE</label>
 
         <input
-          className="small-input input-string-text "
+          className="input-small input-string-text "
           type="text"
           name="weapon-type"
           id={`weapon-type-${name}`}
@@ -94,7 +94,7 @@ function Weapon({ name }: WeaponTypeProp) {
         <label className="input-label" htmlFor="weapon-notes">NOTES</label>
 
         <input
-          className="small-input input-string-text "
+          className="input-small input-string-text "
           type="text"
           name="weapon-notes"
           id={`weapon-notes-${name}`}
@@ -110,7 +110,7 @@ function Weapon({ name }: WeaponTypeProp) {
             </label>
 
             <input
-              className="small-input input-string-text "
+              className="input-small input-string-text "
               type="text"
               name="weapon-ammo"
               id={`weapon-ammo-${name}`}
@@ -123,7 +123,7 @@ function Weapon({ name }: WeaponTypeProp) {
             <label className="input-label" htmlFor="weapon-ammo-max">Max</label>
 
             <input
-              className="small-input input-string-text "
+              className="input-small input-string-text "
               type="number"
               name="weapon-ammo-max"
               id={`weapon-ammo-max-${name}`}

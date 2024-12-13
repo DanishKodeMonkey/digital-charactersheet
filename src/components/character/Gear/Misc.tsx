@@ -16,7 +16,7 @@ function MiscItem({ name }: MiscItemTypeProp) {
           Protective Item
         </label>
         <input
-          className="small-input input-string-text "
+          className="input-small input-string-text "
           type="text"
           name="itemName"
           id="itemName"
@@ -28,7 +28,7 @@ function MiscItem({ name }: MiscItemTypeProp) {
       <div className="col-span-1 flex flex-col justify-between">
         <label className="input-label" htmlFor="itemAC">AC Bonus</label>
         <input
-          className="small-input input-string-text "
+          className="input-small input-string-text "
           type="text"
           name="itemAC"
           id="itemAC"
@@ -40,7 +40,7 @@ function MiscItem({ name }: MiscItemTypeProp) {
       <div className="col-span-1 flex flex-col justify-between">
         <label className="input-label" htmlFor="itemWeight">Weight</label>
         <input
-          className="small-input input-string-text "
+          className="input-small input-string-text "
           type="text"
           name="itemWeight"
           id="itemWeight"
@@ -54,7 +54,7 @@ function MiscItem({ name }: MiscItemTypeProp) {
           Special Properties
         </label>
         <input
-          className="small-input input-string-text "
+          className="input-small input-string-text "
           type="text"
           name="itemSpecials"
           id="itemSpecials"

@@ -31,7 +31,7 @@ function ArmorClass() {
               id="totalAC"
               disabled
               value={acTotal}
-              className=" small-input w-full"
+              className=" input-small w-full"
             />
           </div>
           <span className="mt-auto mb-3">=</span>
@@ -43,7 +43,7 @@ function ArmorClass() {
               name="baseAC"
               id="baseAC"
               value="10"
-              className="small-input w-full"
+              className="input-small w-full"
               disabled
             />
           </div>
@@ -56,7 +56,7 @@ function ArmorClass() {
               type="number"
               name="armorBonus"
               id="armorBonus"
-              className=" small-input w-full"
+              className=" input-small w-full"
               value={aBonus}
               onChange={(e) => setABonus(parseInt(e.target.value))}
             />
@@ -72,7 +72,7 @@ function ArmorClass() {
               id="dexMod"
               disabled
               value={dexterity}
-              className=" small-input w-full"
+              className=" input-small w-full"
             />
           </div>
           <span className="mt-auto mb-3">-</span>
@@ -84,7 +84,7 @@ function ArmorClass() {
               type="number"
               name="sizeMod"
               id="sizeMod"
-              className=" small-input w-full"
+              className=" input-small w-full"
               value={sizeModifier}
               onChange={(e) => setSizeModifier(parseInt(e.target.value))}
             />
@@ -98,7 +98,7 @@ function ArmorClass() {
               type="number"
               name="natArmor"
               id="natArmor"
-              className=" small-input w-full"
+              className=" input-small w-full"
               value={naturalArmor}
               onChange={(e) => setNaturalArmor(parseInt(e.target.value))}
             />
@@ -112,7 +112,7 @@ function ArmorClass() {
               type="number"
               name="miscMod"
               id="miscMod"
-              className=" small-input w-full"
+              className=" input-small w-full"
               value={miscModifier}
               onChange={(e) => setMiscModifier(parseInt(e.target.value))}
             />
