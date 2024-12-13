@@ -33,42 +33,62 @@ function Possessions(
   };
 
   return (
-    <div>
-      <h1>POSSESSIONS</h1>
-      {possessionsList.map((possession, index) => (
-        <InventoryRow
-          key={index}
-          index={index}
-          possession={possession}
-          onUpdate={(updatedPossession) =>
-            updatePossession(index, updatedPossession)}
-          onRemove={() => removePossession(index)}
-        />
-      ))}
+    <div className="m-2 flex flex-col justify-between gap-8">
       <div>
-        <input
-          type="text"
-          name="itemName"
-          id="itemName"
-          value={newItemName}
-          onChange={(e) => setNewItemName(e.target.value)}
-        />
-        <input
-          type="number"
-          name="itemAmount"
-          id="itemAmount"
-          value={newItemAmount}
-          onChange={(e) => setNewItemAmount(Number(e.target.value))}
-        />
-        <input
-          type="number"
-          name="itemWeight"
-          id="itemWeight"
-          value={newItemWeight}
-          onChange={(e) => setNewItemWeight(Number(e.target.value))}
-        />
+        <h1>Possessions</h1>
+        <div className="grid grid-cols-8 gap-2">
+          <label className="col-span-5" htmlFor="">Item Name</label>
+          <label htmlFor="">Quantity</label>
+          <label htmlFor="">Weight</label>
+        </div>
+        {possessionsList.map((possession, index) => (
+          <InventoryRow
+            key={index}
+            index={index}
+            possession={possession}
+            onUpdate={(updatedPossession) =>
+              updatePossession(index, updatedPossession)}
+            onRemove={() => removePossession(index)}
+          />
+        ))}
       </div>
-      <button onClick={handleAddPossession}>Add item</button>
+      <div>
+        <h2>New item</h2>
+
+        <div className="grid grid-cols-8 gap-2">
+          <label className="col-span-6" htmlFor="">Item Name</label>
+          <label htmlFor="">Quantity</label>
+          <label htmlFor="">Weight</label>
+        </div>
+        <div className="grid grid-cols-8 gap-2">
+          <input
+            type="text"
+            name="itemName"
+            id="itemName"
+            value={newItemName}
+            onChange={(e) => setNewItemName(e.target.value)}
+            placeholder="Item name"
+            className="col-span-6"
+          />
+
+          <input
+            type="number"
+            name="itemAmount"
+            id="itemAmount"
+            value={newItemAmount}
+            onChange={(e) => setNewItemAmount(Number(e.target.value))}
+          />
+
+          <input
+            type="number"
+            name="itemWeight"
+            id="itemWeight"
+            value={newItemWeight}
+            onChange={(e) => setNewItemWeight(Number(e.target.value))}
+          />
+        </div>
+        <button onClick={handleAddPossession}>Add item</button>
+      </div>
     </div>
   );
 }

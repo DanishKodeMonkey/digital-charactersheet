@@ -19,12 +19,13 @@ function InventoryRow({
   };
 
   return (
-    <div className="flex items-center space-x-2">
+    <div className="grid grid-cols-8 gap-2">
       <input
         type="text"
         value={possession.item}
         onChange={(e) => handleInputChange("item", +e.target.value)}
         placeholder="Item name"
+        className="col-span-5"
       />
       <input
         type="number"
