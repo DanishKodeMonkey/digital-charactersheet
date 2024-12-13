@@ -29,6 +29,24 @@
 }
 
 @layer components {
+  /* Common component styles */
+  /* Buttons */
+  .btn {
+    @apply px-4 py-2 rounded text-center font-semibold shadow-md;
+  }
+  .btn-primary {
+    @apply btn bg-blue-500 text-white hover:bg-blue-600 active:bg-blue-700;
+  }
+  .btn-secondary {
+    @apply btn bg-gray-500 text-white hover:bg-gray-600 active:bg-gray-700;
+  }
+  .btn-danger {
+    @apply btn bg-red-500 text-white hover:bg-red-600 active:bg-red-700;
+  }
+  .btn-outline {
+    @apply btn border border-gray-300 text-gray-700 hover:bg-gray-200;
+  }
+
   /* Character ability stats component */
   .ability-row-headers {
     @apply text-gray-700;
@@ -48,6 +66,9 @@
   }
   .input-container {
     @apply flex flex-row max-h-20 mr-1 justify-between align-middle;
+  }
+  .input-container-col {
+    @apply flex flex-col m-0 p-0;
   }
   .input-incrementers {
     @apply flex flex-col justify-between;
@@ -84,5 +105,4 @@
   .sideways {
     @apply rotate-90 whitespace-nowrap transform h-5 text-xs;
   }
-  .fold-container {}
 }
