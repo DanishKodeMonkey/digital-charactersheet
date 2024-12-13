@@ -46,7 +46,7 @@ function Health() {
         />
         <button
           type="submit"
-          className="col-span-1 ring-2 ring-blue-500 bg-blue-300"
+          className="col-span-1 btn btn-primary"
           onClick={handleSubmit}
         >
           Add
