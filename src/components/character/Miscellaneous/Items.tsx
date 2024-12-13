@@ -37,12 +37,13 @@ function Items(
           <ItemRow key={item.index} item={item} onRemove={removeItem} />
         ))}
       </ul>
-      <div>
+      <div className="grid grid-cols-6 gap-2">
         <input
           type="text"
           name="ItemName"
           id="ItemName"
           placeholder="name"
+          className="input-small col-span-4"
           value={itemName}
           onChange={(e) => setItemName(e.target.value)}
         />
@@ -51,6 +52,7 @@ function Items(
           name="ItemNote"
           id="ItemNote"
           placeholder="Notes"
+          className="input-small"
           value={itemNote}
           onChange={(e) => setItemNote(e.target.value)}
         />
@@ -58,6 +60,7 @@ function Items(
         <button
           type="submit"
           onClick={handleAddItem}
+          className="btn btn-primary"
         >
           Add Item
         </button>

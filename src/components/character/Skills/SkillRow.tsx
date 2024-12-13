@@ -45,6 +45,7 @@ function SkillRow({ skill }: SkillRowProps) {
             id={`skillModifier-${skill.name}`}
             value={skillMod ? skillMod : 0}
             disabled
+
           />
         </div>
 
