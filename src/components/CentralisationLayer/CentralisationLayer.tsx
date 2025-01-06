@@ -80,5 +80,25 @@ const centralisationReducer = (state: State, action: Action): State{
                 ...state, stats:{...newStats, modifiers},
             }
         }
+        case 'UPDATE_TEMP_STAT':{
+            // similar to update_stat
+            const {stat, value} = action.payload;
+            const tempScores = {
+                ...state.stats.tempScores,
+                [stat]:value,
+            }
+
+            const tempModifiers = {
+                ...state.stats.tempModifiers,
+                [stat]: Math.floor((value - 10) / 2)
+            }
+            return{
+                ...state,
+                stats:{...state.stats, tempScores, tempModifiers}
+            }
+        }
+        // default case, if nothing else matches just return state
+        default:
+            return state;
     }
 }
