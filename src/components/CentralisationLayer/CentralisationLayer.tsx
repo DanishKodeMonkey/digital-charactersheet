@@ -1,4 +1,3 @@
-import { StatementSync } from "node:sqlite";
 import React, {createContext, useContext, useReducer, ReactNode} from 'react'
 
 // Define types for state, HUSKAT: Move to seperate file later
@@ -48,15 +47,23 @@ const centralState: State = {
     }
 }
 
+const validStatNames = ['strength', 'dexterity','constitution','intelligence','wisdom','charisma']
+
 
 // state update reducer, atching action type and performing action as needed, and returns a state
 
-const centralisationReducer = (state: State, action: Action): State{
+const centralizationReducer = (state: State, action: Action): State => {
     switch(action.type){
         case 'UPDATE_STAT':{
             // extract stat and values from payload
             const {stat, value} = action.payload;
 
+            // validate stat type
+            if(!validStatNames.includes(stat)){
+                console.warn(`Invalid stat name: "${stat}. Must be one of: ${validStatNames.join(', ')}`)
+                console.log(`No changes has been made`)
+                return state;
+            }
             // update state object with stat value
             const newStats = {
                 ...state.stats,
@@ -99,6 +106,10 @@ const centralisationReducer = (state: State, action: Action): State{
         }
         // default case, if nothing else matches just return state
         default:
+            console.log(`No changes has been made`)
             return state;
     }
 }
+
+export {centralState, centralizationReducer}
+export type {Action, State}
