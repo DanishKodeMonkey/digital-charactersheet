@@ -1,4 +1,3 @@
-import React, {createContext, useContext, useReducer, ReactNode} from 'react'
 
 // Define types for state, HUSKAT: Move to seperate file later
 

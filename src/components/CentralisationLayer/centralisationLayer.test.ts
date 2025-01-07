@@ -1,6 +1,6 @@
 import { assertEquals } from 'jsr:@std/assert';
-import { centralizationReducer } from './CentralisationLayer.tsx';
-import { Action, State } from './CentralisationLayer.tsx';
+import { centralizationReducer } from './CentralisationLayer.ts';
+import { Action, State } from './CentralisationLayer.ts';
 
 Deno.test('UPDATE_STAT with a valid stat updates state correctly', () => {
     const mockState: State = {
