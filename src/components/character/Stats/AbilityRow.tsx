@@ -24,7 +24,7 @@ function AbilityRow({ ability }: AbilityRowProps) {
   return (
     <div className="ability-row">
       <label htmlFor={`${abilityKey}Score`} className="font-bold input-title">
-        {ability}
+        {ability.slice(0,3).toUpperCase()}
       </label>
       <div className="input-container">
         <input
@@ -32,20 +32,20 @@ function AbilityRow({ ability }: AbilityRowProps) {
           name={`${abilityKey}Score`}
           id={`${abilityKey}Score`}
           value={score}
-          className="input-base w-1/2"
+          className="input-base w-3/4"
           onChange={(e) => updateStat(Number(e.target.value))}
         />
         <div className="input-incrementers">
           <button
             type="button"
-            className="input-button"
+            className="input-button button-incrementer"
             onClick={() => updateStat(score+1)}
           >
             +
           </button>
           <button
             type="button"
-            className="input-button"
+            className="input-button button-incrementer"
             onClick={() => updateStat(score-1)}
           >
             -
@@ -53,13 +53,13 @@ function AbilityRow({ ability }: AbilityRowProps) {
         </div>
       </div>
 
-      <div className="input-container">
+      <div className="input-container no-incrementers">
         <input
           type="number"
           name={`${abilityKey}Mod`}
           id={`${abilityKey}Mod`}
           value={mod}
-          className="input-base w-1/2"
+          className="input-base w-full"
           readOnly
         />
       </div>
@@ -68,33 +68,33 @@ function AbilityRow({ ability }: AbilityRowProps) {
           type="number"
           name={`${abilityKey}TempScore`}
           id={`${abilityKey}TempScore`}
-          className="input-base w-1/2"
+          className="input-base w-3/4"
           value={tempScore}
           onChange={(e) => updateTempStat(Number(e.target.value))}
         />
         <div className="input-incrementers">
           <button
             type="button"
-            className="input-button"
+            className="input-button button-incrementer"
             onClick={() => updateTempStat(tempScore+1)}
           >
             +
           </button>
           <button
             type="button"
-            className="input-button"
+            className="input-button button-incrementer"
             onClick={() => updateTempStat(tempScore-1)}
           >
             -
           </button>
         </div>
       </div>
-      <div className="input-container">
+      <div className="input-container no-incrementers">
         <input
           type="number"
           name={`${abilityKey}TempMod`}
           id={`${abilityKey}TempMod`}
-          className="input-base w-1/2"
+          className="input-base w-full"
           value={tempMod}
           readOnly
         />
