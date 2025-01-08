@@ -1,48 +1,52 @@
-import { useState } from "react";
+
 import { AbilityRowProps } from "../../../types/character.ts";
+import { useCentralization } from "../../CentralisationLayer/CentralisationContext.tsx";
 
 function AbilityRow({ ability }: AbilityRowProps) {
-  /* HUSKAT - Centraliser abliity modifiers og send via props */
+  
+  const {state, dispatch} = useCentralization()
+  const abilityKey = ability.toLowerCase();
 
-  const abilityId = ability.toLowerCase();
+  const score = state.stats[abilityKey] || 0
+  const mod = state.stats.modifiers[abilityKey] || 0
+  const tempScore = state.stats.tempScores[abilityKey] || 0
+  const tempMod = state.stats.tempModifiers[abilityKey] || 0
 
-  const [score, setScore] = useState<number>(0);
-  const [mod, setMod] = useState<number>(0);
-  const [tempScore, setTempScore] = useState<number>(0);
-  const [tempMod, setTempMod] = useState<number>(0);
+  const updateStat = (value: number) =>{
+    dispatch({type: "UPDATE_STAT", payload: {stat: abilityKey, value}})
+  }
 
-  const increment = (setter: React.Dispatch<React.SetStateAction<number>>) => {
-    setter((prev) => prev + 1);
-  };
-  const decrement = (setter: React.Dispatch<React.SetStateAction<number>>) => {
-    setter((prev) => prev - 1);
-  };
+  const updateTempStat = (value: number) =>{
+    dispatch({type:"UPDATE_TEMP_STAT", payload: {stat: abilityKey, value}})
+  }
+
+
   return (
     <div className="ability-row">
-      <label htmlFor={`${abilityId}Score`} className="font-bold input-title">
+      <label htmlFor={`${abilityKey}Score`} className="font-bold input-title">
         {ability}
       </label>
       <div className="input-container">
         <input
           type="number"
-          name={`${abilityId}Score`}
-          id={`${abilityId}Score`}
+          name={`${abilityKey}Score`}
+          id={`${abilityKey}Score`}
           value={score}
           className="input-base w-1/2"
-          onChange={(e) => setScore(Number(e.target.value))}
+          onChange={(e) => updateStat(Number(e.target.value))}
         />
         <div className="input-incrementers">
           <button
             type="button"
             className="input-button"
-            onClick={() => increment(setScore)}
+            onClick={() => updateStat(score+1)}
           >
             +
           </button>
           <button
             type="button"
             className="input-button"
-            onClick={() => decrement(setScore)}
+            onClick={() => updateStat(score-1)}
           >
             -
           </button>
@@ -52,52 +56,34 @@ function AbilityRow({ ability }: AbilityRowProps) {
       <div className="input-container">
         <input
           type="number"
-          name={`${abilityId}Mod`}
-          id={`${abilityId}Mod`}
+          name={`${abilityKey}Mod`}
+          id={`${abilityKey}Mod`}
           value={mod}
           className="input-base w-1/2"
-          onChange={(e) => setMod(Number(e.target.value))}
+          readOnly
         />
-        <div className="input-incrementers">
-          <div>
-            <button
-              type="button"
-              className="input-button"
-              onClick={() => increment(setMod)}
-            >
-              +
-            </button>
-          </div>
-          <button
-            type="button"
-            className="input-button"
-            onClick={() => decrement(setMod)}
-          >
-            -
-          </button>
-        </div>
       </div>
       <div className="input-container">
         <input
           type="number"
-          name={`${abilityId}TempScore`}
-          id={`${abilityId}TempScore`}
+          name={`${abilityKey}TempScore`}
+          id={`${abilityKey}TempScore`}
           className="input-base w-1/2"
           value={tempScore}
-          onChange={(e) => setTempScore(Number(e.target.value))}
+          onChange={(e) => updateTempStat(Number(e.target.value))}
         />
         <div className="input-incrementers">
           <button
             type="button"
             className="input-button"
-            onClick={() => increment(setTempScore)}
+            onClick={() => updateTempStat(tempScore+1)}
           >
             +
           </button>
           <button
             type="button"
             className="input-button"
-            onClick={() => decrement(setTempScore)}
+            onClick={() => updateTempStat(tempScore-1)}
           >
             -
           </button>
@@ -106,28 +92,12 @@ function AbilityRow({ ability }: AbilityRowProps) {
       <div className="input-container">
         <input
           type="number"
-          name={`${abilityId}TempMod`}
-          id={`${abilityId}TempMod`}
+          name={`${abilityKey}TempMod`}
+          id={`${abilityKey}TempMod`}
           className="input-base w-1/2"
           value={tempMod}
-          onChange={(e) => setTempMod(Number(e.target.value))}
+          readOnly
         />
-        <div className="input-incrementers">
-          <button
-            type="button"
-            className="input-button"
-            onClick={() => increment(setTempMod)}
-          >
-            +
-          </button>
-          <button
-            type="button"
-            className="input-button"
-            onClick={() => decrement(setTempMod)}
-          >
-            -
-          </button>
-        </div>
       </div>
     </div>
   );
