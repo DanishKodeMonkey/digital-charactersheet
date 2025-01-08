@@ -9,8 +9,11 @@ import Character from "./pages/character/Character.tsx";
 import Inventory from "./pages/character/Inventory.tsx";
 import Spells from "./pages/character/Spells.tsx";
 
+import { CentralizationProvider } from "./components/CentralisationLayer/CentralisationContext.tsx";
+
 function App() {
   return (
+    <CentralizationProvider>
     <div className="App">
       <Router>
         <Header />
@@ -24,6 +27,7 @@ function App() {
         </main>
       </Router>
     </div>
+    </CentralizationProvider>
   );
 }
 
