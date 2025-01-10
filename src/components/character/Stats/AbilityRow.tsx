@@ -13,11 +13,11 @@ function AbilityRow({ ability }: AbilityRowProps) {
   const tempMod = state.stats.tempModifiers[abilityKey] || 0
 
   const updateStat = (value: number) =>{
-    dispatch({type: "UPDATE_STAT", payload: {stat: abilityKey, value}})
+    dispatch({field: 'stats', type: "UPDATE_STAT", payload: {stat: abilityKey, value}})
   }
 
   const updateTempStat = (value: number) =>{
-    dispatch({type:"UPDATE_TEMP_STAT", payload: {stat: abilityKey, value}})
+    dispatch({field: 'stats', type:"UPDATE_TEMP_STAT", payload: {stat: abilityKey, value}})
   }
 
 
