@@ -2,6 +2,8 @@
 //
 // HUSKAT: Move to seperate file later
 
+type FieldType = 'stats' | 'armorClass';
+
 interface Stats {
     strength: number;
     dexterity: number;
@@ -27,17 +29,24 @@ interface State {
 }
 
 interface UpdateStatAction {
+    field: 'stats';
     type: 'UPDATE_STAT';
-    payload: { stat: string; value: number };
+    payload: { stat: keyof Stats; value: number };
 }
 
 interface UpdateTempStatAction {
+    field: 'stats';
     type: 'UPDATE_TEMP_STAT';
-    payload: { stat: string; value: number };
+    payload: { stat: keyof Stats; value: number };
 }
 
+interface UpdateArmorClassAction {
+    field: 'armorClass';
+    type: 'UPDATE_ARMOR_CLASS_FIELD';
+    payload: { stat: keyof ArmorClass; value: number };
+}
 // Unite action interfaces with as a type as Enumerate interfaces
-type Action = UpdateStatAction | UpdateTempStatAction;
+type Action = UpdateStatAction | UpdateTempStatAction | UpdateArmorClassAction;
 
 // Centralised state, with initial states(default values)
 const centralState: State = {
@@ -72,79 +81,107 @@ const validStatNames = [
 // state update reducer, atching action type and performing action as needed, and returns a state
 
 const centralizationReducer = (state: State, action: Action): State => {
-    switch (action.type) {
-        case 'UPDATE_STAT': {
-            // extract stat and values from payload
-            const { stat, value } = action.payload;
+    switch (action.field) {
+        case 'stats': {
+            switch (action.type) {
+                case 'UPDATE_STAT': {
+                    // extract stat and values from payload
+                    const { stat, value } = action.payload;
 
-            // validate stat type
-            if (!validStatNames.includes(stat)) {
-                console.warn(
-                    `Invalid stat name: "${stat}. Must be one of: ${validStatNames.join(
-                        ', '
-                    )}`
-                );
-                console.log(`No changes has been made`);
-                return state;
-            }
-            // update state object with stat value
-            const newStats = {
-                ...state.stats,
-                [stat]: value,
-            };
-
-            // update modifiers, re-calculate based on updated stats, acc = accumilator
-            const modifiers = Object.keys(newStats).reduce((acc, key) => {
-                if (
-                    key !== 'modifiers' &&
-                    key !== 'tempScores' &&
-                    key !== 'tempModifiers'
-                ) {
-                    const statValue = newStats[key as keyof Stats];
-                    // typeguard to ensure statValue is number(stop screaming typescript thx)
-                    if (typeof statValue === 'number') {
-                        // If the stat value is greater than or equal to 10, calculate positive modifier
-                        if (statValue >= 10) {
-                            acc[key] = Math.floor((statValue - 10) / 2);
-                        }
-                        // If the stat value is less than 10, calculate negative modifier
-                        else {
-                            acc[key] = Math.ceil((statValue - 10) / 2);
-                        }
+                    // validate stat type
+                    if (!validStatNames.includes(stat)) {
+                        console.warn(
+                            `Invalid stat name: "${stat}. Must be one of: ${validStatNames.join(
+                                ', '
+                            )}`
+                        );
+                        console.log(`No changes has been made`);
+                        return state;
                     }
+                    // update state object with stat value
+                    const newStats = {
+                        ...state.stats,
+                        [stat]: value,
+                    };
+
+                    // update modifiers, re-calculate based on updated stats, acc = accumilator
+                    const modifiers = Object.keys(newStats).reduce(
+                        (acc, key) => {
+                            if (
+                                key !== 'modifiers' &&
+                                key !== 'tempScores' &&
+                                key !== 'tempModifiers'
+                            ) {
+                                const statValue = newStats[key as keyof Stats];
+                                // typeguard to ensure statValue is number(stop screaming typescript thx)
+                                if (typeof statValue === 'number') {
+                                    // If the stat value is greater than or equal to 10, calculate positive modifier
+                                    if (statValue >= 10) {
+                                        acc[key] = Math.floor(
+                                            (statValue - 10) / 2
+                                        );
+                                    }
+                                    // If the stat value is less than 10, calculate negative modifier
+                                    else {
+                                        acc[key] = Math.ceil(
+                                            (statValue - 10) / 2
+                                        );
+                                    }
+                                }
+                            }
+                            return acc;
+                        },
+                        {} as Record<string, number>
+                    ); // accumilator initialiser, we push caluclated records to this
+
+                    // return new state
+                    return {
+                        ...state,
+                        stats: { ...newStats, modifiers },
+                    };
                 }
-                return acc;
-            }, {} as Record<string, number>); // accumilator initialiser, we push caluclated records to this
+                case 'UPDATE_TEMP_STAT': {
+                    // similar to update_stat
+                    const { stat, value } = action.payload;
+                    const tempScores = {
+                        ...state.stats.tempScores,
+                        [stat]: value,
+                    };
 
-            // return new state
-            return {
-                ...state,
-                stats: { ...newStats, modifiers },
-            };
+                    const tempModifiers = {
+                        ...state.stats.tempModifiers,
+                        [stat]:
+                            value >= 0
+                                ? Math.floor(value / 2) // For values >= 10
+                                : Math.ceil(value / 2), // For values < 10
+                    };
+                    return {
+                        ...state,
+                        stats: { ...state.stats, tempScores, tempModifiers },
+                    };
+                }
+                // default case, if nothing else matches just return state
+                default:
+                    console.log(`No changes has been made to stats`);
+                    return state;
+            }
         }
-        case 'UPDATE_TEMP_STAT': {
-            // similar to update_stat
-            const { stat, value } = action.payload;
-            const tempScores = {
-                ...state.stats.tempScores,
-                [stat]: value,
-            };
-
-            const tempModifiers = {
-                ...state.stats.tempModifiers,
-                [stat]:
-                    value >= 10
-                        ? Math.floor(value / 2) // For values >= 10
-                        : Math.ceil(value / 2), // For values < 10
-            };
-            return {
-                ...state,
-                stats: { ...state.stats, tempScores, tempModifiers },
-            };
+        case 'armorClass': {
+            switch (action.type) {
+                case 'UPDATE_ARMOR_CLASS_FIELD': {
+                    const { stat, value } = action.payload;
+                    return {
+                        ...state,
+                        armorClass: { ...state.armorClass, [stat]: value },
+                    };
+                }
+                default:
+                    console.log('No changes made to armorClass');
+                    return state;
+            }
         }
-        // default case, if nothing else matches just return state
         default:
-            console.log(`No changes has been made`);
+            console.log('No changes made to state');
             return state;
     }
 };
