@@ -6,7 +6,7 @@ function Ability() {
     <div className="container">
       <h1 className="text-xl font-bold text-center">Character Stats</h1>
 
-      <div className="grid grid-cols-[3fr_4fr_1fr_4fr_1fr] font-bold ability-row-headers ">
+      <div className="grid grid-cols-[3fr_4fr_1fr_4fr_1fr] font-bold ability-row-headers m-2">
         <span className="col-start-1"></span>
         <span className="col-start-2">
           Ability <br /> Score
