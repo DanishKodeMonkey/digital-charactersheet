@@ -57,9 +57,30 @@ const centralState: State = {
         intelligence: 10,
         wisdom: 10,
         charisma: 10,
-        modifiers: {},
-        tempScores: {},
-        tempModifiers: {},
+        modifiers: {
+            strength: 0,
+            dexterity: 0,
+            constitution: 0,
+            intelligence: 0,
+            wisdom: 0,
+            charisma: 0,
+        },
+        tempScores: {
+            strength: 0,
+            dexterity: 0,
+            constitution: 0,
+            intelligence: 0,
+            wisdom: 0,
+            charisma: 0,
+        },
+        tempModifiers: {
+            strength: 0,
+            dexterity: 0,
+            constitution: 0,
+            intelligence: 0,
+            wisdom: 0,
+            charisma: 0,
+        },
     },
     armorClass: {
         aBonus: 0,
@@ -78,7 +99,12 @@ const validStatNames = [
     'charisma',
 ];
 
-// state update reducer, atching action type and performing action as needed, and returns a state
+// state update reducer, accepts state and action (dispatch) performing action as needed and instructed, and returns a state
+
+// 3 steps, 
+// 1. Check field(section of state), 
+// 2. Check action type(Update stat? Temp stat? Reset?(TODO)) 
+// 3. Process data : returns new state (not mutation)
 
 const centralizationReducer = (state: State, action: Action): State => {
     switch (action.field) {
