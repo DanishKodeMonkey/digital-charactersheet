@@ -16,7 +16,7 @@ interface Stats {
     tempModifiers: Record<string, number>;
 }
 
-interface ArmorClass {
+interface ArmorClassType {
     aBonus: number;
     sizeModifier: number;
     naturalArmor: number;
@@ -25,7 +25,7 @@ interface ArmorClass {
 
 interface State {
     stats: Stats;
-    armorClass: ArmorClass;
+    armorClass: ArmorClassType;
 }
 
 interface UpdateStatAction {
@@ -43,7 +43,7 @@ interface UpdateTempStatAction {
 interface UpdateArmorClassAction {
     field: 'armorClass';
     type: 'UPDATE_ARMOR_CLASS_FIELD';
-    payload: { stat: keyof ArmorClass; value: number };
+    payload: { stat: keyof ArmorClassType; value: number };
 }
 // Unite action interfaces with as a type as Enumerate interfaces
 type Action = UpdateStatAction | UpdateTempStatAction | UpdateArmorClassAction;
@@ -187,4 +187,4 @@ const centralizationReducer = (state: State, action: Action): State => {
 };
 
 export { centralState, centralizationReducer };
-export type { Action, State };
+export type { Action, State, ArmorClassType };
