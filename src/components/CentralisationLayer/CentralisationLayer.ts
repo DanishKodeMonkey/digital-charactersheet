@@ -1,4 +1,6 @@
-// Define types for state, HUSKAT: Move to seperate file later
+// Define types for state,
+//
+// HUSKAT: Move to seperate file later
 
 interface Stats {
     strength: number;
@@ -12,8 +14,16 @@ interface Stats {
     tempModifiers: Record<string, number>;
 }
 
+interface ArmorClass {
+    aBonus: number;
+    sizeModifier: number;
+    naturalArmor: number;
+    miscModifier: number;
+}
+
 interface State {
     stats: Stats;
+    armorClass: ArmorClass;
 }
 
 interface UpdateStatAction {
@@ -41,6 +51,12 @@ const centralState: State = {
         modifiers: {},
         tempScores: {},
         tempModifiers: {},
+    },
+    armorClass: {
+        aBonus: 0,
+        sizeModifier: 0,
+        naturalArmor: 0,
+        miscModifier: 0,
     },
 };
 
