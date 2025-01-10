@@ -1,20 +1,28 @@
-import { useEffect, useState } from "react";
+import { useContext } from "react";
+import { useCentralization } from "../../CentralisationLayer/CentralisationContext.tsx";
+import { Action, ArmorClassType } from "../../CentralisationLayer/CentralisationLayer.ts";
+
 
 function ArmorClass() {
-  const [acTotal, setAcTotal] = useState<number>(0);
-  const [aBonus, setABonus] = useState<number>("");
-  const [dexterity, setDexterity] = useState<number>(5);
-  const [sizeModifier, setSizeModifier] = useState<number>("");
-  const [naturalArmor, setNaturalArmor] = useState<number>("");
-  const [miscModifier, setMiscModifier] = useState<number>("");
+  // initialize the context, fetch state and dispatch action
+  const {state, dispatch} = useCentralization()
 
-  useEffect(() => {
-    setAcTotal(
-      10 + (aBonus ? aBonus : 0) + dexterity -
-        (sizeModifier ? sizeModifier : 0) + (naturalArmor ? naturalArmor : 0) +
-        (miscModifier ? miscModifier : 0),
-    );
-  }, [aBonus, sizeModifier, naturalArmor, miscModifier]);
+  // extract relevant armorClass specific variables
+  const {aBonus, sizeModifier, naturalArmor, miscModifier} = state.armorClass;
+
+  // extract stats dependant variable
+  const dexterity = state.stats.modifiers.dexterity;
+
+  // calculate actotal based on values
+  const acTotal = 10 + aBonus + dexterity - sizeModifier + naturalArmor + miscModifier;
+
+  const handleChange = (stat: keyof ArmorClassType, value: number) =>{
+    dispatch({
+      field: 'armorClass',
+      type: 'UPDATE_ARMOR_CLASS_FIELD',
+      payload: {stat, value}
+    })
+  }
 
   return (
     <>
@@ -29,7 +37,7 @@ function ArmorClass() {
               type="number"
               name="totalAC"
               id="totalAC"
-              disabled
+              readOnly
               value={acTotal}
               className=" input-small w-full"
             />
@@ -44,7 +52,7 @@ function ArmorClass() {
               id="baseAC"
               value="10"
               className="input-small w-full"
-              disabled
+              readOnly
             />
           </div>
           <span className="mt-auto mb-3">+</span>
@@ -58,7 +66,7 @@ function ArmorClass() {
               id="armorBonus"
               className=" input-small w-full"
               value={aBonus}
-              onChange={(e) => setABonus(parseInt(e.target.value))}
+              onChange={(e) => handleChange("aBonus", parseInt(e.target.value))}
             />
           </div>
           <span className="mt-auto mb-3">+</span>
@@ -70,7 +78,7 @@ function ArmorClass() {
               type="number"
               name="dexMod"
               id="dexMod"
-              disabled
+              readOnly
               value={dexterity}
               className=" input-small w-full"
             />
@@ -86,7 +94,7 @@ function ArmorClass() {
               id="sizeMod"
               className=" input-small w-full"
               value={sizeModifier}
-              onChange={(e) => setSizeModifier(parseInt(e.target.value))}
+              onChange={(e) => handleChange("sizeModifier", parseInt(e.target.value))}
             />
           </div>
           <span className="mt-auto mb-3">+</span>
@@ -100,7 +108,7 @@ function ArmorClass() {
               id="natArmor"
               className=" input-small w-full"
               value={naturalArmor}
-              onChange={(e) => setNaturalArmor(parseInt(e.target.value))}
+              onChange={(e) => handleChange("naturalArmor", parseInt(e.target.value))}
             />
           </div>
           <span className="mt-auto mb-3">+</span>
@@ -114,7 +122,7 @@ function ArmorClass() {
               id="miscMod"
               className=" input-small w-full"
               value={miscModifier}
-              onChange={(e) => setMiscModifier(parseInt(e.target.value))}
+              onChange={(e) => handleChange("miscModifier", parseInt(e.target.value))}
             />
           </div>
         </div>
