@@ -1,6 +1,5 @@
-import { useContext } from "react";
 import { useCentralization } from "../../CentralisationLayer/CentralisationContext.tsx";
-import { Action, ArmorClassType } from "../../CentralisationLayer/CentralisationLayer.ts";
+import { ArmorClassType } from "../../CentralisationLayer/CentralisationLayer.ts";
 
 
 function ArmorClass() {
