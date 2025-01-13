@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { useCentralization } from "../../CentralisationLayer/CentralisationContext.tsx";
+
 
 function Health() {
   const [healthPoints, setHealthPoints] = useState<number>(30);
