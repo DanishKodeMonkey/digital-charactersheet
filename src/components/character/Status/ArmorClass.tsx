@@ -17,6 +17,10 @@ function ArmorClass() {
   const acTotal = 10 + aBonus + dexterity - sizeModifier + naturalArmor + miscModifier;
 
   const handleChange = (stat: keyof ArmorClassType, value: number) =>{
+    // if value is left blank, set to 0
+    if(isNaN((value))){
+      value = 0
+    }
     dispatch({
       field: 'armorClass',
       type: 'UPDATE_ARMOR_CLASS_FIELD',
