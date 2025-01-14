@@ -7,6 +7,8 @@ function Health() {
   const { maxHealth, currentHealth, damage } = state.health;
 
   const handleChange = (stat: keyof HealthStatus, value: number) => {
+    console.log("Received", stat, value);
+    
     if (!isNaN(value)) {
       dispatch({
         field: "health",
@@ -17,16 +19,12 @@ function Health() {
   };
 
   const handleDamageOrHeal = () => {
-    if (damage < 0) {
+    console.log('damage', damage);
+    
+    if (damage !== 0) {
       dispatch({
         field: "health",
-        type: "HEALTH_DAMAGE",
-        payload: { value: damage },
-      });
-    } else if (damage > 0) {
-      dispatch({
-        field: "health",
-        type: "HEALTH_HEAL",
+        type: damage < 0 ? "HEALTH_DAMAGE" : "HEALTH_HEAL",
         payload: { value: damage },
       });
     }
