@@ -14,8 +14,8 @@ function Speed() {
   const [speed, setSpeed] = useState<number>("");
 
   return (
-    <div className="m-5">
-      <label htmlFor="speedInput" className="input-title">Speed</label>
+    <div className="m-5 text-center">
+      <label htmlFor="speedInput" className="input-title text-2xl">Speed</label>
       <input
         className="input-base w-full"
         type="number"

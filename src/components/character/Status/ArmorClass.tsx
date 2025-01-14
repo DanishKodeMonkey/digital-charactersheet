@@ -30,7 +30,7 @@ function ArmorClass() {
   return (
     <>
       <h1 className="sm:hidden input-title">AC</h1>
-      <div className="flex flex-col md:m-5">
+      <div className="flex flex-col md:m-2">
         {/* Input Row */}
         <div className="flex flex-row flex-grow justify-around">
           <h1 className="max-sm:hidden self-center md:input-title">AC</h1>
