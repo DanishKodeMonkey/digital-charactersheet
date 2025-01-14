@@ -14,19 +14,19 @@ import { CentralizationProvider } from "./components/CentralisationLayer/Central
 function App() {
   return (
     <CentralizationProvider>
-    <div className="App">
-      <Router>
-        <Header />
-        <main>
-          <Routes>
-            <Route path="/" element={<Overview />} />
-            <Route path="/inventory" element={<Inventory />} />
-            <Route path="/character" element={<Character />} />
-            <Route path="/spells" element={<Spells />} />
-          </Routes>
-        </main>
-      </Router>
-    </div>
+      <div className="App">
+        <Router>
+          <Header />
+          <main>
+            <Routes>
+              <Route path="/" element={<Overview />} />
+              <Route path="/inventory" element={<Inventory />} />
+              <Route path="/character" element={<Character />} />
+              <Route path="/spells" element={<Spells />} />
+            </Routes>
+          </main>
+        </Router>
+      </div>
     </CentralizationProvider>
   );
 }

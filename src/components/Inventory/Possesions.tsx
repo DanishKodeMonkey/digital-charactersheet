@@ -42,16 +42,17 @@ function Possessions(
           <label htmlFor="">Weight</label>
         </div>
         {possessionsList.length < 1 ? ("No items found") : (
-        possessionsList.map((possession, index) => (
-          <InventoryRow
-            key={index}
-            index={index}
-            possession={possession}
-            onUpdate={(updatedPossession) =>
-              updatePossession(index, updatedPossession)}
-            onRemove={() => removePossession(index)}
-          />
-        )))}
+          possessionsList.map((possession, index) => (
+            <InventoryRow
+              key={index}
+              index={index}
+              possession={possession}
+              onUpdate={(updatedPossession) =>
+                updatePossession(index, updatedPossession)}
+              onRemove={() => removePossession(index)}
+            />
+          ))
+        )}
       </div>
       <div>
         <h2>New item</h2>
@@ -90,7 +91,9 @@ function Possessions(
             className="input-small"
           />
         </div>
-        <button onClick={handleAddPossession} className="btn btn-primary mt-2">Add item</button>
+        <button onClick={handleAddPossession} className="btn btn-primary mt-2">
+          Add item
+        </button>
       </div>
     </div>
   );

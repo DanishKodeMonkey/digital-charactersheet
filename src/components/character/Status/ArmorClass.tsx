@@ -1,31 +1,31 @@
 import { useCentralization } from "../../CentralisationLayer/CentralisationContext.tsx";
 import { ArmorClassType } from "../../CentralisationLayer/CentralisationLayer.ts";
 
-
 function ArmorClass() {
   // initialize the context, fetch state and dispatch action
-  const {state, dispatch} = useCentralization()
+  const { state, dispatch } = useCentralization();
 
   // extract relevant armorClass specific variables
-  const {aBonus, sizeModifier, naturalArmor, miscModifier} = state.armorClass;
+  const { aBonus, sizeModifier, naturalArmor, miscModifier } = state.armorClass;
 
   // extract stats dependant variable
   const dexterity = state.stats.modifiers.dexterity;
 
   // calculate actotal based on values
-  const acTotal = 10 + aBonus + dexterity - sizeModifier + naturalArmor + miscModifier;
+  const acTotal = 10 + aBonus + dexterity - sizeModifier + naturalArmor +
+    miscModifier;
 
-  const handleChange = (stat: keyof ArmorClassType, value: number) =>{
+  const handleChange = (stat: keyof ArmorClassType, value: number) => {
     // if value is left blank, set to 0
-    if(isNaN((value))){
-      value = 0
+    if (isNaN(value)) {
+      value = 0;
     }
     dispatch({
-      field: 'armorClass',
-      type: 'UPDATE_ARMOR_CLASS_FIELD',
-      payload: {stat, value}
-    })
-  }
+      field: "armorClass",
+      type: "UPDATE_ARMOR_CLASS_FIELD",
+      payload: { stat, value },
+    });
+  };
 
   return (
     <>
@@ -97,7 +97,8 @@ function ArmorClass() {
               id="sizeMod"
               className=" input-small w-full"
               value={sizeModifier}
-              onChange={(e) => handleChange("sizeModifier", parseInt(e.target.value))}
+              onChange={(e) =>
+                handleChange("sizeModifier", parseInt(e.target.value))}
             />
           </div>
           <span className="mt-auto mb-3">+</span>
@@ -111,7 +112,8 @@ function ArmorClass() {
               id="natArmor"
               className=" input-small w-full"
               value={naturalArmor}
-              onChange={(e) => handleChange("naturalArmor", parseInt(e.target.value))}
+              onChange={(e) =>
+                handleChange("naturalArmor", parseInt(e.target.value))}
             />
           </div>
           <span className="mt-auto mb-3">+</span>
@@ -125,7 +127,8 @@ function ArmorClass() {
               id="miscMod"
               className=" input-small w-full"
               value={miscModifier}
-              onChange={(e) => handleChange("miscModifier", parseInt(e.target.value))}
+              onChange={(e) =>
+                handleChange("miscModifier", parseInt(e.target.value))}
             />
           </div>
         </div>

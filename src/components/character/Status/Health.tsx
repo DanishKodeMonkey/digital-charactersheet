@@ -1,38 +1,37 @@
 import React from "react";
 import { useCentralization } from "../../CentralisationLayer/CentralisationContext.tsx";
-import {HealthStatus} from "../../CentralisationLayer/CentralisationLayer.ts"
-
+import { HealthStatus } from "../../CentralisationLayer/CentralisationLayer.ts";
 
 function Health() {
-  const {state, dispatch} = useCentralization();
-  const {maxHealth, currentHealth, damage} = state.health
+  const { state, dispatch } = useCentralization();
+  const { maxHealth, currentHealth, damage } = state.health;
 
-  const handleChange = (stat: keyof HealthStatus, value: number) =>{
-    if(!isNaN(value)){
-    dispatch({
-      field: 'health',
-      type: "UPDATE_HEALTH_FIELD",
-      payload: {stat: stat, value}
-    })}
-  }
-
-  const handleDamageOrHeal = () =>{
-    if(damage < 0){
-    dispatch({
-      field: 'health', type: "HEALTH_DAMAGE",
-      payload: {value: damage}
-    })}else if (damage > 0){
+  const handleChange = (stat: keyof HealthStatus, value: number) => {
+    if (!isNaN(value)) {
       dispatch({
-        field: 'health',
-        type: "HEALTH_HEAL",
-        payload: {value: damage}
-      })
+        field: "health",
+        type: "UPDATE_HEALTH_FIELD",
+        payload: { stat: stat, value },
+      });
     }
+  };
 
-  }
-  
+  const handleDamageOrHeal = () => {
+    if (damage < 0) {
+      dispatch({
+        field: "health",
+        type: "HEALTH_DAMAGE",
+        payload: { value: damage },
+      });
+    } else if (damage > 0) {
+      dispatch({
+        field: "health",
+        type: "HEALTH_HEAL",
+        payload: { value: damage },
+      });
+    }
+  };
 
-  
   return (
     <div className="grid grid-rows-2 my-2 items-center">
       <div className="grid grid-cols-4 text-center items-center">
@@ -58,27 +57,34 @@ function Health() {
           />
         </div>
         <div>
-          <input type="number"           className="input-small w-full col-span-1"
-           name="currentHealth" id="currentHealth" value={currentHealth} onChange={(e) => handleChange('currentHealth', Number(e.target.value))}/>
-
+          <input
+            type="number"
+            className="input-small w-full col-span-1"
+            name="currentHealth"
+            id="currentHealth"
+            value={currentHealth}
+            onChange={(e) =>
+              handleChange("currentHealth", Number(e.target.value))}
+          />
         </div>
-        <div>          <input
+        <div>
+          <input
             className="input-small w-full col-span-1"
             type="number"
             name="currentHealth"
             id="currentHealth"
             value={damage}
-            onChange={(e) => handleChange('damage', Number(e.target.value))}
-          /></div>
+            onChange={(e) => handleChange("damage", Number(e.target.value))}
+          />
+        </div>
         <div>
           <button
             type="submit"
             className="col-span-1 btn btn-primary"
             onClick={handleDamageOrHeal}
           >
-
-          Apply 
-        </button>
+            Apply
+          </button>
         </div>
       </div>
     </div>

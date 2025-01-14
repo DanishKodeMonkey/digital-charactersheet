@@ -1,7 +1,14 @@
 import AbilityRow from "./AbilityRow.tsx";
 
 function Ability() {
-  const abilities = ["strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma"];
+  const abilities = [
+    "strength",
+    "dexterity",
+    "constitution",
+    "intelligence",
+    "wisdom",
+    "charisma",
+  ];
   return (
     <div className="container">
       <h1 className="text-xl font-bold text-center">Character Stats</h1>
