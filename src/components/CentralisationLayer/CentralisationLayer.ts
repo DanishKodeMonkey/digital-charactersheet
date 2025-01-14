@@ -2,7 +2,7 @@
 //
 // HUSKAT: Move to seperate file later
 
-type FieldType = 'stats' | 'armorClass';
+type FieldType = 'stats' | 'armorClass' | 'health';
 
 interface Stats {
     strength: number;
@@ -23,9 +23,17 @@ interface ArmorClassType {
     miscModifier: number;
 }
 
+interface HealthStatus {
+    maxHealth: number;
+    currentHealth: number;
+    damage: number;
+    hitDie: number;
+}
+
 interface State {
     stats: Stats;
     armorClass: ArmorClassType;
+    health: HealthStatus;
 }
 
 interface UpdateStatAction {
@@ -45,8 +53,25 @@ interface UpdateArmorClassAction {
     type: 'UPDATE_ARMOR_CLASS_FIELD';
     payload: { stat: keyof ArmorClassType; value: number };
 }
+
+interface UpdateHealthAction {
+    field: 'health';
+    type: 'UPDATE_HEALTH_FIELD';
+    payload: { stat: keyof HealthStatus; value: number };
+}
+
+interface TakeDamageAction {
+    field: 'health';
+    type: 'HEALTH_DAMAGE' | 'HEALTH_HEAL';
+    payload: { value: number };
+}
 // Unite action interfaces with as a type as Enumerate interfaces
-type Action = UpdateStatAction | UpdateTempStatAction | UpdateArmorClassAction;
+type Action =
+    | UpdateStatAction
+    | UpdateTempStatAction
+    | UpdateArmorClassAction
+    | UpdateHealthAction
+    | TakeDamageAction;
 
 // Centralised state, with initial states(default values)
 const centralState: State = {
@@ -88,6 +113,12 @@ const centralState: State = {
         naturalArmor: 0,
         miscModifier: 0,
     },
+    health: {
+        maxHealth: 0,
+        currentHealth: 0,
+        damage: 0,
+        hitDie: 0,
+    },
 };
 
 const validStatNames = [
@@ -101,9 +132,9 @@ const validStatNames = [
 
 // state update reducer, accepts state and action (dispatch) performing action as needed and instructed, and returns a state
 
-// 3 steps, 
-// 1. Check field(section of state), 
-// 2. Check action type(Update stat? Temp stat? Reset?(TODO)) 
+// 3 steps,
+// 1. Check field(section of state),
+// 2. Check action type(Update stat? Temp stat? Reset?(TODO))
 // 3. Process data : returns new state (not mutation)
 
 const centralizationReducer = (state: State, action: Action): State => {
@@ -206,6 +237,38 @@ const centralizationReducer = (state: State, action: Action): State => {
                     return state;
             }
         }
+        case 'health': {
+            switch (action.type) {
+                case 'UPDATE_HEALTH_FIELD': {
+                    const { stat, value } = action.payload;
+                    return {
+                        ...state,
+                        health: { ...state.health, [stat]: value },
+                    };
+                }
+                case 'HEALTH_DAMAGE': {
+                    const { value } = action.payload;
+                    const newHealth = state.health.currentHealth - value;
+
+                    return {
+                        ...state,
+                        health: { ...state.health, currentHealth: newHealth },
+                    };
+                }
+                case 'HEALTH_HEAL': {
+                    const { value } = action.payload;
+                    const newHealth = state.health.currentHealth + value;
+
+                    return {
+                        ...state,
+                        health: { ...state.health, currentHealth: newHealth },
+                    };
+                }
+                default:
+                    console.log('No changes made to health');
+                    return state;
+            }
+        }
         default:
             console.log('No changes made to state');
             return state;
@@ -213,4 +276,4 @@ const centralizationReducer = (state: State, action: Action): State => {
 };
 
 export { centralState, centralizationReducer };
-export type { Action, State, ArmorClassType };
+export type { Action, State, ArmorClassType, HealthStatus };
