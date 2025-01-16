@@ -4,7 +4,7 @@ import { HealthStatus } from "../../CentralisationLayer/CentralisationLayer.ts";
 
 function Health() {
   const { state, dispatch } = useCentralization();
-  const { maxHealth, currentHealth, damage } = state.health;
+  const { maxHealth, currentHealth, damage } = state.status.health;
 
   const handleChange = (stat: keyof HealthStatus, value: number) => {
     console.log("Received", stat, value);
