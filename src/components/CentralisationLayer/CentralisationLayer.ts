@@ -4,6 +4,10 @@
 
 type FieldType = 'stats' | 'armorClass' | 'health';
 
+interface Details {
+    raceSize: number;
+    raceBonus: number;
+}
 interface Stats {
     strength: number;
     dexterity: number;
@@ -41,6 +45,7 @@ interface Status {
 }
 
 interface State {
+    details: Details;
     stats: Stats;
     status: Status;
 }
@@ -78,8 +83,14 @@ interface TakeDamageAction {
 interface UpdateSpeedAction {
     field: 'status';
     type: 'UPDATE_SPEED';
-    payload: { value: number };
+    payload: SpeedCalculation;
 }
+
+interface SpeedCalculation {
+    race: 'small' | 'medium' | 'large';
+    armorType: 'none' | 'light' | 'medium' | 'heavy';
+}
+
 // Unite action interfaces with as a type as Enumerate interfaces
 type Action =
     | UpdateStatAction
@@ -91,6 +102,10 @@ type Action =
 
 // Centralised state, with initial states(default values)
 const centralState: State = {
+    details: {
+        raceSize: 30,
+        raceBonus: 0,
+    },
     stats: {
         strength: 10,
         dexterity: 10,
@@ -302,18 +317,23 @@ const centralizationReducer = (state: State, action: Action): State => {
                         },
                     };
                 }
-                case 'UPDATE_SPEED': {
-                    const { value } = action.payload;
-                    return {
-                        ...state,
-                        status: {
-                            ...state.status,
-                            speed: {
-                                speed: value,
-                            },
-                        },
-                    };
-                }
+                // HUSKAT Implement proper after player details added to state (realised we need data like race to determine speed bonuses)
+                /*                 case 'UPDATE_SPEED': {
+                    const { race, armorType } = action.payload;
+                    switch (race) {
+                        case 'dwarf':
+                            raceBase = 20;
+                            raceBonus = 10;
+                            break;
+                        case 'halfling':
+                            raceBase = 20;
+                            raceBonus = 5;
+                            break;
+                        default: // Human or other races
+                            raceBase = 30;
+                            break;
+                    }
+                } */
                 default:
                     console.log('No changes made to status');
                     return state;

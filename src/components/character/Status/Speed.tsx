@@ -1,6 +1,24 @@
-import { useState } from "react";
+import React from "react";
+import { useCentralization } from "../../CentralisationLayer/CentralisationContext.tsx";
+
 
 function Speed() {
+  const {state, dispatch} = useCentralization()
+
+
+  const speed = state.status.speed.speed
+
+  const handleSpeedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newSpeed = parseInt((e.target.value, 10 ) || 0)
+
+    dispatch({
+      field: "status",
+      type: "UPDATE_SPEED",
+      payload: {value: newSpeed}
+    })
+  }
+
+
   /* HUSKAT
     Speed = raceBase - armorPenalty(>medium=-10 + racebonus(gnome,halfling = +5 dwarf + 10))
     e.g
@@ -11,7 +29,6 @@ function Speed() {
     Halfling heavy armor
     15 = 20 - 10 + 5
     */
-  const [speed, setSpeed] = useState<number>("");
 
   return (
     <div className="m-5 text-center">
