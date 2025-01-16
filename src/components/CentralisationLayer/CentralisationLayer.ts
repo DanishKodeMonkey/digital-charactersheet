@@ -4,9 +4,31 @@
 
 type FieldType = 'stats' | 'armorClass' | 'health';
 
-interface Details {
-    raceSize: number;
-    raceBonus: number;
+interface CharacterDetails {
+    characterName: string;
+    playerName: string;
+    class: string;
+    race: string;
+    alignment: string;
+    deity: string;
+    level: number;
+    size: string;
+    age: number;
+    sex: string;
+    height: number;
+    weight: number;
+    eyes: string;
+    hair: string;
+}
+
+interface RaceBonuses {
+    speed: number;
+    sizeModifier: number;
+}
+interface UpdateCharacterDetailsAction {
+    field: 'characterDetails';
+    type: 'UPDATE_CHARACTER_DETAIL';
+    payload: { key: keyof CharacterDetails; value: string | number };
 }
 interface Stats {
     strength: number;
@@ -45,7 +67,7 @@ interface Status {
 }
 
 interface State {
-    details: Details;
+    characterDetails: CharacterDetails;
     stats: Stats;
     status: Status;
 }
@@ -93,6 +115,7 @@ interface SpeedCalculation {
 
 // Unite action interfaces with as a type as Enumerate interfaces
 type Action =
+    | UpdateCharacterDetailsAction
     | UpdateStatAction
     | UpdateTempStatAction
     | UpdateArmorClassAction
@@ -102,9 +125,21 @@ type Action =
 
 // Centralised state, with initial states(default values)
 const centralState: State = {
-    details: {
-        raceSize: 30,
-        raceBonus: 0,
+    characterDetails: {
+        characterName: '',
+        playerName: '',
+        class: '',
+        race: '',
+        alignment: '',
+        deity: '',
+        level: 1,
+        size: '',
+        age: 0,
+        sex: '',
+        height: 0,
+        weight: 0,
+        eyes: '',
+        hair: '',
     },
     stats: {
         strength: 10,
@@ -175,6 +210,23 @@ const validStatNames = [
 
 const centralizationReducer = (state: State, action: Action): State => {
     switch (action.field) {
+        case 'characterDetails': {
+            switch (action.type) {
+                case 'UPDATE_CHARACTER_DETAIL': {
+                    const { key, value } = action.payload;
+                    return {
+                        ...state,
+                        characterDetails: {
+                            ...state.characterDetails,
+                            [key]: value,
+                        },
+                    };
+                }
+                default:
+                    console.log('No changes made to character details');
+                    return state;
+            }
+        }
         case 'stats': {
             switch (action.type) {
                 case 'UPDATE_STAT': {
