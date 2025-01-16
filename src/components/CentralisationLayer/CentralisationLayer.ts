@@ -30,10 +30,19 @@ interface HealthStatus {
     hitDie: number;
 }
 
-interface State {
-    stats: Stats;
+interface SpeedType {
+    speed: number;
+}
+
+interface Status {
     armorClass: ArmorClassType;
     health: HealthStatus;
+    speed: SpeedType;
+}
+
+interface State {
+    stats: Stats;
+    status: Status;
 }
 
 interface UpdateStatAction {
@@ -49,20 +58,26 @@ interface UpdateTempStatAction {
 }
 
 interface UpdateArmorClassAction {
-    field: 'armorClass';
+    field: 'status';
     type: 'UPDATE_ARMOR_CLASS_FIELD';
     payload: { stat: keyof ArmorClassType; value: number };
 }
 
 interface UpdateHealthAction {
-    field: 'health';
+    field: 'status';
     type: 'UPDATE_HEALTH_FIELD';
     payload: { stat: keyof HealthStatus; value: number };
 }
 
 interface TakeDamageAction {
-    field: 'health';
+    field: 'status';
     type: 'HEALTH_DAMAGE' | 'HEALTH_HEAL';
+    payload: { value: number };
+}
+
+interface UpdateSpeedAction {
+    field: 'status';
+    type: 'UPDATE_SPEED';
     payload: { value: number };
 }
 // Unite action interfaces with as a type as Enumerate interfaces
@@ -71,7 +86,8 @@ type Action =
     | UpdateTempStatAction
     | UpdateArmorClassAction
     | UpdateHealthAction
-    | TakeDamageAction;
+    | TakeDamageAction
+    | UpdateSpeedAction;
 
 // Centralised state, with initial states(default values)
 const centralState: State = {
@@ -107,17 +123,22 @@ const centralState: State = {
             charisma: 0,
         },
     },
-    armorClass: {
-        aBonus: 0,
-        sizeModifier: 0,
-        naturalArmor: 0,
-        miscModifier: 0,
-    },
-    health: {
-        maxHealth: 0,
-        currentHealth: 0,
-        damage: 0,
-        hitDie: 0,
+    status: {
+        armorClass: {
+            aBonus: 0,
+            sizeModifier: 0,
+            naturalArmor: 0,
+            miscModifier: 0,
+        },
+        health: {
+            maxHealth: 0,
+            currentHealth: 0,
+            damage: 0,
+            hitDie: 0,
+        },
+        speed: {
+            speed: 0,
+        },
     },
 };
 
@@ -222,51 +243,79 @@ const centralizationReducer = (state: State, action: Action): State => {
                     return state;
             }
         }
-        case 'armorClass': {
+        case 'status': {
             switch (action.type) {
                 case 'UPDATE_ARMOR_CLASS_FIELD': {
                     const { stat, value } = action.payload;
                     return {
                         ...state,
-                        armorClass: { ...state.armorClass, [stat]: value },
+                        status: {
+                            ...state.status,
+                            armorClass: {
+                                ...state.status.armorClass,
+                                [stat]: value,
+                            },
+                        },
                     };
                 }
-                default:
-                    console.log('No changes made to armorClass');
-                    return state;
-            }
-        }
-        case 'health': {
-            switch (action.type) {
                 case 'UPDATE_HEALTH_FIELD': {
                     const { stat, value } = action.payload;
                     return {
                         ...state,
-                        health: { ...state.health, [stat]: value },
+                        status: {
+                            ...state.status,
+                            health: {
+                                ...state.status.health,
+                                [stat]: value,
+                            },
+                        },
                     };
                 }
                 case 'HEALTH_DAMAGE': {
                     const { value } = action.payload;
-                    console.log('received', value);
-                    const absValue = Math.abs(value);
-                    const newHealth = state.health.currentHealth - absValue;
+                    const newHealth =
+                        state.status.health.currentHealth - Math.abs(value);
 
                     return {
                         ...state,
-                        health: { ...state.health, currentHealth: newHealth },
+                        status: {
+                            ...state.status,
+                            health: {
+                                ...state.status.health,
+                                currentHealth: newHealth,
+                            },
+                        },
                     };
                 }
                 case 'HEALTH_HEAL': {
                     const { value } = action.payload;
-                    const newHealth = state.health.currentHealth + value;
+                    const newHealth = state.status.health.currentHealth + value;
 
                     return {
                         ...state,
-                        health: { ...state.health, currentHealth: newHealth },
+                        status: {
+                            ...state.status,
+                            health: {
+                                ...state.status.health,
+                                currentHealth: newHealth,
+                            },
+                        },
+                    };
+                }
+                case 'UPDATE_SPEED': {
+                    const { value } = action.payload;
+                    return {
+                        ...state,
+                        status: {
+                            ...state.status,
+                            speed: {
+                                speed: value,
+                            },
+                        },
                     };
                 }
                 default:
-                    console.log('No changes made to health');
+                    console.log('No changes made to status');
                     return state;
             }
         }
