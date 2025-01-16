@@ -32,8 +32,8 @@ function Health() {
 
   return (
     <div className="grid grid-rows-2 my-2 items-center">
-      <div className="grid grid-cols-4 text-center items-center">
-        <label htmlFor="HP" className="input-label col-span-1">
+      <div className="grid grid-cols-4 text-center gap-10">
+        <label htmlFor="HP" className="input-label  col-span-1">
           Max <br /> Health
         </label>
         <label htmlFor="currentHealth" className="input-label col-span-1">
@@ -43,7 +43,7 @@ function Health() {
           Damage/Healing
         </label>
       </div>
-      <div className="grid grid-cols-4 gap-3 text-center">
+      <div className="grid grid-cols-[4fr,.2fr,4fr,.2fr,4fr,2fr] gap-3 text-center">
         <div>
           <input
             type="number"
@@ -54,6 +54,8 @@ function Health() {
             value={maxHealth}
           />
         </div>
+        <span>=</span>
+
         <div>
           <input
             type="number"
@@ -65,6 +67,7 @@ function Health() {
               handleChange("currentHealth", Number(e.target.value))}
           />
         </div>
+        <span>+</span>
         <div>
           <input
             className="input-small w-full col-span-1"
