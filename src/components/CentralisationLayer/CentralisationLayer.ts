@@ -8,7 +8,7 @@ interface CharacterDetails {
     characterName: string;
     playerName: string;
     class: string;
-    race: string;
+    race: { raceName: string; raceBase: number; raceBonus: number };
     alignment: string;
     deity: string;
     level: number;
@@ -24,6 +24,12 @@ interface CharacterDetails {
 interface RaceBonuses {
     speed: number;
     sizeModifier: number;
+}
+
+interface UpdateCharacterRaceAction {
+    field: 'characterDetails';
+    type: 'UPDATE_CHARACTER_DETAIL_RACE';
+    payload: { value: string };
 }
 interface UpdateCharacterDetailsAction {
     field: 'characterDetails';
@@ -115,6 +121,7 @@ interface SpeedCalculation {
 
 // Unite action interfaces with as a type as Enumerate interfaces
 type Action =
+    | UpdateCharacterRaceAction
     | UpdateCharacterDetailsAction
     | UpdateStatAction
     | UpdateTempStatAction
@@ -129,7 +136,7 @@ const centralState: State = {
         characterName: '',
         playerName: '',
         class: '',
-        race: '',
+        race: { raceName: '', raceBase: 30, raceBonus: 0 },
         alignment: '',
         deity: '',
         level: 1,
@@ -212,6 +219,26 @@ const centralizationReducer = (state: State, action: Action): State => {
     switch (action.field) {
         case 'characterDetails': {
             switch (action.type) {
+                case 'UPDATE_CHARACTER_DETAIL_RACE': {
+                    const { value } = action.payload; // race name
+                    const raceData = (() => {
+                        switch (value) {
+                            case 'dwarf':
+                                return { raceBase: 20, raceBonus: 5 };
+                            case 'halfling':
+                                return { raceBase: 20, raceBonus: 10 };
+                            default: // Default to human
+                                return { raceBase: 30, raceBonus: 0 };
+                        }
+                    })();
+                    return {
+                        ...state,
+                        characterDetails: {
+                            ...state.characterDetails,
+                            race: { raceName: value, ...raceData },
+                        },
+                    };
+                }
                 case 'UPDATE_CHARACTER_DETAIL': {
                     const { key, value } = action.payload;
                     return {
