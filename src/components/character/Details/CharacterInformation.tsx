@@ -1,4 +1,31 @@
+import React from 'react'
+import { useCentralization } from "../../CentralisationLayer/CentralisationContext.tsx";
+
+
 function CharacterInformation() {
+
+  // HUSKAT
+  /* 
+  Field race should check if race matches dwarf, or halfling and grant bonuses as determined in central state
+  seperate change or check in change?
+
+  field alignment should be one of 9 alignments as determined by 3.5e rules
+
+  field size should be a choice between small, medium, large, or giant.
+  These should trigger appropriate size bonuses in state
+
+  
+  */
+const {state, dispatch} = useCentralization()
+
+const handleChange = (key: keyof typeof state.characterDetails, value: string | number) =>{
+  dispatch({
+    field:"characterDetails",
+    type:"UPDATE_CHARACTER_DETAIL",
+    payload: {key, value}
+  })
+}
+
   return (
     <div className="container mx-auto">
       <div className="grid grid-cols-8 grid-rows-3">
