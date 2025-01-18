@@ -12,7 +12,7 @@ function ArmorClass() {
   const dexterity = state.stats.modifiers.dexterity;
 
   // calculate actotal based on values
-  const acTotal = 10 + aBonus + dexterity - sizeModifier + naturalArmor +
+  const acTotal = 10 - aBonus + dexterity - sizeModifier + naturalArmor +
     miscModifier;
 
   const handleChange = (stat: keyof ArmorClassType, value: number) => {
@@ -58,7 +58,7 @@ function ArmorClass() {
               readOnly
             />
           </div>
-          <span className="mt-auto mb-3">+</span>
+          <span className="mt-auto mb-3">-</span>
           <div className="w-14 text-center mt-auto">
             <label htmlFor="armorBonus" className="input-label">
               Armor <br />bonus

@@ -96,6 +96,11 @@ interface UpdateArmorClassAction {
     payload: { stat: keyof ArmorClassType; value: number };
 }
 
+interface UpdateSpeedAction {
+    field: 'status';
+    type: 'UPDATE_SPEED';
+    payload: { value: number };
+}
 interface UpdateHealthAction {
     field: 'status';
     type: 'UPDATE_HEALTH_FIELD';
@@ -110,17 +115,6 @@ interface TakeDamageAction {
     field: 'status';
     type: 'HEALTH_DAMAGE' | 'HEALTH_HEAL';
     payload: { value: number };
-}
-
-interface UpdateSpeedAction {
-    field: 'status';
-    type: 'UPDATE_SPEED';
-    payload: SpeedCalculation;
-}
-
-interface SpeedCalculation {
-    race: 'small' | 'medium' | 'large';
-    armorType: 'none' | 'light' | 'medium' | 'heavy';
 }
 
 // Unite action interfaces with as a type as Enumerate interfaces
@@ -220,14 +214,17 @@ const validStatNames = [
 // 2. Check action type(Update stat? Temp stat? Reset?(TODO))
 // 3. Process data : returns new state (not mutation)
 
+// TODO Debounce timer for dispatches to prevent partial dispatches?
+
 const centralizationReducer = (state: State, action: Action): State => {
     switch (action.field) {
         case 'characterDetails': {
             switch (action.type) {
                 case 'UPDATE_CHARACTER_DETAIL_RACE': {
                     const { value } = action.payload; // race name
+
                     const raceData = (() => {
-                        switch (value) {
+                        switch (value.toLowerCase()) {
                             case 'dwarf':
                                 return { raceBase: 20, raceBonus: 5 };
                             case 'halfling':
@@ -354,6 +351,16 @@ const centralizationReducer = (state: State, action: Action): State => {
                                 ...state.status.armorClass,
                                 [stat]: value,
                             },
+                        },
+                    };
+                }
+                case 'UPDATE_SPEED': {
+                    const { value } = action.payload;
+                    return {
+                        ...state,
+                        status: {
+                            ...state.status,
+                            speed: { ...state.status.speed, speed: value },
                         },
                     };
                 }
