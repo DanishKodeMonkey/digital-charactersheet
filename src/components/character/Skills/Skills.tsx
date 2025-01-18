@@ -1,6 +1,6 @@
 import { useState } from "react";
 import SkillRow from "./SkillRow.tsx";
-import skillList from "./skillList.json";
+import skillList from "./skillList.json" with{type:"json"};
 
 function Skills() {
   const [maxRanks, setMaxRanks] = useState<number>(0);
