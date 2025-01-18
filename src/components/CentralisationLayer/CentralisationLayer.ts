@@ -222,7 +222,6 @@ const centralizationReducer = (state: State, action: Action): State => {
             switch (action.type) {
                 case 'UPDATE_CHARACTER_DETAIL_RACE': {
                     const { value } = action.payload; // race name
-
                     const raceData = (() => {
                         switch (value.toLowerCase()) {
                             case 'dwarf':
