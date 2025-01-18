@@ -55,14 +55,14 @@ const handleChange = (key: keyof typeof state.characterDetails, value: string | 
   if(key === 'level' && (Number(value) < 1 || Number(value) > 20)){
     setErrors((prev: Errors) =>({...prev, [key]:"Invalid level, must be between 1 and 20."}))
     return
-  }
+  }  else if(key !== 'race'){
+    dispatch({
+      field:"characterDetails",
+      type:"UPDATE_CHARACTER_DETAIL",
+      payload: {key, value}
+    })}
   setErrors((prev: Errors) => ({...prev, [key]: undefined})) // clear errors for validation pass
 
-  dispatch({
-    field:"characterDetails",
-    type:"UPDATE_CHARACTER_DETAIL",
-    payload: {key, value}
-  })
 }
 
   return (
