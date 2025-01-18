@@ -1,23 +1,28 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { useCentralization } from "../../CentralisationLayer/CentralisationContext.tsx";
 
 
 function Speed() {
   const {state, dispatch} = useCentralization()
 
+  const {speed} = state.status.speed
+  const {raceBonus, raceBase} = state.characterDetails.race
+  const {aBonus} = state.status.armorClass
 
-  const speed = state.status.speed.speed
-
-  const handleSpeedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newSpeed = parseInt((e.target.value, 10 ) || 0)
-
+  useEffect(()=>{
+    const raceBaseValue = raceBase ?? 30; //default until otherwise
+    const raceBonusValue = raceBonus ?? 0; // default until otherwise
+    console.log('raceBase:', raceBaseValue);
+    console.log('raceBonus:', raceBonusValue);
+    console.log('aBonus:', aBonus);
+  
+    const speed = (raceBaseValue + raceBonusValue) - aBonus
     dispatch({
-      field: "status",
-      type: "UPDATE_SPEED",
-      payload: {value: newSpeed}
+      field:'status',
+      type: 'UPDATE_SPEED',
+      payload: {value: speed}
     })
-  }
-
+  },[raceBase, raceBonus, aBonus])
 
   /* HUSKAT
     Speed = raceBase - armorPenalty(>medium=-10 + racebonus(gnome,halfling = +5 dwarf + 10))
@@ -39,7 +44,7 @@ function Speed() {
         name="speedInput"
         id="speedInput"
         value={speed}
-        onChange={(e) => setSpeed(parseInt(e.target.value))}
+        readOnly
       />
     </div>
   );
