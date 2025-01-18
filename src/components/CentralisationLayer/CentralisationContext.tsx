@@ -1,4 +1,4 @@
-import React, { createContext, ReactNode, useContext, useReducer } from "react";
+import React, { createContext, ReactNode, useContext, useReducer, useCallback } from "react";
 import {
   Action,
   centralizationReducer,
@@ -23,6 +23,34 @@ const CentralizationContext = createContext<
   CentralizationContextProps | undefined
 >(undefined);
 
+// Custom hook to provide debouncing to dispatch (delay between inputs to prevent partial auto submits)
+// Thank youuu internet for this idea
+function useDebouncedDispatch(dispatch: React.Dispatch<Action>, delay: number){
+  // store the timer in a react ref to prevent re-renders when timer updates.
+  // Initial state null as no timer has been set.
+const timerRef = React.useRef<NodeJS.Timeout | null>(null)
+
+// useCallback to memorise the function, this also ensures re-creation only when dispatch or delay changes.
+const useDebouncedDispatch = useCallback((action:Action)=>{
+  // When a action is dispatched, clear previous timer, resetting debounce. 
+  // This ensures dispatch is only sent when user stops typing.
+  if(timerRef.current){
+    console.log('Bounced...');
+    
+    clearTimeout(timerRef.current) //reset the timer
+  }
+  
+  // if the timeout manages to  run out, ie using a delay of 500 ms, the dispatch will then be sent.
+  timerRef.current = setTimeout(() =>{
+    console.log('Passed... sending: ', action);
+    
+    dispatch(action)
+  }, delay)
+}, [dispatch, delay])
+
+return useDebouncedDispatch
+}
+
 // Establish provider
 
 export const CentralizationProvider: React.FC<CentralizationProviderProps> = (
@@ -30,8 +58,11 @@ export const CentralizationProvider: React.FC<CentralizationProviderProps> = (
 ) => {
   const [state, dispatch] = useReducer(centralizationReducer, centralState);
 
+  // wrap dispatcher in debouncer hook
+  const debouncedDispatch = useDebouncedDispatch(dispatch, 500) // dispatch, adjust delay limit
+
   return (
-    <CentralizationContext.Provider value={{ state, dispatch }}>
+    <CentralizationContext.Provider value={{ state, dispatch: debouncedDispatch }}>
       {children}
     </CentralizationContext.Provider>
   );
