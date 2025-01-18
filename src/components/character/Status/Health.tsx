@@ -2,23 +2,48 @@ import React from "react";
 import { useCentralization } from "../../CentralisationLayer/CentralisationContext.tsx";
 import { HealthStatus } from "../../CentralisationLayer/CentralisationLayer.ts";
 
+
+/* 
+DND 3.5e health hit die formula
+Max Health (1st Level) = Class Hit Die + Constitution Modifier
+
+For subsequent levels, the formula is:
+
+Max Health (subsequent levels) = Class Hit Die + Constitution Modifier (per level) x (level - 1)
+
+*/
 function Health() {
   const { state, dispatch } = useCentralization();
-  const { maxHealth, currentHealth, damage } = state.status.health;
+  const { maxHealth, currentHealth, damage, hitDie } = state.status.health;
+
 
   const handleChange = (stat: keyof HealthStatus, value: number) => {
-    console.log("Received", stat, value);
+  
     
-    if (!isNaN(value)) {
-      dispatch({
-        field: "health",
-        type: "UPDATE_HEALTH_FIELD",
-        payload: { stat: stat, value },
-      });
+    
+
+    if (isNaN(value)) {    
+      value = 0;
     }
+
+    
+      dispatch({
+        field: "status",
+        type: "UPDATE_HEALTH_FIELD",
+        payload: { stat, value },
+      });
+    
   };
 
-  const handleDamageOrHeal = () => {
+  const handleLevel = () =>{
+    dispatch({
+      field: "status",
+      type: "UPDATE_HIT_DIE",
+    })
+  }
+
+  // TODO re implement with damage input field?
+/*   const handleDamageOrHeal = () => {
     console.log('damage', damage);
     
     if (damage !== 0) {
@@ -28,7 +53,7 @@ function Health() {
         payload: { value: damage },
       });
     }
-  };
+  }; */
 
   return (
     <div className="grid grid-rows-2 my-2 items-center">
@@ -40,7 +65,7 @@ function Health() {
           current <br /> Health
         </label>
         <label htmlFor="hitDie" className="input-label col-span-1">
-          Damage/Healing
+          Hit Die (level)
         </label>
       </div>
       <div className="grid grid-cols-[4fr,.2fr,4fr,.2fr,4fr,2fr] gap-3 text-center">
@@ -64,7 +89,7 @@ function Health() {
             id="currentHealth"
             value={currentHealth}
             onChange={(e) =>
-              handleChange("currentHealth", Number(e.target.value))}
+              handleChange("currentHealth", parseInt(e.target.value))}
           />
         </div>
         <span>+</span>
@@ -72,17 +97,17 @@ function Health() {
           <input
             className="input-small w-full col-span-1"
             type="number"
-            name="currentHealth"
-            id="currentHealth"
-            value={damage}
-            onChange={(e) => handleChange("damage", Number(e.target.value))}
+            name="hitDie"
+            id="hitDie"
+            value={hitDie}
+            onChange={(e) => handleChange("hitDie", parseInt(e.target.value) || 0)}
           />
         </div>
         <div>
           <button
             type="submit"
             className="col-span-1 btn btn-primary"
-            onClick={handleDamageOrHeal}
+            onClick={handleLevel}
           >
             Apply
           </button>

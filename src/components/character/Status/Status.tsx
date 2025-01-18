@@ -1,20 +1,14 @@
 import Speed from "./Speed.tsx";
 import ArmorClass from "../Status/ArmorClass.tsx";
 import Health from "../Status/Health.tsx";
-import { useCentralization } from "../../CentralisationLayer/CentralisationContext.tsx";
+
 
 function Status() {
   /* HUSKAT - Centraliser abliity modifiers og send via props */
-  const {state} = useCentralization()
 
-  // dev button, remove for prod
-  const handleClick = () =>{
-    console.log(state)
-  }
 
   return (
-    <>
-    <button onClick={handleClick}>dev - print state</button>
+
     <div className="flex flex-col md:flex-row justify-center mx-5 my-auto">
      
       <div className="md:w-2/6 my-auto">
@@ -29,7 +23,7 @@ function Status() {
         <Speed />
       </div>
     </div>
-    </>
+ 
   );
 }
 

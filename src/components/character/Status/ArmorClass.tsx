@@ -21,7 +21,7 @@ function ArmorClass() {
       value = 0;
     }
     dispatch({
-      field: "armorClass",
+      field: "status",
       type: "UPDATE_ARMOR_CLASS_FIELD",
       payload: { stat, value },
     });
