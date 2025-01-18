@@ -2,9 +2,11 @@
 //
 // HUSKAT: Move to seperate file later
 
-type FieldType = 'stats' | 'armorClass' | 'health';
+interface ActionBase {
+    skipDebounced?: boolean; // optional flag to skip debouncer for dispatch
+}
 
-interface CharacterDetails {
+interface CharacterDetails extends ActionBase {
     characterName: string;
     playerName: string;
     class: string;
@@ -21,17 +23,12 @@ interface CharacterDetails {
     hair: string;
 }
 
-interface RaceBonuses {
-    speed: number;
-    sizeModifier: number;
-}
-
-interface UpdateCharacterRaceAction {
+interface UpdateCharacterRaceAction extends ActionBase {
     field: 'characterDetails';
     type: 'UPDATE_CHARACTER_DETAIL_RACE';
     payload: { value: string };
 }
-interface UpdateCharacterDetailsAction {
+interface UpdateCharacterDetailsAction extends ActionBase {
     field: 'characterDetails';
     type: 'UPDATE_CHARACTER_DETAIL';
     payload: { key: keyof CharacterDetails; value: string | number };
@@ -78,40 +75,40 @@ interface State {
     status: Status;
 }
 
-interface UpdateStatAction {
+interface UpdateStatAction extends ActionBase {
     field: 'stats';
     type: 'UPDATE_STAT';
     payload: { stat: keyof Stats; value: number };
 }
 
-interface UpdateTempStatAction {
+interface UpdateTempStatAction extends ActionBase {
     field: 'stats';
     type: 'UPDATE_TEMP_STAT';
     payload: { stat: keyof Stats; value: number };
 }
 
-interface UpdateArmorClassAction {
+interface UpdateArmorClassAction extends ActionBase {
     field: 'status';
     type: 'UPDATE_ARMOR_CLASS_FIELD';
     payload: { stat: keyof ArmorClassType; value: number };
 }
 
-interface UpdateSpeedAction {
+interface UpdateSpeedAction extends ActionBase {
     field: 'status';
     type: 'UPDATE_SPEED';
     payload: { value: number };
 }
-interface UpdateHealthAction {
+interface UpdateHealthAction extends ActionBase {
     field: 'status';
     type: 'UPDATE_HEALTH_FIELD';
     payload: { stat: keyof HealthStatus; value: number };
 }
-interface UpdateHitDie {
+interface UpdateHitDie extends ActionBase {
     field: 'status';
     type: 'UPDATE_HIT_DIE';
 }
 
-interface TakeDamageAction {
+interface TakeDamageAction extends ActionBase {
     field: 'status';
     type: 'HEALTH_DAMAGE' | 'HEALTH_HEAL';
     payload: { value: number };

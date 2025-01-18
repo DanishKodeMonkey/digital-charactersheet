@@ -34,11 +34,14 @@ const timerRef = React.useRef<NodeJS.Timeout | null>(null)
 const useDebouncedDispatch = useCallback((action:Action)=>{
   // When a action is dispatched, clear previous timer, resetting debounce. 
   // This ensures dispatch is only sent when user stops typing.
+  if(action.skipDebounce){
+    dispatch(action)
+  }else{
   if(timerRef.current){
     console.log('Bounced...');
     
     clearTimeout(timerRef.current) //reset the timer
-  }
+  }}
   
   // if the timeout manages to  run out, ie using a delay of 500 ms, the dispatch will then be sent.
   timerRef.current = setTimeout(() =>{

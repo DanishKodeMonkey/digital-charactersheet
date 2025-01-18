@@ -15,6 +15,7 @@ function AbilityRow({ ability }: AbilityRowProps) {
       field: "stats",
       type: "UPDATE_STAT",
       payload: { stat: abilityKey, value },
+      skipDebounce: true
     });
   };
 
@@ -23,6 +24,7 @@ function AbilityRow({ ability }: AbilityRowProps) {
       field: "stats",
       type: "UPDATE_TEMP_STAT",
       payload: { stat: abilityKey, value },
+      skipDebounce: true
     });
   };
 
