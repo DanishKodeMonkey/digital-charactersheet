@@ -1,6 +1,10 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { useCentralization } from "../../CentralisationLayer/CentralisationContext.tsx";
 
+
+interface Errors{
+  [key:string]:string | undefined;
+}
 // Globals prevent re-declaring every render
 const ALIGNMENT_OPTIONS = [
   "Lawful Good",
@@ -29,6 +33,9 @@ function CharacterInformation() {
 
   
   */
+ // local error state for UI errors during validation
+ const [errors, setErrors] = useState<Errors>({})
+
 const {state, dispatch} = useCentralization()
 
 
@@ -39,16 +46,18 @@ const handleChange = (key: keyof typeof state.characterDetails, value: string | 
     dispatch({field:"characterDetails", type:"UPDATE_CHARACTER_DETAIL_RACE", payload:{value}})
   }
   if(key === 'alignment' && !ALIGNMENT_OPTIONS.includes(value as string)){
-    alert(`Invalid alignment, Valid options are: ${ALIGNMENT_OPTIONS.join(", ")}`)
+    setErrors((prev: Errors) =>({...prev, [key]: "Invalid alignment selected."}))
     return
   }
   if(key === 'size' && !SIZE_OPTIONS.includes(value as string)){
-    alert(`Invalid size. Valid options are: ${SIZE_OPTIONS.join(", ")}`)
+    setErrors((prev: Errors) =>({...prev, [key]:"Invalid size selected."}))
   }
   if(key === 'level' && (Number(value) < 1 || Number(value) > 20)){
-    alert("Level must be between 1 and 20")
+    setErrors((prev: Errors) =>({...prev, [key]:"Invalid level, must be between 1 and 20."}))
     return
   }
+  setErrors((prev: Errors) => ({...prev, [key]: undefined})) // clear errors for validation pass
+
   dispatch({
     field:"characterDetails",
     type:"UPDATE_CHARACTER_DETAIL",
@@ -76,25 +85,31 @@ const handleChange = (key: keyof typeof state.characterDetails, value: string | 
           <label className="input-label" htmlFor="class">class</label>
         </div>
         <div className="row-start-2 col-start-3 col-span-2 input-container-col">
-          <input type="text" name="race" id="race"  onChange={(e) => handleChange("race", e.target.value)}/>
+          <input type="text" name="race" id="race" className={errors.race ? "border-red-500" : ""} onChange={(e) => handleChange("race", e.target.value)}/>
           <label className="input-label" htmlFor="race">race</label>
+          {errors.race && <p className="text-red-500 text-xs">{errors.race}</p>}
+
         </div>
         <div className="row-start-2 col-start-5 col-span-2 input-container-col">
-          <select defaultValue={""} name="alignment" id="alignment" onChange={(e) => handleChange("alignment", e.target.value)} >
+          <select defaultValue={""} name="alignment" id="alignment" className={errors.alignment ? "border-red-500" : ""} onChange={(e) => handleChange("alignment", e.target.value)} >
             <option value={""} disabled>Select Alignment</option>
             {ALIGNMENT_OPTIONS.map((alignment)=>(
               <option value={alignment} key={alignment}>{alignment}</option>
             ))}
           </select>
           <label className="input-label" htmlFor="alignment">alignment</label>
+          {errors.alignment && <p className="text-red-500 text-xs">{errors.alignment}</p>}
+
         </div>
         <div className="row-start-2 col-start-7 col-span-2 input-container-col">
           <input type="text" name="deity" id="deity" onChange={(e) => handleChange("deity", e.target.value)} />
           <label className="input-label" htmlFor="deity">deity</label>
         </div>
         <div className="row-start-3 col-start-1 input-container-col">
-          <input type="number" min={1} max={20} name="level" id="level" onChange={(e) => handleChange("level", e.target.value)} />
+          <input type="number" min={1} max={20} name="level" className={errors.level ? "border-red-500" : ""} id="level" onChange={(e) => handleChange("level", e.target.value)} />
           <label className="input-label" htmlFor="level">level</label>
+          {errors.level && <p className="text-red-500 text-xs">{errors.level}</p>}
+
         </div>
         <div className="row-start-3 col-start-2 input-container-col">
           <select defaultValue={""} name="size" id="size" onChange={(e) => handleChange("size", e.target.value)} >
