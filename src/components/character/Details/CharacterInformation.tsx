@@ -1,6 +1,19 @@
 import React from 'react'
 import { useCentralization } from "../../CentralisationLayer/CentralisationContext.tsx";
 
+// Globals prevent re-declaring every render
+const ALIGNMENT_OPTIONS = [
+  "Lawful Good",
+  "Neutral Good",
+  "Chaotic Good",
+  "Lawful Neutral",
+  "True Neutral",
+  "Chaotic Neutral",
+  "Lawful Evil",
+  "Neutral Evil",
+  "Chaotic Evil",
+];
+const SIZE_OPTIONS = ["small", "medium", "large", "giant"];
 
 function CharacterInformation() {
 
@@ -18,7 +31,24 @@ function CharacterInformation() {
   */
 const {state, dispatch} = useCentralization()
 
+
+
 const handleChange = (key: keyof typeof state.characterDetails, value: string | number) =>{
+  // check field validations for selectors andd bonus fields
+  if(key === 'race'){
+    dispatch({field:"characterDetails", type:"UPDATE_CHARACTER_DETAIL_RACE", payload:{value}})
+  }
+  if(key === 'alignment' && !ALIGNMENT_OPTIONS.includes(value as string)){
+    alert(`Invalid alignment, Valid options are: ${ALIGNMENT_OPTIONS.join(", ")}`)
+    return
+  }
+  if(key === 'size' && !SIZE_OPTIONS.includes(value as string)){
+    alert(`Invalid size. Valid options are: ${SIZE_OPTIONS.join(", ")}`)
+  }
+  if(key === 'level' && (Number(value) < 1 || Number(value) > 20)){
+    alert("Level must be between 1 and 20")
+    return
+  }
   dispatch({
     field:"characterDetails",
     type:"UPDATE_CHARACTER_DETAIL",
@@ -30,63 +60,74 @@ const handleChange = (key: keyof typeof state.characterDetails, value: string | 
     <div className="container mx-auto">
       <div className="grid grid-cols-8 grid-rows-3">
         <div className="row-start-1 col-span-4 input-container-col">
-          <input type="text" name="characterName" id="characterName" />
+          <input type="text" name="characterName" id="characterName" onChange={(e) => handleChange("characterName", e.target.value)}/>
           <label className="input-label" htmlFor="characterName">
             character name
           </label>
         </div>
         <div className="row-start-1 col-span-4 input-container-col">
-          <input type="text" name="playerName" id="playerName" />
+          <input type="text" name="playerName" id="playerName" onChange={(e) => handleChange("playerName", e.target.value)} />
           <label className="input-label" htmlFor="playerName">
             player name
           </label>
         </div>
         <div className="row-start-2 col-start-1 col-span-2 input-container-col">
-          <input type="text" name="class" id="class" />
+          <input type="text" name="class" id="class"  onChange={(e) => handleChange("class", e.target.value)}/>
           <label className="input-label" htmlFor="class">class</label>
         </div>
         <div className="row-start-2 col-start-3 col-span-2 input-container-col">
-          <input type="text" name="race" id="race" />
+          <input type="text" name="race" id="race"  onChange={(e) => handleChange("race", e.target.value)}/>
           <label className="input-label" htmlFor="race">race</label>
         </div>
         <div className="row-start-2 col-start-5 col-span-2 input-container-col">
-          <input type="text" name="alignment" id="alignment" />
+          <select defaultValue={""} name="alignment" id="alignment" onChange={(e) => handleChange("alignment", e.target.value)} >
+            <option value={""} disabled>Select Alignment</option>
+            {ALIGNMENT_OPTIONS.map((alignment)=>(
+              <option value={alignment} key={alignment}>{alignment}</option>
+            ))}
+          </select>
           <label className="input-label" htmlFor="alignment">alignment</label>
         </div>
         <div className="row-start-2 col-start-7 col-span-2 input-container-col">
-          <input type="text" name="deity" id="deity" />
+          <input type="text" name="deity" id="deity" onChange={(e) => handleChange("deity", e.target.value)} />
           <label className="input-label" htmlFor="deity">deity</label>
         </div>
         <div className="row-start-3 col-start-1 input-container-col">
-          <input type="number" name="level" id="level" />
+          <input type="number" min={1} max={20} name="level" id="level" onChange={(e) => handleChange("level", e.target.value)} />
           <label className="input-label" htmlFor="level">level</label>
         </div>
         <div className="row-start-3 col-start-2 input-container-col">
-          <input type="text" name="size" id="size" />
+          <select defaultValue={""} name="size" id="size" onChange={(e) => handleChange("size", e.target.value)} >
+          <option value={""} disabled>Select size</option>
+            {SIZE_OPTIONS.map((size)=>(
+              <option value={size} key={size}>{size}</option>
+            ))}
+         
+          </select>
           <label className="input-label" htmlFor="size">size</label>
         </div>
         <div className="row-start-3 col-start-3 input-container-col">
-          <input type="number" name="age" id="age" />
+          <input type="number" name="age" id="age" onChange={(e) => handleChange("age", e.target.value)} />
           <label className="input-label" htmlFor="age">age</label>
         </div>
         <div className="row-start-3 col-start-4 input-container-col">
-          <input type="number" name="sex" id="sex" />
+          <input type="text" name="sex" id="sex" onChange={(e) => handleChange("sex", e.target.value)} />
           <label className="input-label" htmlFor="sex">sex</label>
         </div>
         <div className="row-start-3 col-start-5 input-container-col">
-          <input type="number" name="height" id="height" />
+          <input type="number" name="height" id="height" onChange={(e) => handleChange("height", e.target.value)} />
           <label className="input-label" htmlFor="height">height</label>
         </div>
         <div className="row-start-3 col-start-6 input-container-col">
-          <input type="number" name="weight" id="weight" />
+          <input type="number" name="weight" id="weight" onChange={(e) => handleChange("weight", e.target.value)} />
           <label className="input-label" htmlFor="weight">weight</label>
         </div>
         <div className="row-start-3 col-start-7 input-container-col">
-          <input type="number" name="eyes" id="eyes" />
+          <input type="text" name="eyes" id="eyes" onChange={(e) => handleChange("eyes", e.target.value)} />
           <label className="input-label" htmlFor="eyes">eyes</label>
         </div>
         <div className="row-start-3 col-start-8 input-container-col">
-          <input type="number" name="hair" id="hair" />
+          <input type="text" name="hair" id="hair" onChange={(e) => handleChange("hair", e.target.value)} />
           <label className="input-label" htmlFor="hair">hair</label>
         </div>
       </div>
