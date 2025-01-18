@@ -101,6 +101,10 @@ interface UpdateHealthAction {
     type: 'UPDATE_HEALTH_FIELD';
     payload: { stat: keyof HealthStatus; value: number };
 }
+interface UpdateHitDie {
+    field: 'status';
+    type: 'UPDATE_HIT_DIE';
+}
 
 interface TakeDamageAction {
     field: 'status';
@@ -127,6 +131,7 @@ type Action =
     | UpdateTempStatAction
     | UpdateArmorClassAction
     | UpdateHealthAction
+    | UpdateHitDie
     | TakeDamageAction
     | UpdateSpeedAction;
 
@@ -354,6 +359,7 @@ const centralizationReducer = (state: State, action: Action): State => {
                 }
                 case 'UPDATE_HEALTH_FIELD': {
                     const { stat, value } = action.payload;
+
                     return {
                         ...state,
                         status: {
@@ -361,6 +367,28 @@ const centralizationReducer = (state: State, action: Action): State => {
                             health: {
                                 ...state.status.health,
                                 [stat]: value,
+                            },
+                        },
+                    };
+                }
+                case 'UPDATE_HIT_DIE': {
+                    const { hitDie } = state.status.health;
+                    const { level } = state.characterDetails;
+                    const { constitution } = state.stats.modifiers;
+                    const { maxHealth } = state.status.health; // current max health
+                    /* HUSKAT: Determine max hit die based on class (e.g fighter max hit die is d10 = 10) */
+
+                    const newHealthTotal =
+                        hitDie + constitution + (level - 1) + maxHealth;
+
+                    return {
+                        ...state,
+                        status: {
+                            ...state.status,
+                            health: {
+                                ...state.status.health,
+                                maxHealth: newHealthTotal,
+                                hitDie: 0, // reset hitDie after health is calculated
                             },
                         },
                     };
