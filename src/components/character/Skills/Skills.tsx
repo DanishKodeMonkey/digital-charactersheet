@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import SkillRow from "./SkillRow.tsx";
 import { useCentralization } from "../../CentralisationLayer/CentralisationContext.tsx";
 
@@ -7,7 +7,7 @@ function Skills() {
   const [maxRanks, setMaxRanks] = useState<number>(0);
   const [skillPoints, setSkillPoints] = useState<number>(0);
 
-  const skillNames = Object.keys(state.skills)
+  const skillNames =  useMemo(() => Object.keys(state.skills), [state.skills])
 
   return (
     <div className="mx-2 my-2 h-full flex flex-col overflow-hidden">
