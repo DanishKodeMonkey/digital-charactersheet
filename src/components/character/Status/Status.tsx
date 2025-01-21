@@ -2,15 +2,11 @@ import Speed from "./Speed.tsx";
 import ArmorClass from "../Status/ArmorClass.tsx";
 import Health from "../Status/Health.tsx";
 
-
 function Status() {
   /* HUSKAT - Centraliser abliity modifiers og send via props */
 
-
   return (
-
     <div className="flex flex-col md:flex-row justify-center mx-5 my-auto">
-     
       <div className="md:w-2/6 my-auto">
         <Health />
       </div>
@@ -23,7 +19,6 @@ function Status() {
         <Speed />
       </div>
     </div>
- 
   );
 }
 

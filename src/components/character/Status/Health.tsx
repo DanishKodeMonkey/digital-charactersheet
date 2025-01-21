@@ -2,8 +2,7 @@ import React from "react";
 import { useCentralization } from "../../CentralisationLayer/CentralisationContext.tsx";
 import { HealthStatus } from "../../CentralisationLayer/CentralisationLayer.ts";
 
-
-/* 
+/*
 DND 3.5e health hit die formula
 Max Health (1st Level) = Class Hit Die + Constitution Modifier
 
@@ -16,36 +15,29 @@ function Health() {
   const { state, dispatch } = useCentralization();
   const { maxHealth, currentHealth, damage, hitDie } = state.status.health;
 
-
   const handleChange = (stat: keyof HealthStatus, value: number) => {
-  
-    
-    
-
-    if (isNaN(value)) {    
+    if (isNaN(value)) {
       value = 0;
     }
 
-    
-      dispatch({
-        field: "status",
-        type: "UPDATE_HEALTH_FIELD",
-        payload: { stat, value },
-      });
-    
+    dispatch({
+      field: "status",
+      type: "UPDATE_HEALTH_FIELD",
+      payload: { stat, value },
+    });
   };
 
-  const handleLevel = () =>{
+  const handleLevel = () => {
     dispatch({
       field: "status",
       type: "UPDATE_HIT_DIE",
-    })
-  }
+    });
+  };
 
   // TODO re implement with damage input field?
-/*   const handleDamageOrHeal = () => {
+  /*   const handleDamageOrHeal = () => {
     console.log('damage', damage);
-    
+
     if (damage !== 0) {
       dispatch({
         field: "health",
@@ -100,7 +92,8 @@ function Health() {
             name="hitDie"
             id="hitDie"
             value={hitDie}
-            onChange={(e) => handleChange("hitDie", parseInt(e.target.value) || 0)}
+            onChange={(e) =>
+              handleChange("hitDie", parseInt(e.target.value) || 0)}
           />
         </div>
         <div>

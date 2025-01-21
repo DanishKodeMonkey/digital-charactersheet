@@ -5,10 +5,10 @@ import { useCentralization } from "../../CentralisationLayer/CentralisationConte
 // huskat: seperate types to typefile
 
 function SkillRow({ skill }: SkillRowProps) {
-  const {state} = useCentralization()
+  const { state } = useCentralization();
   const [learned, setLearned] = useState<boolean>(false);
   const [skillMod, setSkillMod] = useState<number>(0);
-  const abilityMod = state.stats.modifiers[skill.keyAbility] || 0
+  const abilityMod = state.stats.modifiers[skill.keyAbility] || 0;
   const [ranks, setRanks] = useState<number>("");
   const [miscMod, setMiscMod] = useState<number>("");
 
@@ -37,7 +37,9 @@ function SkillRow({ skill }: SkillRowProps) {
       <label className="w-1/3 text-sm" htmlFor={`${skill.name}`}>
         {skill.name}
       </label>
-      <span className="text-xs mr-2">{skill.keyAbility.slice(0, 3).toUpperCase()}</span>
+      <span className="text-xs mr-2">
+        {skill.keyAbility.slice(0, 3).toUpperCase()}
+      </span>
       <div className="flex w-1/2">
         <div className="w-1/4">
           <input

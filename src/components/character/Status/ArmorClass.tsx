@@ -6,7 +6,8 @@ function ArmorClass() {
   const { state, dispatch } = useCentralization();
 
   // extract relevant armorClass specific variables
-  const { aBonus, sizeModifier, naturalArmor, miscModifier } = state.status.armorClass;
+  const { aBonus, sizeModifier, naturalArmor, miscModifier } =
+    state.status.armorClass;
 
   // extract stats dependant variable
   const dexterity = state.stats.modifiers.dexterity;

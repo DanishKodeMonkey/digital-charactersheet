@@ -3,7 +3,7 @@
   { "name": "Balance", "keyAbility": "dexterity" },
   { "name": "Bluff", "keyAbility": "charisma" },
   { "name": "Climb", "keyAbility": "strength" },
-  { "name": "Concentration", "keyAbility": "Con" },
+  { "name": "Concentration", "keyAbility": "constitution" },
   { "name": "Craft (specific)", "keyAbility": "intelligence" },
   { "name": "Craft (specific)", "keyAbility": "intelligence" },
   { "name": "Craft (specific)", "keyAbility": "intelligence" },
