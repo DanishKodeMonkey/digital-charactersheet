@@ -3,7 +3,7 @@
 // HUSKAT: Move to seperate file later
 
 interface ActionBase {
-    skipDebounced?: boolean; // optional flag to skip debouncer for dispatch
+    skipDebounce?: boolean; // optional flag to skip debouncer for dispatch
 }
 
 interface CharacterDetails extends ActionBase {
@@ -40,9 +40,9 @@ interface Stats {
     intelligence: number;
     wisdom: number;
     charisma: number;
-    modifiers: Record<string, number>;
-    tempScores: Record<string, number>;
-    tempModifiers: Record<string, number>;
+    modifiers: Record<keyof Stats, number>;
+    tempScores: Record<keyof Stats, number>;
+    tempModifiers: Record<keyof Stats, number>;
 }
 
 interface ArmorClassType {
@@ -69,10 +69,19 @@ interface Status {
     speed: SpeedType;
 }
 
+interface Skill {
+    learned: boolean;
+    abilityName: keyof Stats;
+    ranks: number;
+    miscMod: number;
+    skillMod: number;
+}
+
 interface State {
     characterDetails: CharacterDetails;
     stats: Stats;
     status: Status;
+    skills: Record<string, Skill>;
 }
 
 interface UpdateStatAction extends ActionBase {
@@ -191,6 +200,253 @@ const centralState: State = {
         },
         speed: {
             speed: 0,
+        },
+    },
+    skills: {
+        Appraise: {
+            learned: false,
+            abilityName: 'intelligence',
+            ranks: 0,
+            miscMod: 0,
+            skillMod: 0,
+        },
+        Balance: {
+            learned: false,
+            abilityName: 'dexterity',
+            ranks: 0,
+            miscMod: 0,
+            skillMod: 0,
+        },
+        Bluff: {
+            learned: false,
+            abilityName: 'charisma',
+            ranks: 0,
+            miscMod: 0,
+            skillMod: 0,
+        },
+        Climb: {
+            learned: false,
+            abilityName: 'strength',
+            ranks: 0,
+            miscMod: 0,
+            skillMod: 0,
+        },
+        Concentration: {
+            learned: false,
+            abilityName: 'constitution',
+            ranks: 0,
+            miscMod: 0,
+            skillMod: 0,
+        },
+        Craft: {
+            learned: false,
+            abilityName: 'intelligence',
+            ranks: 0,
+            miscMod: 0,
+            skillMod: 0,
+        },
+        DecipherScript: {
+            learned: false,
+            abilityName: 'intelligence',
+            ranks: 0,
+            miscMod: 0,
+            skillMod: 0,
+        },
+        Diplomacy: {
+            learned: false,
+            abilityName: 'charisma',
+            ranks: 0,
+            miscMod: 0,
+            skillMod: 0,
+        },
+        'Disable Device': {
+            learned: false,
+            abilityName: 'intelligence',
+            ranks: 0,
+            miscMod: 0,
+            skillMod: 0,
+        },
+        Disguise: {
+            learned: false,
+            abilityName: 'charisma',
+            ranks: 0,
+            miscMod: 0,
+            skillMod: 0,
+        },
+        'Escape Artist': {
+            learned: false,
+            abilityName: 'dexterity',
+            ranks: 0,
+            miscMod: 0,
+            skillMod: 0,
+        },
+        Forgery: {
+            learned: false,
+            abilityName: 'intelligence',
+            ranks: 0,
+            miscMod: 0,
+            skillMod: 0,
+        },
+        'Gather Information': {
+            learned: false,
+            abilityName: 'charisma',
+            ranks: 0,
+            miscMod: 0,
+            skillMod: 0,
+        },
+        'Handle Animal': {
+            learned: false,
+            abilityName: 'charisma',
+            ranks: 0,
+            miscMod: 0,
+            skillMod: 0,
+        },
+        Heal: {
+            learned: false,
+            abilityName: 'wisdom',
+            ranks: 0,
+            miscMod: 0,
+            skillMod: 0,
+        },
+        Hide: {
+            learned: false,
+            abilityName: 'dexterity',
+            ranks: 0,
+            miscMod: 0,
+            skillMod: 0,
+        },
+        Intimidate: {
+            learned: false,
+            abilityName: 'charisma',
+            ranks: 0,
+            miscMod: 0,
+            skillMod: 0,
+        },
+        Jump: {
+            learned: false,
+            abilityName: 'strength',
+            ranks: 0,
+            miscMod: 0,
+            skillMod: 0,
+        },
+        Knowledge: {
+            learned: false,
+            abilityName: 'intelligence',
+            ranks: 0,
+            miscMod: 0,
+            skillMod: 0,
+        },
+        Listen: {
+            learned: false,
+            abilityName: 'wisdom',
+            ranks: 0,
+            miscMod: 0,
+            skillMod: 0,
+        },
+        'Move Silently': {
+            learned: false,
+            abilityName: 'dexterity',
+            ranks: 0,
+            miscMod: 0,
+            skillMod: 0,
+        },
+        'Open Lock': {
+            learned: false,
+            abilityName: 'dexterity',
+            ranks: 0,
+            miscMod: 0,
+            skillMod: 0,
+        },
+        Perform: {
+            learned: false,
+            abilityName: 'charisma',
+            ranks: 0,
+            miscMod: 0,
+            skillMod: 0,
+        },
+        Profession: {
+            learned: false,
+            abilityName: 'wisdom',
+            ranks: 0,
+            miscMod: 0,
+            skillMod: 0,
+        },
+        Ride: {
+            learned: false,
+            abilityName: 'dexterity',
+            ranks: 0,
+            miscMod: 0,
+            skillMod: 0,
+        },
+        Search: {
+            learned: false,
+            abilityName: 'intelligence',
+            ranks: 0,
+            miscMod: 0,
+            skillMod: 0,
+        },
+        'Sense Motive': {
+            learned: false,
+            abilityName: 'wisdom',
+            ranks: 0,
+            miscMod: 0,
+            skillMod: 0,
+        },
+        'Sleight of Hand': {
+            learned: false,
+            abilityName: 'dexterity',
+            ranks: 0,
+            miscMod: 0,
+            skillMod: 0,
+        },
+        Spellcraft: {
+            learned: false,
+            abilityName: 'intelligence',
+            ranks: 0,
+            miscMod: 0,
+            skillMod: 0,
+        },
+        Spot: {
+            learned: false,
+            abilityName: 'wisdom',
+            ranks: 0,
+            miscMod: 0,
+            skillMod: 0,
+        },
+        Survival: {
+            learned: false,
+            abilityName: 'wisdom',
+            ranks: 0,
+            miscMod: 0,
+            skillMod: 0,
+        },
+        Swim: {
+            learned: false,
+            abilityName: 'strength',
+            ranks: 0,
+            miscMod: 0,
+            skillMod: 0,
+        },
+        Tumble: {
+            learned: false,
+            abilityName: 'dexterity',
+            ranks: 0,
+            miscMod: 0,
+            skillMod: 0,
+        },
+        'Use Magic Device': {
+            learned: false,
+            abilityName: 'charisma',
+            ranks: 0,
+            miscMod: 0,
+            skillMod: 0,
+        },
+        'Use Rope': {
+            learned: false,
+            abilityName: 'dexterity',
+            ranks: 0,
+            miscMod: 0,
+            skillMod: 0,
         },
     },
 };
