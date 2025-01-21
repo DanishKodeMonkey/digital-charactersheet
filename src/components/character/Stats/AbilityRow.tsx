@@ -1,7 +1,10 @@
+import React from 'react'
 import { AbilityRowProps } from "../../../types/character.ts";
 import { useCentralization } from "../../CentralisationLayer/CentralisationContext.tsx";
 
-function AbilityRow({ ability }: AbilityRowProps) {
+
+// TODO, figure out why this re-renders twice
+const AbilityRow = React.memo(({ ability }: AbilityRowProps) => {
   const { state, dispatch } = useCentralization();
   const abilityKey = ability.toLowerCase();
 
@@ -108,5 +111,6 @@ function AbilityRow({ ability }: AbilityRowProps) {
       </div>
     </div>
   );
-}
+})
+
 export default AbilityRow;
