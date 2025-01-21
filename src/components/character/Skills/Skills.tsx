@@ -1,10 +1,13 @@
 import { useState } from "react";
 import SkillRow from "./SkillRow.tsx";
-import skillList from "./skillList.json" with { type: "json" };
+import { useCentralization } from "../../CentralisationLayer/CentralisationContext.tsx";
 
 function Skills() {
+  const {state} = useCentralization()
   const [maxRanks, setMaxRanks] = useState<number>(0);
   const [skillPoints, setSkillPoints] = useState<number>(0);
+
+  const skillNames = Object.keys(state.skills)
 
   return (
     <div className="mx-2 my-2 h-full flex flex-col overflow-hidden">
@@ -61,8 +64,8 @@ function Skills() {
       <hr className="my-2 border-y-2" />
       <div className="skills-list min-h-0 h-5 flex-grow overflow-y-auto">
         <div className="h-auto overflow-scroll">
-          {skillList.map((skill, index) => (
-            <SkillRow key={index} skill={skill} />
+          {skillNames.map((skillName) => (
+            <SkillRow key={skillName} skill={{name: skillName}} />
           ))}
         </div>
       </div>

@@ -7,12 +7,11 @@ import { useCentralization } from "../../CentralisationLayer/CentralisationConte
 function SkillRow({ skill }: SkillRowProps) {
   const { state, dispatch } = useCentralization();
 
-  const skillData = state.skills[skill.name];
+  const {learned, abilityName, ranks, miscMod, skillMod} = state.skills[skill.name];
 
-  const abilityMod = state.stats.modifiers[skillData.abilityName] || 0;
+  const abilityMod = state.stats.modifiers[abilityName] || 0;
 
   // calculate skillMod total
-  const skillMod = abilityMod + skillData.ranks + skillData.miscMod;
 
   const toggleLearned = () => {
     dispatch({
@@ -21,10 +20,25 @@ function SkillRow({ skill }: SkillRowProps) {
       payload: {
         skill: skill.name,
         field: "learned",
-        value: !skillData.learned,
+        value: !learned,
       },
     });
   };
+
+  const updateRanks = (value: number)=>{
+    dispatch({
+      field: "skills",
+      type: "UPDATE_SKILL",
+      payload:{skill: skill.name, field: "ranks", value}
+    })
+  }
+  const updateMiscMod = (value: number) =>{
+      dispatch({
+        field: "skills",
+        type: "UPDATE_SKILL",
+        payload:{skill: skill.name, field: "miscMod", value}
+      })
+  }
 
   // HUSKAT: Styling to sheet
   return (
@@ -42,7 +56,7 @@ function SkillRow({ skill }: SkillRowProps) {
         {skill.name}
       </label>
       <span className="text-xs mr-2">
-        {skill.keyAbility.slice(0, 3).toUpperCase()}
+        {abilityName.slice(0, 3).toUpperCase()}
       </span>
       <div className="flex w-1/2">
         <div className="w-1/4">
@@ -51,7 +65,7 @@ function SkillRow({ skill }: SkillRowProps) {
             name="skillModifier"
             className="input-micro"
             id={`skillModifier-${skill.name}`}
-            value={skillMod ? skillMod : 0}
+            value={skillMod}
             disabled
           />
         </div>
@@ -73,7 +87,7 @@ function SkillRow({ skill }: SkillRowProps) {
             name="ranksModifier"
             id={`ranksModifier-${skill.name}`}
             value={ranks}
-            onChange={(e) => setRanks(Number(e.target.value))}
+            onChange={(e) => updateRanks(Number(e.target.value))}
           />
         </div>
         <div className="w-1/4">
@@ -83,7 +97,7 @@ function SkillRow({ skill }: SkillRowProps) {
             name="miscModifier"
             id={`miscModifier-${skill.name}`}
             value={miscMod}
-            onChange={(e) => setMiscMod(Number(e.target.value))}
+            onChange={(e) => updateMiscMod(Number(e.target.value))}
           />
         </div>
       </div>
