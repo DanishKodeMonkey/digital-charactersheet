@@ -221,6 +221,10 @@ const centralizationReducer = (state: State, action: Action): State => {
                         console.log(`No changes has been made`);
                         return state;
                     }
+
+                    if (state.stats[stat] === value) {
+                        return state;
+                    }
                     // update state object with stat value
                     const newStats = {
                         ...state.stats,
