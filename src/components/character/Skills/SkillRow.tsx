@@ -5,22 +5,26 @@ import { useCentralization } from "../../CentralisationLayer/CentralisationConte
 // huskat: seperate types to typefile
 
 function SkillRow({ skill }: SkillRowProps) {
-  const { state } = useCentralization();
-  const [learned, setLearned] = useState<boolean>(false);
-  const [skillMod, setSkillMod] = useState<number>(0);
-  const abilityMod = state.stats.modifiers[skill.keyAbility] || 0;
-  const [ranks, setRanks] = useState<number>("");
-  const [miscMod, setMiscMod] = useState<number>("");
+  const { state, dispatch } = useCentralization();
+
+  const skillData = state.skills[skill.name];
+
+  const abilityMod = state.stats.modifiers[skillData.abilityName] || 0;
+
+  // calculate skillMod total
+  const skillMod = abilityMod + skillData.ranks + skillData.miscMod;
 
   const toggleLearned = () => {
-    setLearned((prevLearned) => !prevLearned);
+    dispatch({
+      field: "skills",
+      type: "UPDATE_SKILL",
+      payload: {
+        skill: skill.name,
+        field: "learned",
+        value: !skillData.learned,
+      },
+    });
   };
-  useEffect(() => {
-    setSkillMod(
-      (abilityMod ? abilityMod : 0) + (ranks ? ranks : 0) +
-        (miscMod ? miscMod : 0),
-    );
-  }, [abilityMod, ranks, miscMod]);
 
   // HUSKAT: Styling to sheet
   return (

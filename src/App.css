@@ -3,111 +3,115 @@
 @tailwind utilities;
 
 @layer base {
-    html {
-        background-color: black;
-        scroll-behavior: smooth;
-    }
-    .App {
-        @apply min-h-screen bg-slate-300 m-0 p-0;
-    }
-    input {
-        @apply text-center;
-    }
+  html {
+    background-color: black;
+    scroll-behavior: smooth;
+  }
+  .App {
+    @apply min-h-screen bg-slate-300 m-0 p-0;
+  }
+  input {
+    @apply text-center;
+  }
 }
 
 @layer utilities {
-    /* Remove built in incremementers in favor of custom ones */
-    input[type='number']::-webkit-inner-spin-button,
-    input[type='number']::-webkit-outer-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
+  /* Remove built in incremementers in favor of custom ones */
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 
-    input[type='number'] {
-        -moz-appearance: textfield;
-    }
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
 }
 
 @layer components {
-    /* Common component styles */
-    /* Buttons */
-    .btn {
-        @apply px-4 py-2 rounded-lg inline-flex items-center justify-center font-medium transition-colors duration-200;
-    }
-    .btn-sm {
-        @apply btn px-2 py-1;
-    }
-    .btn-primary {
-        @apply bg-primary text-white hover:bg-primary-dark focus:ring-2 focus:ring-primary-light focus:outline-none;
-    }
-    .btn-secondary {
-        @apply bg-secondary text-white hover:bg-secondary-dark focus:ring-2 focus:ring-secondary-light focus:outline-none;
-    }
-    .btn-danger {
-        @apply bg-danger text-white hover:bg-danger-dark focus:ring-2 focus:ring-danger-light focus:outline-none;
-    }
+  /* Common component styles */
+  /* Buttons */
+  .btn {
+    @apply px-4 py-2 rounded-lg inline-flex items-center justify-center
+      font-medium transition-colors duration-200;
+  }
+  .btn-sm {
+    @apply btn px-2 py-1;
+  }
+  .btn-primary {
+    @apply bg-primary text-white hover:bg-primary-dark focus:ring-2
+      focus:ring-primary-light focus:outline-none;
+  }
+  .btn-secondary {
+    @apply bg-secondary text-white hover:bg-secondary-dark focus:ring-2
+      focus:ring-secondary-light focus:outline-none;
+  }
+  .btn-danger {
+    @apply bg-danger text-white hover:bg-danger-dark focus:ring-2
+      focus:ring-danger-light focus:outline-none;
+  }
 
-    /* Character ability stats component */
-    .ability-row-headers {
-        @apply text-gray-700;
-        @apply text-xs sm:text-sm md:text-base;
-    }
-    .ability-row {
-        @apply grid grid-cols-subgrid col-span-5 items-center my-2 gap-1;
-    }
+  /* Character ability stats component */
+  .ability-row-headers {
+    @apply text-gray-700;
+    @apply text-xs sm:text-sm md:text-base;
+  }
+  .ability-row {
+    @apply grid grid-cols-subgrid col-span-5 items-center my-2 gap-1;
+  }
 
-    /* Input styles */
-    .input-base {
-        @apply border rounded focus:ring focus:ring-blue-300 text-center;
-        @apply text-2xl md:text-3xl lg:text-4xl;
-    }
-    .input-title {
-        @apply text-3xl sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl text-center;
-    }
-    .input-container {
-        @apply flex flex-row max-h-20 justify-between;
-    }
-    .no-incrementers {
-        @apply h-full w-full;
-    }
-    .input-container-col {
-        @apply flex flex-col m-0 p-0;
-    }
-    .input-incrementers {
-        @apply flex flex-col justify-between;
-    }
-    .input-button {
-        @apply m-0 p-0 bg-slate-200 h-8 w-8 text-center rounded-md ring-1
+  /* Input styles */
+  .input-base {
+    @apply border rounded focus:ring focus:ring-blue-300 text-center;
+    @apply text-2xl md:text-3xl lg:text-4xl;
+  }
+  .input-title {
+    @apply text-3xl sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl text-center;
+  }
+  .input-container {
+    @apply flex flex-row max-h-20 justify-between;
+  }
+  .no-incrementers {
+    @apply h-full w-full;
+  }
+  .input-container-col {
+    @apply flex flex-col m-0 p-0;
+  }
+  .input-incrementers {
+    @apply flex flex-col justify-between;
+  }
+  .input-button {
+    @apply m-0 p-0 bg-slate-200 h-8 w-8 text-center rounded-md ring-1
       ring-blue-300;
-    }
-    .button-incrementer {
-        @apply h-5 w-5;
-    }
-    .input-container-col {
-        @apply flex flex-col m-2;
-    }
-    .input-label {
-        @apply text-xs sm:text-sm md:text-lg;
-    }
-    .input-small {
-        @apply input-base align-middle text-2xl w-full;
-    }
-    .input-tiny {
-        @apply input-base text-base md:text-xl w-full;
-    }
-    .input-micro {
-        @apply input-base w-full h-2/3 text-[0.9rem];
-    }
-    .input-string-text {
-        @apply text-base sm:text-lg md:text-xl lg:text-2xl;
-    }
-    .header-title {
-        @apply input-title;
-    }
-    .header-text {
-        @apply text-[0.5rem] mt-auto text-center;
-    }
-    .sideways {
-        @apply rotate-90 whitespace-nowrap transform h-5 text-xs;
-    }
+  }
+  .button-incrementer {
+    @apply h-5 w-5;
+  }
+  .input-container-col {
+    @apply flex flex-col m-2;
+  }
+  .input-label {
+    @apply text-xs sm:text-sm md:text-lg;
+  }
+  .input-small {
+    @apply input-base align-middle text-2xl w-full;
+  }
+  .input-tiny {
+    @apply input-base text-base md:text-xl w-full;
+  }
+  .input-micro {
+    @apply input-base w-full h-2/3 text-[0.9rem];
+  }
+  .input-string-text {
+    @apply text-base sm:text-lg md:text-xl lg:text-2xl;
+  }
+  .header-title {
+    @apply input-title;
+  }
+  .header-text {
+    @apply text-[0.5rem] mt-auto text-center;
+  }
+  .sideways {
+    @apply rotate-90 whitespace-nowrap transform h-5 text-xs;
+  }
 }
