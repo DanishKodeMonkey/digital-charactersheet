@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { AbilityRowProps } from "../../../types/character.ts";
 import { useCentralization } from "../../CentralisationLayer/CentralisationContext.tsx";
 
@@ -13,12 +13,20 @@ const AbilityRow = React.memo(({ ability }: AbilityRowProps) => {
   const tempScore = state.stats.tempScores[abilityKey] || 0;
   const tempMod = state.stats.tempModifiers[abilityKey] || 0;
 
+  const [localScore, setLocalScore] = useState(score)
+
+  // Sync local UI display to central state when update is saved
+  useEffect(() => {
+    setLocalScore(score)
+  }, [score])
+  
   const updateStat = (value: number) => {
+    setLocalScore(value)
     dispatch({
       field: "stats",
       type: "UPDATE_STAT",
       payload: { stat: abilityKey, value },
-      skipDebounce: true,
+      skipDebounce: false,
     });
   };
 
@@ -41,7 +49,7 @@ const AbilityRow = React.memo(({ ability }: AbilityRowProps) => {
           type="number"
           name={`${abilityKey}Score`}
           id={`${abilityKey}Score`}
-          value={score}
+          value={localScore}
           className="input-base w-3/4"
           onChange={(e) => updateStat(Number(e.target.value))}
         />
@@ -49,14 +57,14 @@ const AbilityRow = React.memo(({ ability }: AbilityRowProps) => {
           <button
             type="button"
             className="input-button button-incrementer"
-            onClick={() => updateStat(score + 1)}
+            onClick={() => updateStat(localScore + 1)}
           >
             +
           </button>
           <button
             type="button"
             className="input-button button-incrementer"
-            onClick={() => updateStat(score - 1)}
+            onClick={() => updateStat(localScore - 1)}
           >
             -
           </button>
