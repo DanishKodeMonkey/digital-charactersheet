@@ -42,9 +42,33 @@ interface Stats {
     intelligence: number;
     wisdom: number;
     charisma: number;
-    modifiers: Record<keyof Stats, number>;
-    tempScores: Record<keyof Stats, number>;
-    tempModifiers: Record<keyof Stats, number>;
+    modifiers: Record<
+        | 'strength'
+        | 'dexterity'
+        | 'constitution'
+        | 'intelligence'
+        | 'wisdom'
+        | 'charisma',
+        number
+    >;
+    tempScores: Record<
+        | 'strength'
+        | 'dexterity'
+        | 'constitution'
+        | 'intelligence'
+        | 'wisdom'
+        | 'charisma',
+        number
+    >;
+    tempModifiers: Record<
+        | 'strength'
+        | 'dexterity'
+        | 'constitution'
+        | 'intelligence'
+        | 'wisdom'
+        | 'charisma',
+        number
+    >;
 }
 
 interface ArmorClassType {
