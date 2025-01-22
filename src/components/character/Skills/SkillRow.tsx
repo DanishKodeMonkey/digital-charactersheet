@@ -86,19 +86,35 @@ function SkillRow({ skill }: SkillRowProps) {
             type="number"
             name="ranksModifier"
             id={`ranksModifier-${skill.name}`}
-            value={ranks}
-            onChange={(e) => updateRanks(Number(e.target.value))}
+            defaultValue={ranks.toString()}
+            onFocus={(e) => {e.target.value = "";}} // Clear value on focus
+            onBlur={(e) => {
+              if (e.target.value === "") {
+                e.target.value = ranks.toString(); // Reset to original state if blank
+              } else {
+                updateRanks(Number(e.target.value)); // Update state with the new value
+              }
+            }}
           />
         </div>
         <div className="w-1/4">
-          <input
-            className="input-micro"
-            type="number"
-            name="miscModifier"
-            id={`miscModifier-${skill.name}`}
-            value={miscMod}
-            onChange={(e) => updateMiscMod(Number(e.target.value))}
-          />
+        <input
+  className="input-micro"
+  type="number"
+  name="miscModifier"
+  id={`miscModifier-${skill.name}`}
+  defaultValue={miscMod.toString()}
+  onFocus={(e) => {e.target.value = "";}} // Clear value on focus
+  onBlur={(e) => {
+    if (e.target.value === "") {
+      console.log(e.target.value);
+      
+      e.target.value = miscMod.toString(); // Reset to original state if blank
+    } else {
+      updateMiscMod(Number(e.target.value)); // Update state with the new value
+    }
+  }}
+/>
         </div>
       </div>
     </div>
