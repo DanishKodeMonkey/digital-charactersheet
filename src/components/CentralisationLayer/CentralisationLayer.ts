@@ -80,6 +80,12 @@ interface Skill {
 }
 type Skills = Record<string, Skill>;
 
+type SkillFieldValueType<Field extends keyof Skill> = Field extends 'learned'
+    ? boolean // if field key, derived from Skill is 'learned' value must be boolean
+    : Field extends 'ranks' | 'miscMod' | 'skillMod'
+    ? number // if field key is this, value must be number
+    : never; // default to never
+
 interface State {
     characterDetails: CharacterDetails;
     stats: Stats;
@@ -132,7 +138,7 @@ interface UpdateSkillAction {
     payload: {
         skill: keyof Skills; // e.g string = "heal"
         field: keyof Skill; // e.g string =  "learned"
-        value: Skill[Extract<keyof Skill, string>]; // e.g boolean = "true" OR number = 3
+        value: SkillFieldValueType<keyof Skill>; // e.g boolean = "true" OR number = 3
     };
 }
 
@@ -146,7 +152,8 @@ type Action =
     | UpdateHealthAction
     | UpdateHitDie
     | TakeDamageAction
-    | UpdateSpeedAction;
+    | UpdateSpeedAction
+    | UpdateSkillAction;
 
 const validStatNames = [
     'strength',
@@ -442,7 +449,7 @@ const centralizationReducer = (state: State, action: Action): State => {
                                     },
                                 },
                             };
-                        } else {
+                        } else if (typeof value === 'boolean') {
                             // If the field is 'learned', just update the related field without recalculating skillMod
                             return {
                                 ...state,
@@ -454,6 +461,12 @@ const centralizationReducer = (state: State, action: Action): State => {
                                     },
                                 },
                             };
+                        } else {
+                            console.warn(
+                                'Expected a boolean for "learned" field, got: ',
+                                typeof value
+                            );
+                            return state;
                         }
                     }
 
