@@ -223,13 +223,18 @@ const centralizationReducer = (state: State, action: Action): State => {
                     }
 
                     if (state.stats[stat] === value) {
+                        console.log('No changes made to stat value');
+
                         return state;
                     }
+
                     // update state object with stat value
                     const newStats = {
                         ...state.stats,
                         [stat]: value,
                     };
+                    console.log('Previous state:', state.stats);
+                    console.log('New state:', newStats);
 
                     // update modifiers, re-calculate based on updated stats, acc = accumilator
                     const modifiers = Object.keys(newStats).reduce(
