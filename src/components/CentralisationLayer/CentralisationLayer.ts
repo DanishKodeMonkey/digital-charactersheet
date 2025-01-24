@@ -78,7 +78,6 @@ interface Stats {
 
 interface ArmorClassType {
     aBonus: number;
-    sizeModifier: number;
     naturalArmor: number;
     miscModifier: number;
 }
@@ -292,8 +291,6 @@ const centralizationReducer = (state: State, action: Action): State => {
                         ...state.stats,
                         [stat]: value,
                     };
-                    console.log('Previous state:', state.stats);
-                    console.log('New state:', newStats);
 
                     // update modifiers, re-calculate based on updated stats, acc = accumilator
                     const modifiers = Object.keys(newStats).reduce(
