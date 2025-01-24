@@ -52,7 +52,6 @@ export const centralState: State = {
     status: {
         armorClass: {
             aBonus: 0,
-            sizeModifier: 0,
             naturalArmor: 0,
             miscModifier: 0,
         },
