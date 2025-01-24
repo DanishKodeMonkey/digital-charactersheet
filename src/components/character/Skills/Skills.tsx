@@ -7,7 +7,7 @@ function Skills() {
   const [maxRanks, setMaxRanks] = useState<number>(0);
   const [skillPoints, setSkillPoints] = useState<number>(0);
 
-  const skillNames = useMemo(() => Object.keys(state.skills), [state.skills]);
+  const skillNames = useMemo(() => Object.keys(state.skills.skills), [state.skills.skills]);
 
   return (
     <div className="mx-2 my-2 h-full flex flex-col overflow-hidden">

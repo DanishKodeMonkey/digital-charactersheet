@@ -6,11 +6,13 @@ import { useCentralization } from "../../CentralisationLayer/CentralisationConte
 function SkillRow({ skill }: SkillRowProps) {
   const { state, dispatch } = useCentralization();
 
-  const { learned, abilityName, ranks, miscMod, skillMod } =
-    state.skills[skill.name];
+  
+  const { learned, abilityName, ranks, miscMod } =
+    state.skills.skills[skill.name];
 
   const abilityMod = state.stats.modifiers[abilityName] || 0;
 
+  const skillMod = ranks + abilityMod + miscMod
   // calculate skillMod total
 
   const toggleLearned = () => {
