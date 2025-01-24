@@ -55,11 +55,24 @@ function CharacterInformation() {
       }));
       return;
     }
-    if (key === "size" && !SIZE_OPTIONS.includes(value as string)) {
-      setErrors((prev: Errors) => ({
-        ...prev,
-        [key]: "Invalid size selected.",
-      }));
+    if (key === "size") {
+      if (!SIZE_OPTIONS.includes(value as string)) {
+        setErrors((prev: Errors) => ({
+          ...prev,
+          [key]: "Invalid size selected.",
+        }));
+      } else {
+        setErrors((prev: Errors) => ({
+          ...prev,
+          [key]: undefined, // Clear error if the value is valid
+        }));
+    
+        dispatch({
+          field: "characterDetails",
+          type: "UPDATE_CHARACTER_DETAIL_SIZE",
+          payload: { value },
+        });
+      }
     }
     if (key === "level" && (Number(value) < 1 || Number(value) > 20)) {
       setErrors((prev: Errors) => ({
