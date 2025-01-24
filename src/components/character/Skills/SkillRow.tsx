@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { SkillRowProps } from "../../../types/character.ts";
 import { useCentralization } from "../../CentralisationLayer/CentralisationContext.tsx";
 
