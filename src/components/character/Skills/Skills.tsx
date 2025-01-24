@@ -1,13 +1,13 @@
-import { useState, useMemo } from "react";
+import { useMemo, useState } from "react";
 import SkillRow from "./SkillRow.tsx";
 import { useCentralization } from "../../CentralisationLayer/CentralisationContext.tsx";
 
 function Skills() {
-  const {state} = useCentralization()
+  const { state } = useCentralization();
   const [maxRanks, setMaxRanks] = useState<number>(0);
   const [skillPoints, setSkillPoints] = useState<number>(0);
 
-  const skillNames =  useMemo(() => Object.keys(state.skills), [state.skills])
+  const skillNames = useMemo(() => Object.keys(state.skills), [state.skills]);
 
   return (
     <div className="mx-2 my-2 h-full flex flex-col overflow-hidden">
@@ -65,7 +65,7 @@ function Skills() {
       <div className="skills-list min-h-0 h-5 flex-grow overflow-y-auto">
         <div className="h-auto overflow-scroll">
           {skillNames.map((skillName) => (
-            <SkillRow key={skillName} skill={{name: skillName}} />
+            <SkillRow key={skillName} skill={{ name: skillName }} />
           ))}
         </div>
       </div>

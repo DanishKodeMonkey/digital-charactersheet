@@ -6,7 +6,8 @@ import { useCentralization } from "../../CentralisationLayer/CentralisationConte
 function SkillRow({ skill }: SkillRowProps) {
   const { state, dispatch } = useCentralization();
 
-  const {learned, abilityName, ranks, miscMod, skillMod} = state.skills[skill.name];
+  const { learned, abilityName, ranks, miscMod, skillMod } =
+    state.skills[skill.name];
 
   const abilityMod = state.stats.modifiers[abilityName] || 0;
 
@@ -24,20 +25,20 @@ function SkillRow({ skill }: SkillRowProps) {
     });
   };
 
-  const updateRanks = (value: number)=>{
+  const updateRanks = (value: number) => {
     dispatch({
       field: "skills",
       type: "UPDATE_SKILL",
-      payload:{skill: skill.name, field: "ranks", value}
-    })
-  }
-  const updateMiscMod = (value: number) =>{
-      dispatch({
-        field: "skills",
-        type: "UPDATE_SKILL",
-        payload:{skill: skill.name, field: "miscMod", value}
-      })
-  }
+      payload: { skill: skill.name, field: "ranks", value },
+    });
+  };
+  const updateMiscMod = (value: number) => {
+    dispatch({
+      field: "skills",
+      type: "UPDATE_SKILL",
+      payload: { skill: skill.name, field: "miscMod", value },
+    });
+  };
 
   // HUSKAT: Styling to sheet
   return (
@@ -86,7 +87,9 @@ function SkillRow({ skill }: SkillRowProps) {
             name="ranksModifier"
             id={`ranksModifier-${skill.name}`}
             defaultValue={ranks.toString()}
-            onFocus={(e) => {e.target.value = "";}} // Clear value on focus
+            onFocus={(e) => {
+              e.target.value = "";
+            }} // Clear value on focus
             onBlur={(e) => {
               if (e.target.value === "") {
                 e.target.value = ranks.toString(); // Reset to original state if blank
@@ -97,23 +100,25 @@ function SkillRow({ skill }: SkillRowProps) {
           />
         </div>
         <div className="w-1/4">
-        <input
-  className="input-micro"
-  type="number"
-  name="miscModifier"
-  id={`miscModifier-${skill.name}`}
-  defaultValue={miscMod.toString()}
-  onFocus={(e) => {e.target.value = "";}} // Clear value on focus
-  onBlur={(e) => {
-    if (e.target.value === "") {
-      console.log(e.target.value);
-      
-      e.target.value = miscMod.toString(); // Reset to original state if blank
-    } else {
-      updateMiscMod(Number(e.target.value)); // Update state with the new value
-    }
-  }}
-/>
+          <input
+            className="input-micro"
+            type="number"
+            name="miscModifier"
+            id={`miscModifier-${skill.name}`}
+            defaultValue={miscMod.toString()}
+            onFocus={(e) => {
+              e.target.value = "";
+            }} // Clear value on focus
+            onBlur={(e) => {
+              if (e.target.value === "") {
+                console.log(e.target.value);
+
+                e.target.value = miscMod.toString(); // Reset to original state if blank
+              } else {
+                updateMiscMod(Number(e.target.value)); // Update state with the new value
+              }
+            }}
+          />
         </div>
       </div>
     </div>

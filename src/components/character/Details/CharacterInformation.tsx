@@ -66,7 +66,7 @@ function CharacterInformation() {
           ...prev,
           [key]: undefined, // Clear error if the value is valid
         }));
-    
+
         dispatch({
           field: "characterDetails",
           type: "UPDATE_CHARACTER_DETAIL_SIZE",

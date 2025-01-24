@@ -1,7 +1,6 @@
-import React, {useState, useEffect} from 'react'
+import React, { useEffect, useState } from "react";
 import { AbilityRowProps } from "../../../types/character.ts";
 import { useCentralization } from "../../CentralisationLayer/CentralisationContext.tsx";
-
 
 // TODO, figure out why this re-renders twice
 const AbilityRow = React.memo(({ ability }: AbilityRowProps) => {
@@ -13,15 +12,15 @@ const AbilityRow = React.memo(({ ability }: AbilityRowProps) => {
   const tempScore = state.stats.tempScores[abilityKey] || 0;
   const tempMod = state.stats.tempModifiers[abilityKey] || 0;
 
-  const [localScore, setLocalScore] = useState(score)
+  const [localScore, setLocalScore] = useState(score);
 
   // Sync local UI display to central state when update is saved
   useEffect(() => {
-    setLocalScore(score)
-  }, [score])
-  
+    setLocalScore(score);
+  }, [score]);
+
   const updateStat = (value: number) => {
-    setLocalScore(value)
+    setLocalScore(value);
     dispatch({
       field: "stats",
       type: "UPDATE_STAT",
@@ -119,6 +118,6 @@ const AbilityRow = React.memo(({ ability }: AbilityRowProps) => {
       </div>
     </div>
   );
-})
+});
 
 export default AbilityRow;

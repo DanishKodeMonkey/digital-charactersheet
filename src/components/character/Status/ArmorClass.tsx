@@ -6,12 +6,11 @@ function ArmorClass() {
   const { state, dispatch } = useCentralization();
 
   // extract relevant armorClass specific variables
-  const { aBonus, naturalArmor, miscModifier } =
-    state.status.armorClass;
+  const { aBonus, naturalArmor, miscModifier } = state.status.armorClass;
 
   // extract stats dependant variables from other state sections
   const dexterity = state.stats.modifiers.dexterity;
-  const sizeModifier = state.characterDetails.size.ACMod
+  const sizeModifier = state.characterDetails.size.ACMod;
 
   // calculate actotal based on values
   const acTotal = 10 - aBonus + dexterity + sizeModifier + naturalArmor +
@@ -19,7 +18,7 @@ function ArmorClass() {
 
   const handleChange = (stat: keyof ArmorClassType, value: number) => {
     console.log(stat, value);
-    
+
     // if value is left blank, set to 0
     if (isNaN(value)) {
       value = 0;
@@ -101,7 +100,7 @@ function ArmorClass() {
               id="sizeMod"
               className=" input-small w-full"
               value={sizeModifier}
-    readOnly
+              readOnly
             />
           </div>
           <span className="mt-auto mb-3">+</span>
