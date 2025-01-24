@@ -80,7 +80,7 @@ function CharacterInformation() {
         [key]: "Invalid level, must be between 1 and 20.",
       }));
       return;
-    } else if (key !== "race") {
+    } else if (key !== "race" && key !== "size") {
       dispatch({
         field: "characterDetails",
         type: "UPDATE_CHARACTER_DETAIL",
