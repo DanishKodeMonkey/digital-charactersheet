@@ -16,7 +16,7 @@ interface CharacterDetails extends ActionBase {
     alignment: string;
     deity: string;
     level: number;
-    size: string;
+    size: { sizeName: string; ACMod: number };
     age: number;
     sex: string;
     height: number;
@@ -28,6 +28,11 @@ interface CharacterDetails extends ActionBase {
 interface UpdateCharacterRaceAction extends ActionBase {
     field: 'characterDetails';
     type: 'UPDATE_CHARACTER_DETAIL_RACE';
+    payload: { value: string };
+}
+interface UpdateCharacterSizeAction extends ActionBase {
+    field: 'characterDetails';
+    type: 'UPDATE_CHARACTER_DETAIL_SIZE';
     payload: { value: string };
 }
 interface UpdateCharacterDetailsAction extends ActionBase {
@@ -170,6 +175,7 @@ interface UpdateSkillAction {
 type Action =
     | UpdateCharacterRaceAction
     | UpdateCharacterDetailsAction
+    | UpdateCharacterSizeAction
     | UpdateStatAction
     | UpdateTempStatAction
     | UpdateArmorClassAction
@@ -218,6 +224,28 @@ const centralizationReducer = (state: State, action: Action): State => {
                         characterDetails: {
                             ...state.characterDetails,
                             race: { raceName: value, ...raceData },
+                        },
+                    };
+                }
+                case 'UPDATE_CHARACTER_DETAIL_SIZE': {
+                    const { value } = action.payload;
+                    const sizeData = (() => {
+                        switch (value.toLowerCase()) {
+                            case 'small':
+                                return { ACMod: 1 };
+                            case 'large':
+                                return { ACMod: -1 };
+                            case 'giant':
+                                return { ACMod: -2 };
+                            default:
+                                return { ACMod: 0 };
+                        }
+                    })();
+                    return {
+                        ...state,
+                        characterDetails: {
+                            ...state.characterDetails,
+                            size: { sizeName: value, ...sizeData },
                         },
                     };
                 }

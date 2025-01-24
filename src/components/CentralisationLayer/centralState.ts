@@ -9,7 +9,7 @@ export const centralState: State = {
         alignment: '',
         deity: '',
         level: 1,
-        size: '',
+        size: { sizeName: '', ACMod: 0 },
         age: 0,
         sex: '',
         height: 0,
