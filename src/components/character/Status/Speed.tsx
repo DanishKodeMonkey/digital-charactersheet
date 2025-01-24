@@ -11,9 +11,6 @@ function Speed() {
   useEffect(() => {
     const raceBaseValue = raceBase ?? 30; //default until otherwise
     const raceBonusValue = raceBonus ?? 0; // default until otherwise
-    console.log("raceBase:", raceBaseValue);
-    console.log("raceBonus:", raceBonusValue);
-    console.log("aBonus:", aBonus);
 
     const speed = (raceBaseValue + raceBonusValue) - aBonus;
     dispatch({
