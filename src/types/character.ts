@@ -1,12 +1,11 @@
 export interface Skill {
-  name: string;
-  keyAbility: string;
+    name: string;
 }
 
 export interface SkillRowProps {
-  skill: Skill;
+    skill: Skill;
 }
 
 export type AbilityRowProps = {
-  ability: string;
+    ability: string;
 };
