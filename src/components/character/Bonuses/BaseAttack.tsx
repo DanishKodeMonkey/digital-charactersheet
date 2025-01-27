@@ -1,5 +1,5 @@
-import { useState } from "react";
 import { useCentralization } from "../../CentralisationLayer/CentralisationContext.tsx";
+import {useEffect} from 'react'
 
 function BaseAttackBonus() {
   const { state, dispatch } = useCentralization();
@@ -16,11 +16,20 @@ function BaseAttackBonus() {
     Base attack bonus + Dexterity modifier + size modifier + range penalty
 
     */
-  const baseAttackBonus = 1; // TEMP
+  const baseAttackBonus = state.bonus.baseAttackBonus.baseAttackMod;
   const strengthMod = state.stats.modifiers.strength;
   const sizeMod = state.characterDetails.size.ACMod;
 
   const baseAtk = baseAttackBonus + strengthMod + sizeMod;
+
+  // Update state of base attack total whenever re-calculated
+  useEffect(() =>{
+    dispatch({
+      field: "bonus",
+      type: "UPDATE_BASE_ATTACK_TOTAL",
+      payload: baseAtk,
+    })
+  }, [baseAtk, dispatch])
 
   return (
     <div className="flex flex-col m-5 text-center">
@@ -76,7 +85,6 @@ function BaseAttackBonus() {
           />
           <label htmlFor="sizeMod">Size mod</label>
         </div>
-
       </div>
     </div>
   );
