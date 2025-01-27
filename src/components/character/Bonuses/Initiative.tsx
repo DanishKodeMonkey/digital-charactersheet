@@ -17,7 +17,7 @@ function Initiative() {
     setMiscModifier(value);
   };
   return (
-    <div className="flex flex-col align-middle m-5">
+    <div className="flex flex-col align-middle m-5 text-center">
       <h1 className="input-title text-start">Initiative</h1>
       <div className="flex  justify-between  gap-2">
         <div className="flex flex-col-reverse self-start">
