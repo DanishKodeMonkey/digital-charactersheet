@@ -65,6 +65,10 @@ export const centralState: State = {
       speed: 0,
     },
   },
+  bonus: {
+    baseAttackBonus: { baseAttackMod: 0, baseAttackTotal: 0 },
+    initiative: { initiativeTotal: 0, miscModifier: 0 },
+  },
   skills: {
     skillPoints: { max: 0, current: 0 },
     skills: {
