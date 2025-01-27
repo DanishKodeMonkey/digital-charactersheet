@@ -1,21 +1,24 @@
-import { useEffect, useState } from "react";
+import { useCentralization } from "../../CentralisationLayer/CentralisationContext.tsx";
+import {useEffect} from 'react'
 
 function Initiative() {
-  /* HUSKAT - Centraliser abliity modifiers og send via props */
-  const [dexterity, setDexterity] = useState<number>(5);
-  const [miscModifier, setMiscModifier] = useState<number>("");
-  const [initiativeTotal, setInitiativeTotal] = useState<number>(0);
+  const { state, dispatch } = useCentralization();
 
-  // update initiativeTotal whenever dex or misc changes
-  useEffect(() => {
-    setInitiativeTotal(dexterity + (miscModifier ? miscModifier : 0));
-  }, [dexterity, miscModifier]);
+  const miscModifier = state.bonus.initiative.miscModifier
+  const dexterity = state.stats.modifiers.dexterity;
+  const initiativeTotal = state.bonus.initiative.initiativeTotal
 
-  // event handler for misc modifier
-  const handleMiscModifierChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value, 10);
-    setMiscModifier(value);
+  const updateInitiative = (newMiscModifier: number) => {
+    dispatch({
+      field: "bonus",
+      type: "UPDATE_INITIATIVE",
+      payload: { miscModifier: newMiscModifier},
+    });
   };
+  useEffect(() =>{
+    updateInitiative(miscModifier)
+  }, [dexterity])
+
   return (
     <div className="flex flex-col align-middle m-5 text-center">
       <h1 className="input-title text-start">Initiative</h1>
@@ -50,13 +53,24 @@ function Initiative() {
           <label className="input-label" htmlFor="miscMod">
             Misc <br /> modifier
           </label>
-          <input
-            className="input-base  w-full"
+                   <input
+            className="input-base w-full"
             type="number"
-            name="miscMod"
-            id="miscMod"
-            value={miscModifier}
-            onChange={handleMiscModifierChange}
+            name="miscModifier"
+            id="miscModifier"
+            defaultValue={miscModifier.toString()}
+            onFocus={(e) => {
+              e.target.value = "";
+            }} // Clear value on focus
+            onBlur={(e) => {
+              if (e.target.value === "") {
+                console.log(e.target.value);
+
+                e.target.value = miscModifier.toString(); // Reset to original state if blank
+              } else {
+                updateInitiative(Number(e.target.value)); // Update state with the new value
+              }
+            }}
           />
         </div>
       </div>
