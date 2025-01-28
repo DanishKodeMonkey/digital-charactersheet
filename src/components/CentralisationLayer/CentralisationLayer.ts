@@ -253,13 +253,14 @@ const validStatNames = [
 // 3 steps,
 // 1. Check field(section of state),
 // 2. Check action type(Update stat? Temp stat? Reset?(TODO))
+// 2.5 sub-field check based on shape of action.payload
 // 3. Process data : returns new state (not mutation)
-
-// TODO Debounce timer for dispatches to prevent partial dispatches?
 
 const centralizationReducer = (state: State, action: Action): State => {
     switch (action.field) {
         case 'characterDetails': {
+            // HUSKAT: Update case for class, update types and central state to include class-subfields with bonuses like base attack, base save etc.
+            // For starters, use case check for string matches, otherwise default to fighter type, like with race.
             switch (action.type) {
                 case 'UPDATE_CHARACTER_DETAIL_RACE': {
                     const { value } = action.payload; // race name
