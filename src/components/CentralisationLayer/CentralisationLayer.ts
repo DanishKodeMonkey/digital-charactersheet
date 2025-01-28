@@ -75,6 +75,20 @@ interface Initiative {
     miscModifier: number;
 }
 
+interface SavingThrows {
+    fortitude: SaveThrow;
+    reflex: SaveThrow;
+    will: SaveThrow;
+}
+
+interface SaveThrow {
+    base: number;
+    magicMod: number;
+    miscMod: number;
+    tempMod: number;
+    total?: number; // Derived value, can initiate as null
+}
+
 interface ArmorClassType {
     aBonus: number;
     naturalArmor: number;
@@ -125,6 +139,7 @@ interface State {
     stats: Stats;
     status: Status;
     bonus: Bonus;
+    savingThrows: SavingThrows;
     skills: Skills;
 }
 
@@ -188,6 +203,24 @@ interface UpdateBonusInitiativeAction {
     type: 'UPDATE_INITIATIVE';
     payload: { miscModifier: number };
 }
+
+interface UpdateSaveThrowsAction {
+    field: 'savingThrows';
+    type: 'UPDATE_SAVE_THROW_TOTAL';
+    payload: {
+        saveType: keyof SavingThrows;
+        field: keyof SaveThrow;
+        value: number;
+    };
+}
+interface UpdateSaveThrowsAbilityModifierAction {
+    field: 'savingThrows';
+    type: 'UPDATE_SAVE_THROW_ABILITY_MODIFIER';
+    payload: {
+        saveType: keyof SavingThrows;
+    };
+}
+
 // Unite action interfaces with as a type as Enumerate interfaces
 type Action =
     | UpdateCharacterRaceAction
@@ -202,7 +235,9 @@ type Action =
     | UpdateSpeedAction
     | UpdateSkillAction
     | UpdateBonusBaseAttackTotalAction
-    | UpdateBonusInitiativeAction;
+    | UpdateBonusInitiativeAction
+    | UpdateSaveThrowsAction
+    | UpdateSaveThrowsAbilityModifierAction;
 
 const validStatNames = [
     'strength',
@@ -404,6 +439,116 @@ const centralizationReducer = (state: State, action: Action): State => {
                 }
                 default:
                     console.log('No changes made to bonuses');
+                    return state;
+            }
+        }
+        case 'savingThrows': {
+            switch (action.type) {
+                case 'UPDATE_SAVE_THROW_TOTAL': {
+                    const { saveType, field, value } = action.payload;
+                    console.log(
+                        'Starting SAVE THROW UPDATE with',
+                        saveType,
+                        field,
+                        value
+                    );
+
+                    let abilityMod = 0;
+                    //get relevant ability modifier
+                    switch (saveType) {
+                        case 'fortitude': {
+                            console.log('Matched fortitude');
+
+                            abilityMod = state.stats.modifiers.constitution;
+                            break;
+                        }
+                        case 'reflex': {
+                            console.log('Matched reflex');
+
+                            abilityMod = state.stats.modifiers.dexterity;
+                            break;
+                        }
+                        case 'will':
+                            console.log('Matched will');
+
+                            abilityMod = state.stats.modifiers.wisdom;
+                            break;
+                        default:
+                            console.error(`Unknown saveType: ${saveType}`);
+                            return state;
+                    }
+                    // get current saveThrow data
+                    const save = state.savingThrows[saveType];
+
+                    console.log('Current savethrow data', save);
+
+                    console.log(
+                        'Calculating new total',
+                        save.base,
+                        abilityMod,
+                        save.magicMod,
+                        save.miscMod,
+                        save.tempMod
+                    );
+
+                    // update field
+                    const newSave = {
+                        ...save,
+                        [field]: value,
+                    };
+                    console.log('NEW SAVE THROW', newSave);
+
+                    // calculate new total
+                    const newTotal =
+                        newSave.base +
+                        newSave.magicMod +
+                        newSave.miscMod +
+                        newSave.tempMod +
+                        abilityMod;
+                    console.log('NEW TOTAL', newTotal);
+
+                    return {
+                        ...state,
+                        savingThrows: {
+                            ...state.savingThrows,
+                            [saveType]: { ...newSave, total: newTotal },
+                        },
+                    };
+                }
+                case 'UPDATE_SAVE_THROW_ABILITY_MODIFIER': {
+                    const { saveType } = action.payload;
+                    let abilityMod = 0;
+                    switch (saveType) {
+                        case 'fortitude':
+                            abilityMod = state.stats.modifiers.constitution;
+                            break;
+                        case 'reflex':
+                            abilityMod = state.stats.modifiers.dexterity;
+                            break;
+                        case 'will':
+                            abilityMod = state.stats.modifiers.wisdom;
+                            break;
+                        default:
+                            return state;
+                    }
+                    const save = state.savingThrows[saveType];
+
+                    const newTotal =
+                        save.base + save.miscMod + save.tempMod + abilityMod;
+
+                    return {
+                        ...state,
+                        savingThrows: {
+                            ...state.savingThrows,
+                            [saveType]: {
+                                ...save,
+                                total: newTotal,
+                            },
+                        },
+                    };
+                }
+                default:
+                    console.log('No changes made to savingThrows');
                     return state;
             }
         }
