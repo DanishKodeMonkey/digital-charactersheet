@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect} from "react";
 import { useCentralization } from "../../CentralisationLayer/CentralisationContext.tsx";
 
 interface SaveRowProps {
