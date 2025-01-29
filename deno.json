@@ -17,7 +17,7 @@
     "build-serve": "deno task build && deno task serve"
   },
   "deploy": {
-    "entrypoint": "dist/index.html"
+    "project": "fat-pike-90"
   },
   "imports": {
     "@deno/vite-plugin": "npm:@deno/vite-plugin@^1.0.0",
