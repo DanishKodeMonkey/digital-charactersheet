@@ -23,7 +23,8 @@
     "npm:tailwindcss@^3.4.15": "3.4.16_postcss@8.4.49",
     "npm:typescript-eslint@^8.7.0": "8.17.0_eslint@9.16.0_@typescript-eslint+parser@8.17.0__eslint@9.16.0__typescript@5.7.2_typescript@5.7.2",
     "npm:typescript@^5.5.3": "5.7.2",
-    "npm:vite@6": "6.0.2",
+    "npm:vite@*": "6.0.2_@types+node@22.5.4",
+    "npm:vite@6": "6.0.2_@types+node@22.5.4",
     "npm:vite@^5.4.8": "5.4.11"
   },
   "npm": {
@@ -1765,6 +1766,16 @@
         "rollup"
       ]
     },
+    "vite@6.0.2_@types+node@22.5.4": {
+      "integrity": "sha512-XdQ+VsY2tJpBsKGs0wf3U/+azx8BBpYRHFAyKm5VeEZNOJZRB63q7Sc8Iup3k0TrN3KO6QgyzFf+opSbfY1y0g==",
+      "dependencies": [
+        "@types/node",
+        "esbuild@0.24.0",
+        "fsevents",
+        "postcss",
+        "rollup"
+      ]
+    },
     "which@2.0.2": {
       "integrity": "sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==",
       "dependencies": [
@@ -1798,6 +1809,38 @@
     },
     "yocto-queue@0.1.0": {
       "integrity": "sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q=="
+    }
+  },
+  "workspace": {
+    "dependencies": [
+      "npm:@deno/vite-plugin@1",
+      "npm:autoprefixer@^10.4.20",
+      "npm:postcss@^8.4.49",
+      "npm:react-dom@^18.3.1",
+      "npm:react@^18.3.1",
+      "npm:tailwindcss@^3.4.15",
+      "npm:vite@6"
+    ],
+    "packageJson": {
+      "dependencies": [
+        "npm:@eslint/js@^9.11.1",
+        "npm:@types/react-dom@^18.3.0",
+        "npm:@types/react@^18.3.10",
+        "npm:@vitejs/plugin-react@^4.3.2",
+        "npm:autoprefixer@^10.4.20",
+        "npm:eslint-plugin-react-hooks@^5.1.0-rc.0",
+        "npm:eslint-plugin-react-refresh@~0.4.12",
+        "npm:eslint@^9.11.1",
+        "npm:globals@^15.9.0",
+        "npm:postcss@^8.4.47",
+        "npm:react-dom@^18.3.1",
+        "npm:react-router-dom@^7.0.2",
+        "npm:react@^18.3.1",
+        "npm:tailwindcss@^3.4.14",
+        "npm:typescript-eslint@^8.7.0",
+        "npm:typescript@^5.5.3",
+        "npm:vite@^5.4.8"
+      ]
     }
   }
 }
