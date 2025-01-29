@@ -44,7 +44,6 @@ function useDebouncedDispatch(dispatch: React.Dispatch<Action>, delay: number) {
       dispatch(action);
     } else {
       if (timerRef.current) {
-        console.log("Bounced...");
 
         clearTimeout(timerRef.current); //reset the timer
       }
@@ -52,7 +51,6 @@ function useDebouncedDispatch(dispatch: React.Dispatch<Action>, delay: number) {
 
     // if the timeout manages to  run out, ie using a delay of 500 ms, the dispatch will then be sent.
     timerRef.current = setTimeout(() => {
-      console.log("Passed... sending: ", action);
 
       dispatch(action);
     }, delay);

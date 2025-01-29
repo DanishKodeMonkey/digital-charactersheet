@@ -27,8 +27,6 @@ function SaveRow({saveType}: SaveRowProps) {
 
 
   const handleChange = (field: keyof typeof saveThrow, value: number) =>{
-    console.log("Dispatching to", field, value);
-    
     dispatch({
       field: "savingThrows",
       type: "UPDATE_SAVE_THROW_TOTAL",

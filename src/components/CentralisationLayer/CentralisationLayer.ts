@@ -447,31 +447,19 @@ const centralizationReducer = (state: State, action: Action): State => {
             switch (action.type) {
                 case 'UPDATE_SAVE_THROW_TOTAL': {
                     const { saveType, field, value } = action.payload;
-                    console.log(
-                        'Starting SAVE THROW UPDATE with',
-                        saveType,
-                        field,
-                        value
-                    );
 
                     let abilityMod = 0;
                     //get relevant ability modifier
                     switch (saveType) {
                         case 'fortitude': {
-                            console.log('Matched fortitude');
-
                             abilityMod = state.stats.modifiers.constitution;
                             break;
                         }
                         case 'reflex': {
-                            console.log('Matched reflex');
-
                             abilityMod = state.stats.modifiers.dexterity;
                             break;
                         }
                         case 'will':
-                            console.log('Matched will');
-
                             abilityMod = state.stats.modifiers.wisdom;
                             break;
                         default:
@@ -481,23 +469,11 @@ const centralizationReducer = (state: State, action: Action): State => {
                     // get current saveThrow data
                     const save = state.savingThrows[saveType];
 
-                    console.log('Current savethrow data', save);
-
-                    console.log(
-                        'Calculating new total',
-                        save.base,
-                        abilityMod,
-                        save.magicMod,
-                        save.miscMod,
-                        save.tempMod
-                    );
-
                     // update field
                     const newSave = {
                         ...save,
                         [field]: value,
                     };
-                    console.log('NEW SAVE THROW', newSave);
 
                     // calculate new total
                     const newTotal =
@@ -506,7 +482,6 @@ const centralizationReducer = (state: State, action: Action): State => {
                         newSave.miscMod +
                         newSave.tempMod +
                         abilityMod;
-                    console.log('NEW TOTAL', newTotal);
 
                     return {
                         ...state,
