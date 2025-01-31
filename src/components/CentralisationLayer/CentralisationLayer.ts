@@ -6,7 +6,7 @@ import { classLookup } from './classLevelLookup.ts';
 //
 // HUSKAT: Move to seperate file later
 
-interface ActionBase {
+export interface ActionBase {
     skipDebounce?: boolean; // optional flag to skip debouncer for dispatch
 }
 
@@ -298,8 +298,18 @@ const centralizationReducer = (state: State, action: Action): State => {
                         spells,
                         baseSave,
                     } = state.characterDetails.class;
+                    console.log('Starting class operation with', value);
+
                     const { level } = state.characterDetails;
+                    console.log(
+                        'Prompting classLookup with values',
+                        value,
+                        level
+                    );
+
                     const classData = classLookup(value.toLowerCase(), level); // get data for level 1 HUSKAT: pull reference from level once that is updated?
+
+                    console.log('Received following data', classData);
 
                     // updatedClassData is pulled classData or defaults to existing state values (initiated at centralState).
                     const updatedClassData = {
@@ -317,6 +327,8 @@ const centralizationReducer = (state: State, action: Action): State => {
                         baseSave: classData?.baseSave ?? baseSave,
                         spells: classData?.spells ?? spells,
                     };
+
+                    console.log('Prepared state data', updatedClassData);
 
                     return {
                         ...state,
