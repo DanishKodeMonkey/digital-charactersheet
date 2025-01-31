@@ -41,6 +41,13 @@ function CharacterInformation() {
     value: string | number,
   ) => {
     // check field validations for selectors andd bonus fields
+    if(key === 'class'){      
+      dispatch({
+        field: 'characterDetails',
+        type: "UPDATE_CHARACTER_DETAIL_CLASS",
+        payload: {value}
+      })
+    }
     if (key === "race") {
       dispatch({
         field: "characterDetails",
@@ -80,7 +87,7 @@ function CharacterInformation() {
         [key]: "Invalid level, must be between 1 and 20.",
       }));
       return;
-    } else if (key !== "race" && key !== "size") {
+    } else if (key !== "race" && key !== "size" && key !== 'class') {
       dispatch({
         field: "characterDetails",
         type: "UPDATE_CHARACTER_DETAIL",
