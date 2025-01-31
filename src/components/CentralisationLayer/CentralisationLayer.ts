@@ -52,6 +52,10 @@ interface UpdateCharacterDetailsClassAction
     extends UpdateCharacterDetailsFieldBase {
     type: 'UPDATE_CHARACTER_DETAIL_CLASS';
 }
+interface UpdateCharacterDetailsLevelAction
+    extends UpdateCharacterDetailsFieldBase {
+    type: 'UPDATE_CHARACTER_DETAIL_LEVEL';
+}
 interface UpdateCharacterRaceAction extends UpdateCharacterDetailsFieldBase {
     type: 'UPDATE_CHARACTER_DETAIL_RACE';
 }
@@ -246,6 +250,7 @@ interface UpdateSaveThrowsAbilityModifierAction {
 
 // Unite action interfaces with as a type as Enumerate interfaces
 type Action =
+    | UpdateCharacterDetailsLevelAction
     | UpdateCharacterDetailsClassAction
     | UpdateCharacterRaceAction
     | UpdateCharacterDetailsAction
@@ -335,6 +340,60 @@ const centralizationReducer = (state: State, action: Action): State => {
                         characterDetails: {
                             ...state.characterDetails,
                             class: { className: value, ...updatedClassData },
+                        },
+                    };
+                }
+                case 'UPDATE_CHARACTER_DETAIL_LEVEL': {
+                    const { value } = action.payload;
+                    console.log('LEVEL CHANGED TO', value);
+
+                    const {
+                        className,
+                        baseAttack,
+                        baseSkill,
+                        classSkills,
+                        specials,
+                        spells,
+                        baseSave,
+                    } = state.characterDetails.class;
+
+                    console.log('Fetching data for', className, value);
+
+                    const classData = classLookup(
+                        className.toLowerCase(),
+                        Number(value)
+                    ); // Pull class data for className level
+
+                    console.log('Received following data', classData);
+
+                    // updatedClassData is pulled classData or defaults to existing state values (initiated at centralState).
+                    const updatedClassData = {
+                        baseAttack: classData?.baseAttack ?? baseAttack,
+                        baseSkill: classData?.baseSkill ?? baseSkill,
+                        classSkills: classData?.classSkills
+                            ? new Set([
+                                  ...classSkills,
+                                  ...classData.classSkills,
+                              ])
+                            : classSkills,
+                        specials: classData?.specials
+                            ? [...classData.specials, ...specials]
+                            : specials,
+                        baseSave: classData?.baseSave ?? baseSave,
+                        spells: classData?.spells ?? spells,
+                    };
+
+                    console.log('Prepared state data', updatedClassData);
+
+                    return {
+                        ...state,
+                        characterDetails: {
+                            ...state.characterDetails,
+                            level: Number(value),
+                            class: {
+                                className: className,
+                                ...updatedClassData,
+                            },
                         },
                     };
                 }
