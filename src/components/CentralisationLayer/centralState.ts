@@ -8,7 +8,12 @@ export const centralState: State = {
             className: '',
             baseAttack: 0,
             baseSkill: 0,
-            classSkills: new Set([]),
+            classSkills: new Set<string>([]),
+            specials: [],
+            spells: {
+                spellsPerDay: { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 },
+                spellsKnown: { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 },
+            },
             baseSave: { fortitudeBase: 0, reflexBase: 0, willBase: 0 },
         },
         race: { raceName: '', raceBase: 30, raceBonus: 0 },

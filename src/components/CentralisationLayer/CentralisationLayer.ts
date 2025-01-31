@@ -1,4 +1,6 @@
+import { data } from 'autoprefixer';
 import { centralState } from './centralState.ts';
+import { classLookup } from './classLevelLookup.ts';
 
 // Define types for state,
 //
@@ -14,6 +16,10 @@ interface ClassBaseSaves {
     willBase: number;
 }
 
+interface ClassSpellsShape {
+    spellsPerDay: Record<0 | 1 | 2 | 3 | 4 | 5 | 6, number>;
+    spellsKnown: Record<0 | 1 | 2 | 3 | 4 | 5 | 6, number>;
+}
 interface CharacterDetails extends ActionBase {
     characterName: string;
     playerName: string;
@@ -22,6 +28,8 @@ interface CharacterDetails extends ActionBase {
         baseAttack: number;
         baseSkill: number;
         classSkills?: Set<string>;
+        specials?: string[];
+        spells?: ClassSpellsShape;
         baseSave: ClassBaseSaves;
     };
     race: { raceName: string; raceBase: number; raceBonus: number };
@@ -282,84 +290,39 @@ const centralizationReducer = (state: State, action: Action): State => {
                     //    class: { className: string; baseAttack: number; baseSave: ClassBaseSaves };
 
                     const { value } = action.payload;
-                    const classData = (() => {
-                        switch (value.toLowerCase()) {
-                            case 'barbarian':
-                                return {
-                                    baseAttack: 1,
-                                    baseSkill: 4,
-                                    classSkills: new Set([
-                                        'Climb',
-                                        'Craft',
-                                        'Handle Animal',
-                                        'Intimidate',
-                                        'Jump',
-                                        'Listen',
-                                        'Ride',
-                                        'Survival',
-                                        'Swim',
-                                    ]),
-                                    baseSave: {
-                                        fortitudeBase: 2,
-                                        reflexBase: 0,
-                                        willBase: 0,
-                                    },
-                                };
-                            case 'bard':
-                                return {
-                                    baseAttack: 0,
-                                    baseSkill: 6,
-                                    classSkills: new Set([
-                                        'Appraise',
-                                        'Balance',
-                                        'Bluff',
-                                        'Climb',
-                                        'Concentration',
-                                        'Craft',
-                                        'Decipher Script',
-                                        'Diplomacy',
-                                        'Disguise',
-                                        'Escape Artist',
-                                        'Gather Information',
-                                        'Hide',
-                                        'Jump',
-                                        'Knowledge',
-                                        'Listen',
-                                        'Move silently',
-                                        'Perform',
-                                        'Profession',
-                                        'Sense Motive',
-                                        'Sleight Of Hand',
-                                        'Speak Language',
-                                        'Spellcraft',
-                                        'Swim',
-                                        'Tumble',
-                                        'Use Magic Device',
-                                    ]),
-                                    baseSave: {
-                                        fortitudeBase: 0,
-                                        reflexBase: 2,
-                                        willBase: 2,
-                                    },
-                                };
-                            default:
-                                return {
-                                    baseAttack: 1,
-                                    baseSkill: 0,
-                                    classSkills: new Set(),
-                                    baseSave: {
-                                        fortitudeBase: 0,
-                                        reflexBase: 0,
-                                        willBase: 0,
-                                    },
-                                };
-                        }
-                    })();
+                    const {
+                        baseAttack,
+                        baseSkill,
+                        classSkills,
+                        specials,
+                        spells,
+                        baseSave,
+                    } = state.characterDetails.class;
+                    const { level } = state.characterDetails;
+                    const classData = classLookup(value.toLowerCase(), level); // get data for level 1 HUSKAT: pull reference from level once that is updated?
+
+                    // updatedClassData is pulled classData or defaults to existing state values (initiated at centralState).
+                    const updatedClassData = {
+                        baseAttack: classData?.baseAttack ?? baseAttack,
+                        baseSkill: classData?.baseSkill ?? baseSkill,
+                        classSkills: classData?.classSkills
+                            ? new Set([
+                                  ...classSkills,
+                                  ...classData.classSkills,
+                              ])
+                            : classSkills,
+                        specials: classData?.specials
+                            ? [...classData.specials, ...specials]
+                            : specials,
+                        baseSave: classData?.baseSave ?? baseSave,
+                        spells: classData?.spells ?? spells,
+                    };
+
                     return {
                         ...state,
                         characterDetails: {
                             ...state.characterDetails,
-                            class: { className: value, ...classData },
+                            class: { className: value, ...updatedClassData },
                         },
                     };
                 }
@@ -818,4 +781,11 @@ const centralizationReducer = (state: State, action: Action): State => {
 };
 
 export { centralizationReducer, centralState };
-export type { Action, ArmorClassType, HealthStatus, State };
+export type {
+    Action,
+    ArmorClassType,
+    HealthStatus,
+    State,
+    ClassBaseSaves,
+    ClassSpellsShape,
+};
