@@ -38,64 +38,108 @@ function CharacterInformation() {
 
   const handleChange = (
     key: keyof typeof state.characterDetails,
-    value: string | number,
+    value: string | number
   ) => {
-    // check field validations for selectors andd bonus fields
-    if(key === 'class'){      
-      dispatch({
-        field: 'characterDetails',
-        type: "UPDATE_CHARACTER_DETAIL_CLASS",
-        payload: {value}
-      })
-    }
-    if (key === "race") {
-      dispatch({
-        field: "characterDetails",
-        type: "UPDATE_CHARACTER_DETAIL_RACE",
-        payload: { value },
-      });
-    }
-    if (key === "alignment" && !ALIGNMENT_OPTIONS.includes(value as string)) {
-      setErrors((prev: Errors) => ({
-        ...prev,
-        [key]: "Invalid alignment selected.",
-      }));
-      return;
-    }
-    if (key === "size") {
-      if (!SIZE_OPTIONS.includes(value as string)) {
-        setErrors((prev: Errors) => ({
-          ...prev,
-          [key]: "Invalid size selected.",
-        }));
-      } else {
-        setErrors((prev: Errors) => ({
-          ...prev,
-          [key]: undefined, // Clear error if the value is valid
-        }));
-
+    // Start by setting the error to undefined (clear any previous error)
+    setErrors((prev: Errors) => ({ ...prev, [key]: undefined }));
+  
+    switch (key) {
+      case "class":
         dispatch({
           field: "characterDetails",
-          type: "UPDATE_CHARACTER_DETAIL_SIZE",
+          type: "UPDATE_CHARACTER_DETAIL_CLASS",
           payload: { value },
         });
-      }
+        break;
+  
+        case "level":{
+          const level = Number(value);
+          console.log('Triggered level adjust with', level);
+          console.log('Current level', state.characterDetails.level);
+          
+          
+          // Validate level range
+          if (level < 1 || level > 20) {
+            console.log('Level not in range', level);
+            
+            setErrors((prev: Errors) => ({
+              ...prev,
+              [key]: "Invalid level, must be between 1 and 20.",
+            }));
+            return; // Early return to prevent dispatch if validation fails
+          }
+    
+          // Validate level progression (cannot go back in levels)
+          if (level < Number(state.characterDetails.level)) {
+            console.log(`Level lower than saved value`, level, state.characterDetails.level);
+            
+            setErrors((prev: Errors) => ({
+              ...prev,
+              [key]: `Invalid level, must be above saved level of ${state.characterDetails.level}`,
+            }));
+            return; // Early return to prevent dispatch if validation fails
+          }
+    
+          // If level passes validation, dispatch the action
+          else{
+            console.log("Passed check, dispatching", level);
+            
+          dispatch({
+            field: "characterDetails",
+            type: "UPDATE_CHARACTER_DETAIL_LEVEL",
+            payload: { value: level },
+          });
+          break;}}
+  
+      case "race":
+        dispatch({
+          field: "characterDetails",
+          type: "UPDATE_CHARACTER_DETAIL_RACE",
+          payload: { value },
+        });
+        break;
+  
+      case "alignment":
+        if (!ALIGNMENT_OPTIONS.includes(value as string)) {
+          setErrors((prev: Errors) => ({
+            ...prev,
+            [key]: "Invalid alignment selected.",
+          }));
+        } else {
+          dispatch({
+            field: "characterDetails",
+            type: "UPDATE_CHARACTER_DETAIL_ALIGNMENT",
+            payload: { value },
+          });
+        }
+        break;
+  
+      case "size":
+        if (!SIZE_OPTIONS.includes(value as string)) {
+          setErrors((prev: Errors) => ({
+            ...prev,
+            [key]: "Invalid size selected.",
+          }));
+        } else {
+          dispatch({
+            field: "characterDetails",
+            type: "UPDATE_CHARACTER_DETAIL_SIZE",
+            payload: { value },
+          });
+        }
+        break;
+  
+      default:
+        // Handle other fields that don't have validation or specific rules
+        dispatch({
+          field: "characterDetails",
+          type: "UPDATE_CHARACTER_DETAIL",
+          payload: { key, value },
+        });
+        break;
     }
-    if (key === "level" && (Number(value) < 1 || Number(value) > 20)) {
-      setErrors((prev: Errors) => ({
-        ...prev,
-        [key]: "Invalid level, must be between 1 and 20.",
-      }));
-      return;
-    } else if (key !== "race" && key !== "size" && key !== 'class') {
-      dispatch({
-        field: "characterDetails",
-        type: "UPDATE_CHARACTER_DETAIL",
-        payload: { key, value },
-      });
-    }
-    setErrors((prev: Errors) => ({ ...prev, [key]: undefined })); // clear errors for validation pass
   };
+  
 
   return (
     <div className="container mx-auto">
