@@ -67,7 +67,7 @@ export const CentralizationProvider: React.FC<CentralizationProviderProps> = (
   const [state, dispatch] = useReducer(centralizationReducer, centralState);
 
   // wrap dispatcher in debouncer hook
-  const debouncedDispatch = useDebouncedDispatch(dispatch, 100); // dispatch, adjust delay limit
+  const debouncedDispatch = useDebouncedDispatch(dispatch, 500); // dispatch, adjust delay limit
 
   return (
     <CentralizationContext.Provider
