@@ -7,6 +7,8 @@ export const centralState: State = {
         class: {
             className: '',
             baseAttack: 0,
+            baseSkill: 0,
+            classSkills: new Set([]),
             baseSave: { fortitudeBase: 0, reflexBase: 0, willBase: 0 },
         },
         race: { raceName: '', raceBase: 30, raceBonus: 0 },

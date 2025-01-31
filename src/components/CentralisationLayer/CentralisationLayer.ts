@@ -17,7 +17,13 @@ interface ClassBaseSaves {
 interface CharacterDetails extends ActionBase {
     characterName: string;
     playerName: string;
-    class: { className: string; baseAttack: number; baseSave: ClassBaseSaves };
+    class: {
+        className: string;
+        baseAttack: number;
+        baseSkill: number;
+        classSkills?: Set<string>;
+        baseSave: ClassBaseSaves;
+    };
     race: { raceName: string; raceBase: number; raceBonus: number };
     alignment: string;
     deity: string;
@@ -281,16 +287,66 @@ const centralizationReducer = (state: State, action: Action): State => {
                             case 'barbarian':
                                 return {
                                     baseAttack: 1,
+                                    baseSkill: 4,
+                                    classSkills: new Set([
+                                        'Climb',
+                                        'Craft',
+                                        'Handle Animal',
+                                        'Intimidate',
+                                        'Jump',
+                                        'Listen',
+                                        'Ride',
+                                        'Survival',
+                                        'Swim',
+                                    ]),
                                     baseSave: {
                                         fortitudeBase: 2,
                                         reflexBase: 0,
                                         willBase: 0,
                                     },
                                 };
-
+                            case 'bard':
+                                return {
+                                    baseAttack: 0,
+                                    baseSkill: 6,
+                                    classSkills: new Set([
+                                        'Appraise',
+                                        'Balance',
+                                        'Bluff',
+                                        'Climb',
+                                        'Concentration',
+                                        'Craft',
+                                        'Decipher Script',
+                                        'Diplomacy',
+                                        'Disguise',
+                                        'Escape Artist',
+                                        'Gather Information',
+                                        'Hide',
+                                        'Jump',
+                                        'Knowledge',
+                                        'Listen',
+                                        'Move silently',
+                                        'Perform',
+                                        'Profession',
+                                        'Sense Motive',
+                                        'Sleight Of Hand',
+                                        'Speak Language',
+                                        'Spellcraft',
+                                        'Swim',
+                                        'Tumble',
+                                        'Use Magic Device',
+                                    ]),
+                                    baseSave: {
+                                        fortitudeBase: 0,
+                                        reflexBase: 2,
+                                        willBase: 2,
+                                    },
+                                };
                             default:
                                 return {
                                     baseAttack: 1,
+                                    baseSkill: 0,
+                                    classSkills: new Set(),
                                     baseSave: {
                                         fortitudeBase: 0,
                                         reflexBase: 0,
