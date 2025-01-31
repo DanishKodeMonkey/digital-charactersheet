@@ -8,10 +8,16 @@ interface ActionBase {
     skipDebounce?: boolean; // optional flag to skip debouncer for dispatch
 }
 
+interface ClassBaseSaves {
+    fortitudeBase: number;
+    reflexBase: number;
+    willBase: number;
+}
+
 interface CharacterDetails extends ActionBase {
     characterName: string;
     playerName: string;
-    class: string;
+    class: { className: string; baseAttack: number; baseSave: ClassBaseSaves };
     race: { raceName: string; raceBase: number; raceBonus: number };
     alignment: string;
     deity: string;
@@ -24,16 +30,19 @@ interface CharacterDetails extends ActionBase {
     eyes: string;
     hair: string;
 }
-
-interface UpdateCharacterRaceAction extends ActionBase {
+interface UpdateCharacterDetailsFieldBase extends ActionBase {
     field: 'characterDetails';
-    type: 'UPDATE_CHARACTER_DETAIL_RACE';
     payload: { value: string };
 }
-interface UpdateCharacterSizeAction extends ActionBase {
-    field: 'characterDetails';
+interface UpdateCharacterDetailsClassAction
+    extends UpdateCharacterDetailsFieldBase {
+    type: 'UPDATE_CHARACTER_DETAIL_CLASS';
+}
+interface UpdateCharacterRaceAction extends UpdateCharacterDetailsFieldBase {
+    type: 'UPDATE_CHARACTER_DETAIL_RACE';
+}
+interface UpdateCharacterSizeAction extends UpdateCharacterDetailsFieldBase {
     type: 'UPDATE_CHARACTER_DETAIL_SIZE';
-    payload: { value: string };
 }
 interface UpdateCharacterDetailsAction extends ActionBase {
     field: 'characterDetails';
@@ -223,6 +232,7 @@ interface UpdateSaveThrowsAbilityModifierAction {
 
 // Unite action interfaces with as a type as Enumerate interfaces
 type Action =
+    | UpdateCharacterDetailsClassAction
     | UpdateCharacterRaceAction
     | UpdateCharacterDetailsAction
     | UpdateCharacterSizeAction
@@ -262,6 +272,41 @@ const centralizationReducer = (state: State, action: Action): State => {
             // HUSKAT: Update case for class, update types and central state to include class-subfields with bonuses like base attack, base save etc.
             // For starters, use case check for string matches, otherwise default to fighter type, like with race.
             switch (action.type) {
+                case 'UPDATE_CHARACTER_DETAIL_CLASS': {
+                    //    class: { className: string; baseAttack: number; baseSave: ClassBaseSaves };
+
+                    const { value } = action.payload;
+                    const classData = (() => {
+                        switch (value.toLowerCase()) {
+                            case 'barbarian':
+                                return {
+                                    baseAttack: 1,
+                                    baseSave: {
+                                        fortitudeBase: 2,
+                                        reflexBase: 0,
+                                        willBase: 0,
+                                    },
+                                };
+
+                            default:
+                                return {
+                                    baseAttack: 1,
+                                    baseSave: {
+                                        fortitudeBase: 0,
+                                        reflexBase: 0,
+                                        willBase: 0,
+                                    },
+                                };
+                        }
+                    })();
+                    return {
+                        ...state,
+                        characterDetails: {
+                            ...state.characterDetails,
+                            class: { className: value, ...classData },
+                        },
+                    };
+                }
                 case 'UPDATE_CHARACTER_DETAIL_RACE': {
                     const { value } = action.payload; // race name
                     const raceData = (() => {

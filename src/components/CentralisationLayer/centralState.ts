@@ -4,7 +4,11 @@ export const centralState: State = {
     characterDetails: {
         characterName: '',
         playerName: '',
-        class: '',
+        class: {
+            className: '',
+            baseAttack: 0,
+            baseSave: { fortitudeBase: 0, reflexBase: 0, willBase: 0 },
+        },
         race: { raceName: '', raceBase: 30, raceBonus: 0 },
         alignment: '',
         deity: '',
