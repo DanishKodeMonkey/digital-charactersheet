@@ -2,11 +2,12 @@ import type {
     ClassSpellsShape,
     ClassBaseSaves,
 } from '../CentralisationLayer.ts';
+import classProgressionData from './classProgression.json' with {type:"json"}
 
 export interface ClassLevelData {
     baseAttack: number;
     baseSkill?: number;
-    classSkills?: Set<string>;
+    classSkills?: string[];
     specials?: string[];
     spells?: ClassSpellsShape;
     baseSave?: ClassBaseSaves;
@@ -22,7 +23,7 @@ export type ClassLookupTable = Record<string, ClassProgressionTable>;
 const DEFAULT_LEVEL_DATA: ClassLevelData = {
     baseAttack: 0,
     baseSkill: 0,
-    classSkills: new Set([]),
+    classSkills: [],
     specials: [],
     baseSave: {
         fortitudeBase: 0,
@@ -31,10 +32,21 @@ const DEFAULT_LEVEL_DATA: ClassLevelData = {
     },
 };
 
-let classProgression: ClassLookupTable | null = null;
+// Clientside POC solution
+
+export const classProgression: ClassLookupTable = classProgressionData
+
+export function classLookup(className: string, level: number):ClassLevelData | null{
+    const classData = classProgression[className.toLowerCase()]
+    return classData ? classData[level] || DEFAULT_LEVEL_DATA : DEFAULT_LEVEL_DATA
+}
+
+
+//API solution draft
+/* let classProgression: ClassLookupTable | null = null; */
 
 // HUSKAT: Transition to API fetch for query of class and level later. For now handle in client
-async function fetchClassProgression(): Promise<ClassLookupTable> {
+/* async function fetchClassProgression(): Promise<ClassLookupTable> {
     if (!classProgression) {
         const response = await fetch('./classProgression.json');
         classProgression = await response.json();
@@ -52,3 +64,4 @@ export async function classLookup(
         ? classData[level] || DEFAULT_LEVEL_DATA
         : DEFAULT_LEVEL_DATA;
 }
+ */
