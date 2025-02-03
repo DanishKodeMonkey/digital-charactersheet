@@ -15,11 +15,30 @@ function SaveRow({saveType}: SaveRowProps) {
   const abilityMod = (() => {
     switch (saveType) {
       case "fortitude":
+        console.log("FORTITUDE", state.savingThrows.fortitude);
+        
         return state.stats.modifiers.constitution;
       case "reflex":
+        console.log("REFLEX", state.savingThrows.reflex);
+        
         return state.stats.modifiers.dexterity;
       case "will":
+        console.log("WILL", state.savingThrows.will);
+        
         return state.stats.modifiers.wisdom;
+      default:
+        return 0;
+    }
+  })();
+
+  const baseMod= (() => {
+    switch (saveType) {
+      case "fortitude":
+        return state.characterDetails.class.baseSave.fortitudeBase;
+      case "reflex":
+        return state.characterDetails.class.baseSave.reflexBase;
+      case "will":
+        return state.characterDetails.class.baseSave.willBase;
       default:
         return 0;
     }
@@ -41,7 +60,7 @@ useEffect(()=>{
     field: 'savingThrows', type:"UPDATE_SAVE_THROW_ABILITY_MODIFIER",
     payload: {saveType}
   })
-},[abilityMod, dispatch])
+},[abilityMod, baseMod, dispatch])
 
   return (
     <div className="flex">
@@ -58,7 +77,7 @@ useEffect(()=>{
         type="number"
         name="baseMod"
         id="baseMod"
-        value={saveThrow.base || 0}
+        value={baseMod  || 0}
         className="input-tiny"
         disabled
       />
@@ -76,7 +95,7 @@ useEffect(()=>{
         type="number"
         name="magicMod"
         id="magicMod"
-        value={saveThrow.magicMod || 0}
+        value={saveThrow.magicMod|| 0}
         disabled
         className="input-tiny"
       />

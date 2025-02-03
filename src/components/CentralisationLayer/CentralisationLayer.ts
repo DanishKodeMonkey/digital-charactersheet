@@ -87,14 +87,14 @@ type AbilityName =
     | 'charisma';
 
 interface Bonus {
-    baseAttackBonus: BaseAttackBonus;
+    baseAttackBonus: number;
     initiative: Initiative;
 }
 
-interface BaseAttackBonus {
+/* interface BaseAttackBonus {
     baseAttackMod: number;
     baseAttackTotal: number;
-}
+} */
 
 interface Initiative {
     initiativeTotal: number;
@@ -108,7 +108,6 @@ interface SavingThrows {
 }
 
 interface SaveThrow {
-    base: number;
     magicMod: number;
     miscMod: number;
     tempMod: number;
@@ -550,10 +549,7 @@ const centralizationReducer = (state: State, action: Action): State => {
                         ...state,
                         bonus: {
                             ...state.bonus,
-                            baseAttackBonus: {
-                                ...state.bonus.baseAttackBonus,
-                                baseAttackTotal: action.payload,
-                            },
+                            baseAttackBonus: action.payload,
                         },
                     };
                 case 'UPDATE_INITIATIVE': {
@@ -583,18 +579,30 @@ const centralizationReducer = (state: State, action: Action): State => {
                     const { saveType, field, value } = action.payload;
 
                     let abilityMod = 0;
+                    let baseMod = 0;
                     //get relevant ability modifier
                     switch (saveType) {
                         case 'fortitude': {
                             abilityMod = state.stats.modifiers.constitution;
+                            baseMod =
+                                state.characterDetails.class.baseSave
+                                    .fortitudeBase;
+
                             break;
                         }
                         case 'reflex': {
                             abilityMod = state.stats.modifiers.dexterity;
+                            baseMod =
+                                state.characterDetails.class.baseSave
+                                    .reflexBase;
+
                             break;
                         }
                         case 'will':
                             abilityMod = state.stats.modifiers.wisdom;
+                            baseMod =
+                                state.characterDetails.class.baseSave.willBase;
+
                             break;
                         default:
                             console.error(`Unknown saveType: ${saveType}`);
@@ -611,7 +619,7 @@ const centralizationReducer = (state: State, action: Action): State => {
 
                     // calculate new total
                     const newTotal =
-                        newSave.base +
+                        baseMod +
                         newSave.magicMod +
                         newSave.miscMod +
                         newSave.tempMod +
@@ -626,34 +634,50 @@ const centralizationReducer = (state: State, action: Action): State => {
                     };
                 }
                 case 'UPDATE_SAVE_THROW_ABILITY_MODIFIER': {
-                    const { saveType } = action.payload;
-                    let abilityMod = 0;
-                    switch (saveType) {
-                        case 'fortitude':
-                            abilityMod = state.stats.modifiers.constitution;
-                            break;
-                        case 'reflex':
-                            abilityMod = state.stats.modifiers.dexterity;
-                            break;
-                        case 'will':
-                            abilityMod = state.stats.modifiers.wisdom;
-                            break;
-                        default:
-                            return state;
-                    }
-                    const save = state.savingThrows[saveType];
+                    console.log('UPDATING ALL SAVE ROW TOTALS');
 
-                    const newTotal =
-                        save.base + save.miscMod + save.tempMod + abilityMod;
+                    const abilityModCon = state.stats.modifiers.constitution;
+                    const baseModCon =
+                        state.characterDetails.class.baseSave.fortitudeBase;
+                    const abilityModRef = state.stats.modifiers.dexterity;
+                    const baseModRef =
+                        state.characterDetails.class.baseSave.reflexBase;
+                    const abilityModWill = state.stats.modifiers.wisdom;
+                    const baseModWill =
+                        state.characterDetails.class.baseSave.willBase;
+                    const saveThrows = state.savingThrows;
+                    Object.keys(saveThrows).forEach((key) => {
+                        const save = saveThrows[key];
+                        let baseMod: number;
+                        let abilityMod: number;
+
+                        if (key === 'fortitude') {
+                            baseMod = Number(baseModCon);
+                            abilityMod = Number(abilityModCon);
+                        } else if (key === 'reflex') {
+                            baseMod = Number(baseModRef);
+                            abilityMod = Number(abilityModRef);
+                        } else if (key === 'will') {
+                            baseMod = Number(baseModWill);
+                            abilityMod = Number(abilityModWill);
+                        }
+                        save.total =
+                            baseMod +
+                            save.miscMod +
+                            save.magicMod +
+                            save.tempMod +
+                            abilityMod;
+
+                        state.savingThrows[key] = {
+                            ...save,
+                            total: save.total,
+                        };
+                    });
 
                     return {
                         ...state,
                         savingThrows: {
                             ...state.savingThrows,
-                            [saveType]: {
-                                ...save,
-                                total: newTotal,
-                            },
                         },
                     };
                 }
