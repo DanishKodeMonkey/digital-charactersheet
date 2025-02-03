@@ -77,26 +77,23 @@ export const centralState: State = {
         },
     },
     bonus: {
-        baseAttackBonus: { baseAttackMod: 0, baseAttackTotal: 0 },
+        baseAttackBonus: 0,
         initiative: { initiativeTotal: 0, miscModifier: 0 },
     },
     savingThrows: {
         fortitude: {
-            base: 0,
             miscMod: 0,
             magicMod: 0,
             tempMod: 0,
             total: 0,
         },
         reflex: {
-            base: 0,
             miscMod: 0,
             magicMod: 0,
             tempMod: 0,
             total: 0,
         },
         will: {
-            base: 0,
             miscMod: 0,
             magicMod: 0,
             tempMod: 0,
