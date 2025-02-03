@@ -1,6 +1,6 @@
 import { data } from 'autoprefixer';
 import { centralState } from './centralState.ts';
-import { classLookup } from './classLevelLookup.ts';
+import { classLookup } from './classLevelLookup/classLevelLookup.ts';
 
 // Define types for state,
 //

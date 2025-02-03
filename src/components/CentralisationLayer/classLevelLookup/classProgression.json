@@ -1,0 +1,34 @@
+{
+  "barbarian": {
+    "1": {
+      "baseAttack": 1,
+      "baseSkill": 4,
+      "classSkills": [
+        "Climb",
+        "Craft",
+        "Handle Animal",
+        "Intimidate",
+        "Jump",
+        "Listen",
+        "Ride",
+        "Survival",
+        "Swim"
+      ],
+      "specials": ["Fast Movement", "Illiteracy", "Rage 1/day"],
+      "baseSave": {
+        "fortitudeBase": 2,
+        "reflexBase": 0,
+        "willBase": 0
+      }
+    },
+    "2": {
+      "baseAttack": 2,
+      "specials": ["Uncanny Dodge"],
+      "baseSave": {
+        "fortitudeBase": 3,
+        "reflexBase": 0,
+        "willBase": 0
+      }
+    }
+  }
+}

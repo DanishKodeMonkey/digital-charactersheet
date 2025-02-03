@@ -1,7 +1,7 @@
 import type {
     ClassSpellsShape,
     ClassBaseSaves,
-} from './CentralisationLayer.ts';
+} from '../CentralisationLayer.ts';
 
 export interface ClassLevelData {
     baseAttack: number;
