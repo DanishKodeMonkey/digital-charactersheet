@@ -1,17 +1,36 @@
 import { centralState } from './centralState.ts';
+import { classLookup } from './classLevelLookup/classLevelLookup.ts';
 
 // Define types for state,
 //
 // HUSKAT: Move to seperate file later
 
-interface ActionBase {
+export interface ActionBase {
     skipDebounce?: boolean; // optional flag to skip debouncer for dispatch
 }
 
+interface ClassBaseSaves {
+    fortitudeBase: number;
+    reflexBase: number;
+    willBase: number;
+}
+
+interface ClassSpellsShape {
+    spellsPerDay: Record<0 | 1 | 2 | 3 | 4 | 5 | 6, number>;
+    spellsKnown: Record<0 | 1 | 2 | 3 | 4 | 5 | 6, number>;
+}
 interface CharacterDetails extends ActionBase {
     characterName: string;
     playerName: string;
-    class: string;
+    class: {
+        className: string;
+        baseAttack: number;
+        baseSkill: number;
+        classSkills?: Set<string>;
+        specials?: string[];
+        spells?: ClassSpellsShape;
+        baseSave: ClassBaseSaves;
+    };
     race: { raceName: string; raceBase: number; raceBonus: number };
     alignment: string;
     deity: string;
@@ -24,16 +43,23 @@ interface CharacterDetails extends ActionBase {
     eyes: string;
     hair: string;
 }
-
-interface UpdateCharacterRaceAction extends ActionBase {
+interface UpdateCharacterDetailsFieldBase extends ActionBase {
     field: 'characterDetails';
-    type: 'UPDATE_CHARACTER_DETAIL_RACE';
     payload: { value: string };
 }
-interface UpdateCharacterSizeAction extends ActionBase {
-    field: 'characterDetails';
+interface UpdateCharacterDetailsClassAction
+    extends UpdateCharacterDetailsFieldBase {
+    type: 'UPDATE_CHARACTER_DETAIL_CLASS';
+}
+interface UpdateCharacterDetailsLevelAction
+    extends UpdateCharacterDetailsFieldBase {
+    type: 'UPDATE_CHARACTER_DETAIL_LEVEL';
+}
+interface UpdateCharacterRaceAction extends UpdateCharacterDetailsFieldBase {
+    type: 'UPDATE_CHARACTER_DETAIL_RACE';
+}
+interface UpdateCharacterSizeAction extends UpdateCharacterDetailsFieldBase {
     type: 'UPDATE_CHARACTER_DETAIL_SIZE';
-    payload: { value: string };
 }
 interface UpdateCharacterDetailsAction extends ActionBase {
     field: 'characterDetails';
@@ -61,14 +87,14 @@ type AbilityName =
     | 'charisma';
 
 interface Bonus {
-    baseAttackBonus: BaseAttackBonus;
+    baseAttackBonus: number;
     initiative: Initiative;
 }
 
-interface BaseAttackBonus {
+/* interface BaseAttackBonus {
     baseAttackMod: number;
     baseAttackTotal: number;
-}
+} */
 
 interface Initiative {
     initiativeTotal: number;
@@ -82,7 +108,6 @@ interface SavingThrows {
 }
 
 interface SaveThrow {
-    base: number;
     magicMod: number;
     miscMod: number;
     tempMod: number;
@@ -221,8 +246,15 @@ interface UpdateSaveThrowsAbilityModifierAction {
     };
 }
 
+interface UpdateSkillPointsAction {
+    field: 'skills';
+    type: 'UPDATE_SKILL_POINTS';
+}
+
 // Unite action interfaces with as a type as Enumerate interfaces
 type Action =
+    | UpdateCharacterDetailsLevelAction
+    | UpdateCharacterDetailsClassAction
     | UpdateCharacterRaceAction
     | UpdateCharacterDetailsAction
     | UpdateCharacterSizeAction
@@ -237,7 +269,8 @@ type Action =
     | UpdateBonusBaseAttackTotalAction
     | UpdateBonusInitiativeAction
     | UpdateSaveThrowsAction
-    | UpdateSaveThrowsAbilityModifierAction;
+    | UpdateSaveThrowsAbilityModifierAction
+    | UpdateSkillPointsAction;
 
 const validStatNames = [
     'strength',
@@ -262,6 +295,118 @@ const centralizationReducer = (state: State, action: Action): State => {
             // HUSKAT: Update case for class, update types and central state to include class-subfields with bonuses like base attack, base save etc.
             // For starters, use case check for string matches, otherwise default to fighter type, like with race.
             switch (action.type) {
+                case 'UPDATE_CHARACTER_DETAIL_CLASS': {
+                    //    class: { className: string; baseAttack: number; baseSave: ClassBaseSaves };
+
+                    const { value } = action.payload;
+                    let { level } = state.characterDetails;
+                    if (level < 1) {
+                        console.log('CLASS INIT DETECTED LEVEL 0');
+
+                        level = 1;
+                    }
+                    const {
+                        baseAttack,
+                        baseSkill,
+                        classSkills,
+                        specials,
+                        spells,
+                        baseSave,
+                    } = state.characterDetails.class;
+                    console.log('Starting class operation with', value);
+
+                    console.log(
+                        'Prompting classLookup with values',
+                        value,
+                        level
+                    );
+
+                    const classData = classLookup(value.toLowerCase(), level); // get data for level 1 HUSKAT: pull reference from level once that is updated?
+
+                    console.log('Received following data', classData);
+
+                    // updatedClassData is pulled classData or defaults to existing state values (initiated at centralState).
+                    const updatedClassData = {
+                        baseAttack: classData?.baseAttack ?? baseAttack,
+                        baseSkill: classData?.baseSkill ?? baseSkill,
+                        classSkills: classData?.classSkills
+                            ? new Set([
+                                  ...classSkills,
+                                  ...classData.classSkills,
+                              ])
+                            : classSkills,
+                        specials: classData?.specials
+                            ? [...classData.specials, ...specials]
+                            : specials,
+                        baseSave: classData?.baseSave ?? baseSave,
+                        spells: classData?.spells ?? spells,
+                    };
+
+                    console.log('Prepared state data', updatedClassData);
+
+                    return {
+                        ...state,
+                        characterDetails: {
+                            ...state.characterDetails,
+                            level,
+                            class: { className: value, ...updatedClassData },
+                        },
+                    };
+                }
+                case 'UPDATE_CHARACTER_DETAIL_LEVEL': {
+                    const { value } = action.payload;
+                    console.log('LEVEL CHANGED TO', value);
+
+                    const {
+                        className,
+                        baseAttack,
+                        baseSkill,
+                        classSkills,
+                        specials,
+                        spells,
+                        baseSave,
+                    } = state.characterDetails.class;
+
+                    console.log('Fetching data for', className, value);
+
+                    const classData = classLookup(
+                        className.toLowerCase(),
+                        Number(value)
+                    ); // Pull class data for className level
+
+                    console.log('Received following data', classData);
+
+                    // updatedClassData is pulled classData or defaults to existing state values (initiated at centralState).
+                    const updatedClassData = {
+                        baseAttack: classData?.baseAttack ?? baseAttack,
+                        baseSkill: classData?.baseSkill ?? baseSkill,
+                        classSkills: classData?.classSkills
+                            ? new Set([
+                                  ...classSkills,
+                                  ...classData.classSkills,
+                              ])
+                            : classSkills,
+                        specials: classData?.specials
+                            ? [...classData.specials, ...specials]
+                            : specials,
+                        baseSave: classData?.baseSave ?? baseSave,
+                        spells: classData?.spells ?? spells,
+                    };
+
+                    console.log('Prepared state data', updatedClassData);
+
+                    return {
+                        ...state,
+                        characterDetails: {
+                            ...state.characterDetails,
+                            level: Number(value),
+                            class: {
+                                className: className,
+                                ...updatedClassData,
+                            },
+                        },
+                    };
+                }
                 case 'UPDATE_CHARACTER_DETAIL_RACE': {
                     const { value } = action.payload; // race name
                     const raceData = (() => {
@@ -398,6 +543,7 @@ const centralizationReducer = (state: State, action: Action): State => {
                                 ? Math.floor(value / 2) // For values >= 10
                                 : Math.ceil(value / 2), // For values < 10
                     };
+
                     return {
                         ...state,
                         stats: { ...state.stats, tempScores, tempModifiers },
@@ -416,10 +562,7 @@ const centralizationReducer = (state: State, action: Action): State => {
                         ...state,
                         bonus: {
                             ...state.bonus,
-                            baseAttackBonus: {
-                                ...state.bonus.baseAttackBonus,
-                                baseAttackTotal: action.payload,
-                            },
+                            baseAttackBonus: action.payload,
                         },
                     };
                 case 'UPDATE_INITIATIVE': {
@@ -449,18 +592,30 @@ const centralizationReducer = (state: State, action: Action): State => {
                     const { saveType, field, value } = action.payload;
 
                     let abilityMod = 0;
+                    let baseMod = 0;
                     //get relevant ability modifier
                     switch (saveType) {
                         case 'fortitude': {
                             abilityMod = state.stats.modifiers.constitution;
+                            baseMod =
+                                state.characterDetails.class.baseSave
+                                    .fortitudeBase;
+
                             break;
                         }
                         case 'reflex': {
                             abilityMod = state.stats.modifiers.dexterity;
+                            baseMod =
+                                state.characterDetails.class.baseSave
+                                    .reflexBase;
+
                             break;
                         }
                         case 'will':
                             abilityMod = state.stats.modifiers.wisdom;
+                            baseMod =
+                                state.characterDetails.class.baseSave.willBase;
+
                             break;
                         default:
                             console.error(`Unknown saveType: ${saveType}`);
@@ -477,7 +632,7 @@ const centralizationReducer = (state: State, action: Action): State => {
 
                     // calculate new total
                     const newTotal =
-                        newSave.base +
+                        baseMod +
                         newSave.magicMod +
                         newSave.miscMod +
                         newSave.tempMod +
@@ -492,34 +647,50 @@ const centralizationReducer = (state: State, action: Action): State => {
                     };
                 }
                 case 'UPDATE_SAVE_THROW_ABILITY_MODIFIER': {
-                    const { saveType } = action.payload;
-                    let abilityMod = 0;
-                    switch (saveType) {
-                        case 'fortitude':
-                            abilityMod = state.stats.modifiers.constitution;
-                            break;
-                        case 'reflex':
-                            abilityMod = state.stats.modifiers.dexterity;
-                            break;
-                        case 'will':
-                            abilityMod = state.stats.modifiers.wisdom;
-                            break;
-                        default:
-                            return state;
-                    }
-                    const save = state.savingThrows[saveType];
+                    console.log('UPDATING ALL SAVE ROW TOTALS');
 
-                    const newTotal =
-                        save.base + save.miscMod + save.tempMod + abilityMod;
+                    const abilityModCon = state.stats.modifiers.constitution;
+                    const baseModCon =
+                        state.characterDetails.class.baseSave.fortitudeBase;
+                    const abilityModRef = state.stats.modifiers.dexterity;
+                    const baseModRef =
+                        state.characterDetails.class.baseSave.reflexBase;
+                    const abilityModWill = state.stats.modifiers.wisdom;
+                    const baseModWill =
+                        state.characterDetails.class.baseSave.willBase;
+                    const saveThrows = state.savingThrows;
+                    Object.keys(saveThrows).forEach((key) => {
+                        const save = saveThrows[key];
+                        let baseMod: number;
+                        let abilityMod: number;
+
+                        if (key === 'fortitude') {
+                            baseMod = Number(baseModCon);
+                            abilityMod = Number(abilityModCon);
+                        } else if (key === 'reflex') {
+                            baseMod = Number(baseModRef);
+                            abilityMod = Number(abilityModRef);
+                        } else if (key === 'will') {
+                            baseMod = Number(baseModWill);
+                            abilityMod = Number(abilityModWill);
+                        }
+                        save.total =
+                            baseMod +
+                            save.miscMod +
+                            save.magicMod +
+                            save.tempMod +
+                            abilityMod;
+
+                        state.savingThrows[key] = {
+                            ...save,
+                            total: save.total,
+                        };
+                    });
 
                     return {
                         ...state,
                         savingThrows: {
                             ...state.savingThrows,
-                            [saveType]: {
-                                ...save,
-                                total: newTotal,
-                            },
                         },
                     };
                 }
@@ -620,23 +791,6 @@ const centralizationReducer = (state: State, action: Action): State => {
                         },
                     };
                 }
-                // HUSKAT Implement proper after player details added to state (realised we need data like race to determine speed bonuses)
-                /*                 case 'UPDATE_SPEED': {
-                    const { race, armorType } = action.payload;
-                    switch (race) {
-                        case 'dwarf':
-                            raceBase = 20;
-                            raceBonus = 10;
-                            break;
-                        case 'halfling':
-                            raceBase = 20;
-                            raceBonus = 5;
-                            break;
-                        default: // Human or other races
-                            raceBase = 30;
-                            break;
-                    }
-                } */
                 default:
                     console.log('No changes made to status');
                     return state;
@@ -644,6 +798,41 @@ const centralizationReducer = (state: State, action: Action): State => {
         }
         case 'skills': {
             switch (action.type) {
+                case 'UPDATE_SKILL_POINTS': {
+                    const { max, current } = state.skills.skillPoints;
+                    const { baseSkill } = state.characterDetails.class;
+                    const { level } = state.characterDetails;
+                    const intelligence =
+                        state.stats.modifiers.intelligence +
+                        state.stats.tempModifiers.intelligence;
+
+                    console.log(
+                        'Calculating max',
+                        max,
+                        baseSkill,
+                        intelligence,
+                        level
+                    );
+
+                    const newMaxSkills =
+                        (max + baseSkill + intelligence) *
+                        (level === 1 ? 4 : 1);
+
+                    const newCurrentSkills =
+                        (current + baseSkill + intelligence) *
+                        (level === 1 ? 4 : 1);
+
+                    return {
+                        ...state,
+                        skills: {
+                            ...state.skills,
+                            skillPoints: {
+                                max: newMaxSkills,
+                                current: newCurrentSkills,
+                            },
+                        },
+                    };
+                }
                 case 'UPDATE_SKILL': {
                     const { skill, field, value } = action.payload;
 
@@ -717,4 +906,11 @@ const centralizationReducer = (state: State, action: Action): State => {
 };
 
 export { centralizationReducer, centralState };
-export type { Action, ArmorClassType, HealthStatus, State };
+export type {
+    Action,
+    ArmorClassType,
+    HealthStatus,
+    State,
+    ClassBaseSaves,
+    ClassSpellsShape,
+};

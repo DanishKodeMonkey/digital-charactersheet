@@ -16,8 +16,8 @@ function BaseAttackBonus() {
     Base attack bonus + Dexterity modifier + size modifier + range penalty
 
     */
-  const baseAttackBonus = state.bonus.baseAttackBonus.baseAttackMod;
-  const strengthMod = state.stats.modifiers.strength;
+  const baseAttackBonus = state.characterDetails.class.baseAttack;
+  const strengthMod = state.stats.modifiers.strength + state.stats.tempModifiers.strength;
   const sizeMod = state.characterDetails.size.ACMod;
 
   const baseAtk = baseAttackBonus + strengthMod + sizeMod;

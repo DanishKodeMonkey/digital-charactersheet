@@ -5,7 +5,7 @@ function Initiative() {
   const { state, dispatch } = useCentralization();
 
   const miscModifier = state.bonus.initiative.miscModifier
-  const dexterity = state.stats.modifiers.dexterity;
+  const dexterity = state.stats.modifiers.dexterity + state.stats.tempModifiers.dexterity;
   const initiativeTotal = state.bonus.initiative.initiativeTotal
 
   const updateInitiative = (newMiscModifier: number) => {

@@ -4,11 +4,22 @@ export const centralState: State = {
     characterDetails: {
         characterName: '',
         playerName: '',
-        class: '',
+        class: {
+            className: '',
+            baseAttack: 0,
+            baseSkill: 0,
+            classSkills: new Set<string>([]),
+            specials: [],
+            spells: {
+                spellsPerDay: { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 },
+                spellsKnown: { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 },
+            },
+            baseSave: { fortitudeBase: 0, reflexBase: 0, willBase: 0 },
+        },
         race: { raceName: '', raceBase: 30, raceBonus: 0 },
         alignment: '',
         deity: '',
-        level: 1,
+        level: 0,
         size: { sizeName: '', ACMod: 0 },
         age: 0,
         sex: '',
@@ -66,26 +77,23 @@ export const centralState: State = {
         },
     },
     bonus: {
-        baseAttackBonus: { baseAttackMod: 0, baseAttackTotal: 0 },
+        baseAttackBonus: 0,
         initiative: { initiativeTotal: 0, miscModifier: 0 },
     },
     savingThrows: {
         fortitude: {
-            base: 0,
             miscMod: 0,
             magicMod: 0,
             tempMod: 0,
             total: 0,
         },
         reflex: {
-            base: 0,
             miscMod: 0,
             magicMod: 0,
             tempMod: 0,
             total: 0,
         },
         will: {
-            base: 0,
             miscMod: 0,
             magicMod: 0,
             tempMod: 0,

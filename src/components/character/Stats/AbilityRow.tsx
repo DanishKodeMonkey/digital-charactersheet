@@ -13,6 +13,7 @@ const AbilityRow = React.memo(({ ability }: AbilityRowProps) => {
   const tempMod = state.stats.tempModifiers[abilityKey] || 0;
 
   const [localScore, setLocalScore] = useState(score);
+  const [localTempScore, setLocalTempScore] = useState(tempScore)
 
   // Sync local UI display to central state when update is saved
   useEffect(() => {
@@ -30,11 +31,12 @@ const AbilityRow = React.memo(({ ability }: AbilityRowProps) => {
   };
 
   const updateTempStat = (value: number) => {
+    setLocalTempScore(value)
     dispatch({
       field: "stats",
       type: "UPDATE_TEMP_STAT",
       payload: { stat: abilityKey, value },
-      skipDebounce: true,
+      skipDebounce: false,
     });
   };
 
@@ -86,21 +88,21 @@ const AbilityRow = React.memo(({ ability }: AbilityRowProps) => {
           name={`${abilityKey}TempScore`}
           id={`${abilityKey}TempScore`}
           className="input-base w-3/4"
-          value={tempScore}
+          value={localTempScore}
           onChange={(e) => updateTempStat(Number(e.target.value))}
         />
         <div className="input-incrementers">
           <button
             type="button"
             className="input-button button-incrementer"
-            onClick={() => updateTempStat(tempScore + 1)}
+            onClick={() => updateTempStat(localTempScore + 1)}
           >
             +
           </button>
           <button
             type="button"
             className="input-button button-incrementer"
-            onClick={() => updateTempStat(tempScore - 1)}
+            onClick={() => updateTempStat(localTempScore - 1)}
           >
             -
           </button>
