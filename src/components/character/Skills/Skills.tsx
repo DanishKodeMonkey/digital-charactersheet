@@ -12,7 +12,7 @@ function Skills() {
   ]);
 
   return (
-    <div className="mx-2 my-2 h-full flex flex-col overflow-hidden">
+    <div className="mx-2 my-2 h-full flex flex-col lg:overflow-hidden">
       <div className="flex flex-col">
         <div className="flex gap-7">
           <div>
@@ -64,8 +64,8 @@ function Skills() {
         </div>
       </div>
       <hr className="my-2 border-y-2" />
-      <div className="skills-list min-h-0 h-5 flex-grow overflow-y-auto">
-        <div className="h-auto overflow-scroll">
+      <div className="skills-list lg:h-5 min-h-0 flex-grow lg:overflow-y-auto">
+        <div className="h-full md:h-auto md:overflow-scroll">
           {skillNames.map((skillName: string) => (
             <SkillRow key={skillName} skill={{ name: skillName }} />
           ))}
