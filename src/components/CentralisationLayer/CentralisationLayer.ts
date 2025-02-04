@@ -531,6 +531,7 @@ const centralizationReducer = (state: State, action: Action): State => {
                                 ? Math.floor(value / 2) // For values >= 10
                                 : Math.ceil(value / 2), // For values < 10
                     };
+
                     return {
                         ...state,
                         stats: { ...state.stats, tempScores, tempModifiers },
@@ -778,23 +779,6 @@ const centralizationReducer = (state: State, action: Action): State => {
                         },
                     };
                 }
-                // HUSKAT Implement proper after player details added to state (realised we need data like race to determine speed bonuses)
-                /*                 case 'UPDATE_SPEED': {
-                    const { race, armorType } = action.payload;
-                    switch (race) {
-                        case 'dwarf':
-                            raceBase = 20;
-                            raceBonus = 10;
-                            break;
-                        case 'halfling':
-                            raceBase = 20;
-                            raceBonus = 5;
-                            break;
-                        default: // Human or other races
-                            raceBase = 30;
-                            break;
-                    }
-                } */
                 default:
                     console.log('No changes made to status');
                     return state;
