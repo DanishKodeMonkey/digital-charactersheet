@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useCentralization } from "../../CentralisationLayer/CentralisationContext.tsx";
 
 interface Errors {
@@ -35,11 +35,51 @@ function CharacterInformation() {
   const [errors, setErrors] = useState<Errors>({});
 
   const { state, dispatch } = useCentralization();
+  const [inputValues, setInputValues] = useState({
+    characterName: "",
+    playerName: "",
+    class: "",
+    race: "",
+    alignment: "",
+    deity: "",
+    level: 0,
+    sizeName: "",
+    age: 0,
+    sex: "",
+    height: 0,
+    weight: 0,
+    eyes: "",
+    hair: "",
+  })
+
+// Sync local state with centralState on mount and when centralState updates
+
+useEffect(() => {
+  setInputValues({
+    characterName: state.characterDetails.characterName || "",
+    playerName: state.characterDetails.playerName || "",
+    class: state.characterDetails.class.className || "",
+    race: state.characterDetails.race.raceName || "",
+    alignment: state.characterDetails.alignment || "",
+    deity: state.characterDetails.deity || "",
+    level: state.characterDetails.level || 0,
+    sizeName: state.characterDetails.size.sizeName || "",
+    age: state.characterDetails.age || 0,
+    sex: state.characterDetails.sex || "",
+    height: state.characterDetails.height || 0,
+    weight: state.characterDetails.weight || 0,
+    eyes: state.characterDetails.eyes || "",
+    hair: state.characterDetails.hair || "",
+  });
+}, [state.characterDetails]); // Reacts to state updates
+
 
   const handleChange = (
     key: keyof typeof state.characterDetails,
     value: string | number
   ) => {
+    // Update local state for UI
+    setInputValues((prev) =>({...prev,[key]:  value}))
     // Start by setting the error to undefined (clear any previous error)
     setErrors((prev: Errors) => ({ ...prev, [key]: undefined }));
   
@@ -149,6 +189,7 @@ function CharacterInformation() {
             type="text"
             name="characterName"
             id="characterName"
+            value={inputValues.characterName}
             onChange={(e) => handleChange("characterName", e.target.value)}
           />
           <label className="input-label" htmlFor="characterName">
@@ -160,6 +201,7 @@ function CharacterInformation() {
             type="text"
             name="playerName"
             id="playerName"
+            value={inputValues.playerName}
             onChange={(e) => handleChange("playerName", e.target.value)}
           />
           <label className="input-label" htmlFor="playerName">
@@ -171,6 +213,7 @@ function CharacterInformation() {
             type="text"
             name="class"
             id="class"
+            value={inputValues.class}
             onChange={(e) => handleChange("class", e.target.value)}
           />
           <label className="input-label" htmlFor="class">class</label>
@@ -180,6 +223,7 @@ function CharacterInformation() {
             type="text"
             name="race"
             id="race"
+            value={inputValues.race}
             className={errors.race ? "border-red-500" : ""}
             onChange={(e) => handleChange("race", e.target.value)}
           />
@@ -188,9 +232,9 @@ function CharacterInformation() {
         </div>
         <div className="row-start-2 col-start-5 col-span-2 input-container-col">
           <select
-            defaultValue={""}
             name="alignment"
             id="alignment"
+            value={inputValues.alignment || ""}
             className={errors.alignment ? "border-red-500" : ""}
             onChange={(e) => handleChange("alignment", e.target.value)}
           >
@@ -209,6 +253,7 @@ function CharacterInformation() {
             type="text"
             name="deity"
             id="deity"
+            value={inputValues.deity}
             onChange={(e) => handleChange("deity", e.target.value)}
           />
           <label className="input-label" htmlFor="deity">deity</label>
@@ -221,6 +266,7 @@ function CharacterInformation() {
             name="level"
             className={errors.level ? "border-red-500" : ""}
             id="level"
+            value={inputValues.level}
             onChange={(e) => handleChange("level", e.target.value)}
           />
           <label className="input-label" htmlFor="level">level</label>
@@ -230,9 +276,9 @@ function CharacterInformation() {
         </div>
         <div className="row-start-3 col-start-2 input-container-col">
           <select
-            defaultValue={""}
             name="size"
             id="size"
+            value={inputValues.sizeName || ""}
             onChange={(e) => handleChange("size", e.target.value)}
           >
             <option value={""} disabled>Select size</option>
@@ -247,6 +293,7 @@ function CharacterInformation() {
             type="number"
             name="age"
             id="age"
+            value={inputValues.age}
             onChange={(e) => handleChange("age", e.target.value)}
           />
           <label className="input-label" htmlFor="age">age</label>
@@ -256,6 +303,7 @@ function CharacterInformation() {
             type="text"
             name="sex"
             id="sex"
+            value={inputValues.sex}
             onChange={(e) => handleChange("sex", e.target.value)}
           />
           <label className="input-label" htmlFor="sex">sex</label>
@@ -265,6 +313,7 @@ function CharacterInformation() {
             type="number"
             name="height"
             id="height"
+            value={inputValues.height}
             onChange={(e) => handleChange("height", e.target.value)}
           />
           <label className="input-label" htmlFor="height">height</label>
@@ -274,6 +323,7 @@ function CharacterInformation() {
             type="number"
             name="weight"
             id="weight"
+            value={inputValues.weight}
             onChange={(e) => handleChange("weight", e.target.value)}
           />
           <label className="input-label" htmlFor="weight">weight</label>
@@ -283,6 +333,7 @@ function CharacterInformation() {
             type="text"
             name="eyes"
             id="eyes"
+            value={inputValues.eyes}
             onChange={(e) => handleChange("eyes", e.target.value)}
           />
           <label className="input-label" htmlFor="eyes">eyes</label>
@@ -292,6 +343,7 @@ function CharacterInformation() {
             type="text"
             name="hair"
             id="hair"
+            value={inputValues.hair}
             onChange={(e) => handleChange("hair", e.target.value)}
           />
           <label className="input-label" htmlFor="hair">hair</label>
