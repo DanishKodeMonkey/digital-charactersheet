@@ -17,15 +17,15 @@ function SaveRow({saveType}: SaveRowProps) {
       case "fortitude":
         console.log("FORTITUDE", state.savingThrows.fortitude);
         
-        return state.stats.modifiers.constitution;
+        return state.stats.modifiers.constitution + state.stats.tempModifiers.constitution;
       case "reflex":
         console.log("REFLEX", state.savingThrows.reflex);
         
-        return state.stats.modifiers.dexterity;
+        return state.stats.modifiers.dexterity + state.stats.tempModifiers.dexterity;
       case "will":
         console.log("WILL", state.savingThrows.will);
         
-        return state.stats.modifiers.wisdom;
+        return state.stats.modifiers.wisdom + state.stats.tempModifiers.wisdom;
       default:
         return 0;
     }

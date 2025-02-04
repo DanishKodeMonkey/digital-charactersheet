@@ -17,7 +17,7 @@ function BaseAttackBonus() {
 
     */
   const baseAttackBonus = state.characterDetails.class.baseAttack;
-  const strengthMod = state.stats.modifiers.strength;
+  const strengthMod = state.stats.modifiers.strength + state.stats.tempModifiers.strength;
   const sizeMod = state.characterDetails.size.ACMod;
 
   const baseAtk = baseAttackBonus + strengthMod + sizeMod;
