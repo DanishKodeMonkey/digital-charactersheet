@@ -15,15 +15,12 @@ function SaveRow({saveType}: SaveRowProps) {
   const abilityMod = (() => {
     switch (saveType) {
       case "fortitude":
-        console.log("FORTITUDE", state.savingThrows.fortitude);
         
         return state.stats.modifiers.constitution + state.stats.tempModifiers.constitution;
       case "reflex":
-        console.log("REFLEX", state.savingThrows.reflex);
         
         return state.stats.modifiers.dexterity + state.stats.tempModifiers.dexterity;
       case "will":
-        console.log("WILL", state.savingThrows.will);
         
         return state.stats.modifiers.wisdom + state.stats.tempModifiers.wisdom;
       default:
