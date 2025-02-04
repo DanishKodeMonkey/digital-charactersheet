@@ -9,7 +9,7 @@ function ArmorClass() {
   const { aBonus, naturalArmor, miscModifier } = state.status.armorClass;
 
   // extract stats dependant variables from other state sections
-  const dexterity = state.stats.modifiers.dexterity;
+  const dexterity = state.stats.modifiers.dexterity + state.stats.tempModifiers.dexterity;
   const sizeModifier = state.characterDetails.size.ACMod;
 
   // calculate actotal based on values
