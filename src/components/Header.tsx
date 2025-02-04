@@ -5,12 +5,12 @@ import { Link } from "react-router-dom";
 function Header() {
   return (
     <header>
-      <div className="flex flex-col justify-between items-center">
+      <div className="flex flex-col  justify-between items-center">
         <div>
           <h1>Digital Character sheet</h1>
         </div>
         <nav>
-          <ul className="flex gap-6">
+          <ul className="flex gap-3 lg:gap-6">
             <li>
               <Link to={"/"} className="text-lg hover:text-yellow-400">
                 Overview
