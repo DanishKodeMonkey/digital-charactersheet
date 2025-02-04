@@ -19,7 +19,7 @@ export const centralState: State = {
         race: { raceName: '', raceBase: 30, raceBonus: 0 },
         alignment: '',
         deity: '',
-        level: 1,
+        level: 0,
         size: { sizeName: '', ACMod: 0 },
         age: 0,
         sex: '',

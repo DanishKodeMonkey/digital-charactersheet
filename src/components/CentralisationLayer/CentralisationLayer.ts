@@ -246,6 +246,11 @@ interface UpdateSaveThrowsAbilityModifierAction {
     };
 }
 
+interface UpdateSkillPointsAction {
+    field: 'skills';
+    type: 'UPDATE_SKILL_POINTS';
+}
+
 // Unite action interfaces with as a type as Enumerate interfaces
 type Action =
     | UpdateCharacterDetailsLevelAction
@@ -264,7 +269,8 @@ type Action =
     | UpdateBonusBaseAttackTotalAction
     | UpdateBonusInitiativeAction
     | UpdateSaveThrowsAction
-    | UpdateSaveThrowsAbilityModifierAction;
+    | UpdateSaveThrowsAbilityModifierAction
+    | UpdateSkillPointsAction;
 
 const validStatNames = [
     'strength',
@@ -293,6 +299,12 @@ const centralizationReducer = (state: State, action: Action): State => {
                     //    class: { className: string; baseAttack: number; baseSave: ClassBaseSaves };
 
                     const { value } = action.payload;
+                    let { level } = state.characterDetails;
+                    if (level < 1) {
+                        console.log('CLASS INIT DETECTED LEVEL 0');
+
+                        level = 1;
+                    }
                     const {
                         baseAttack,
                         baseSkill,
@@ -303,7 +315,6 @@ const centralizationReducer = (state: State, action: Action): State => {
                     } = state.characterDetails.class;
                     console.log('Starting class operation with', value);
 
-                    const { level } = state.characterDetails;
                     console.log(
                         'Prompting classLookup with values',
                         value,
@@ -337,6 +348,7 @@ const centralizationReducer = (state: State, action: Action): State => {
                         ...state,
                         characterDetails: {
                             ...state.characterDetails,
+                            level,
                             class: { className: value, ...updatedClassData },
                         },
                     };
@@ -786,6 +798,41 @@ const centralizationReducer = (state: State, action: Action): State => {
         }
         case 'skills': {
             switch (action.type) {
+                case 'UPDATE_SKILL_POINTS': {
+                    const { max, current } = state.skills.skillPoints;
+                    const { baseSkill } = state.characterDetails.class;
+                    const { level } = state.characterDetails;
+                    const intelligence =
+                        state.stats.modifiers.intelligence +
+                        state.stats.tempModifiers.intelligence;
+
+                    console.log(
+                        'Calculating max',
+                        max,
+                        baseSkill,
+                        intelligence,
+                        level
+                    );
+
+                    const newMaxSkills =
+                        (max + baseSkill + intelligence) *
+                        (level === 1 ? 4 : 1);
+
+                    const newCurrentSkills =
+                        (current + baseSkill + intelligence) *
+                        (level === 1 ? 4 : 1);
+
+                    return {
+                        ...state,
+                        skills: {
+                            ...state.skills,
+                            skillPoints: {
+                                max: newMaxSkills,
+                                current: newCurrentSkills,
+                            },
+                        },
+                    };
+                }
                 case 'UPDATE_SKILL': {
                     const { skill, field, value } = action.payload;
 
