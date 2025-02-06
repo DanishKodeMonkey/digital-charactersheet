@@ -18,21 +18,21 @@ function SkillRow({ skill }: SkillRowProps) {
 useEffect(() =>{
   // set .has returns bool
   const isClassSkill = classSkills.has(skill.name)
-  console.log(skill.name, isClassSkill, learned);
   
   // isClassSkill and learned different? Update to match
   if(isClassSkill !== learned){
-    console.log("MISMATCH! ", isClassSkill, learned);
     
     dispatch({
       field: "skills",
-      type: "UPDATE_SKILL",
-      payload: {skill: skill.name, field: 'learned', value: isClassSkill}
+      type: "UPDATE_SKILL_LEARNED",
+      payload: {skill: skill.name, value: isClassSkill},
+      skipDebounce: true
+      
     })
-    console.log("Dispatch sent!", skill.name, isClassSkill);
     
   }
 },[classSkills, skill.name, learned, dispatch])
+
   const updateRanks = (value: number) => {
     dispatch({
       field: "skills",
