@@ -1,3 +1,4 @@
+import {useEffect} from 'react'
 import { SkillRowProps } from "../../../types/character.ts";
 import { useCentralization } from "../../CentralisationLayer/CentralisationContext.tsx";
 
@@ -9,23 +10,29 @@ function SkillRow({ skill }: SkillRowProps) {
   const { learned, abilityName, ranks, miscMod } =
     state.skills.skills[skill.name];
 
+  const classSkills = state.characterDetails.class.classSkills as Set<string>
   const abilityMod = state.stats.modifiers[abilityName] || 0;
 
   const skillMod = ranks + abilityMod + miscMod;
   // calculate skillMod total
-
-  const toggleLearned = () => {
+useEffect(() =>{
+  // set .has returns bool
+  const isClassSkill = classSkills.has(skill.name)
+  console.log(skill.name, isClassSkill, learned);
+  
+  // isClassSkill and learned different? Update to match
+  if(isClassSkill !== learned){
+    console.log("MISMATCH! ", isClassSkill, learned);
+    
     dispatch({
       field: "skills",
       type: "UPDATE_SKILL",
-      payload: {
-        skill: skill.name,
-        field: "learned",
-        value: !learned,
-      },
-    });
-  };
-
+      payload: {skill: skill.name, field: 'learned', value: isClassSkill}
+    })
+    console.log("Dispatch sent!", skill.name, isClassSkill);
+    
+  }
+},[classSkills, skill.name, learned, dispatch])
   const updateRanks = (value: number) => {
     dispatch({
       field: "skills",
@@ -50,8 +57,8 @@ function SkillRow({ skill }: SkillRowProps) {
           name="learned"
           id="learned"
           checked={learned}
-          onChange={toggleLearned}
-        />
+          readOnly
+          />
       </div>
       <label className="w-1/3 text-sm" htmlFor={`${skill.name}`}>
         {skill.name}
