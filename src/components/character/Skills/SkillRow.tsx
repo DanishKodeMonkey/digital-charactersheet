@@ -48,10 +48,11 @@ useEffect(() =>{
       setTimeout(() => setError(false), 2000);
       return;
     }else{
+      const spentRanks = learned ? value : value * 2
     dispatch({
       field: "skills",
       type: "UPDATE_SKILL",
-      payload: { skill: skill.name, field: "ranks", value },
+      payload: { skill: skill.name, field: "ranks", value: spentRanks },
       skipDebounce: true
     })};
     setInputValue(value.toString())
