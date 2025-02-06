@@ -153,11 +153,12 @@ type Skills = {
     skills: Record<string, Skill>;
 };
 
-type SkillFieldValueType<Field extends keyof Skill> = Field extends 'learned'
+// Over engineered, depricated and seperate action handling for now.
+/* type SkillFieldValueType<Field extends keyof Skill> = Field extends 'learned'
     ? boolean // if field key, derived from Skill is 'learned' value must be boolean
     : Field extends 'ranks' | 'miscMod' | 'skillMod'
     ? number // if field key is this, value must be number
-    : never; // default to never
+    : never; // default to never */
 
 interface State {
     characterDetails: CharacterDetails;
@@ -211,12 +212,21 @@ interface UpdateSkillAction {
     field: 'skills';
     type: 'UPDATE_SKILL';
     payload: {
-        skill: keyof Skills; // e.g string = "heal"
-        field: keyof Skill; // e.g string =  "learned"
-        value: SkillFieldValueType<keyof Skill>; // e.g boolean = "true" OR number = 3
+        skill: keyof Skills;
+        field: keyof Skill;
+        value: number;
     };
 }
+interface UpdateSkillPointsAction {
+    field: 'skills';
+    type: 'UPDATE_SKILL_POINTS';
+}
 
+interface UpdateSkillLearnedAction extends ActionBase {
+    field: 'skills';
+    type: 'UPDATE_SKILL_LEARNED';
+    payload: { skill: keyof Skills; value: boolean };
+}
 interface UpdateBonusBaseAttackTotalAction {
     field: 'bonus';
     type: 'UPDATE_BASE_ATTACK_TOTAL';
@@ -246,11 +256,6 @@ interface UpdateSaveThrowsAbilityModifierAction {
     };
 }
 
-interface UpdateSkillPointsAction {
-    field: 'skills';
-    type: 'UPDATE_SKILL_POINTS';
-}
-
 // Unite action interfaces with as a type as Enumerate interfaces
 type Action =
     | UpdateCharacterDetailsLevelAction
@@ -266,11 +271,12 @@ type Action =
     | TakeDamageAction
     | UpdateSpeedAction
     | UpdateSkillAction
+    | UpdateSkillPointsAction
+    | UpdateSkillLearnedAction
     | UpdateBonusBaseAttackTotalAction
     | UpdateBonusInitiativeAction
     | UpdateSaveThrowsAction
-    | UpdateSaveThrowsAbilityModifierAction
-    | UpdateSkillPointsAction;
+    | UpdateSaveThrowsAbilityModifierAction;
 
 const validStatNames = [
     'strength',
@@ -299,6 +305,7 @@ const centralizationReducer = (state: State, action: Action): State => {
                     //    class: { className: string; baseAttack: number; baseSave: ClassBaseSaves };
 
                     const { value } = action.payload;
+
                     let { level } = state.characterDetails;
                     if (level < 1) {
                         console.log('CLASS INIT DETECTED LEVEL 0');
@@ -308,7 +315,6 @@ const centralizationReducer = (state: State, action: Action): State => {
                     const {
                         baseAttack,
                         baseSkill,
-                        classSkills,
                         specials,
                         spells,
                         baseSave,
@@ -330,11 +336,9 @@ const centralizationReducer = (state: State, action: Action): State => {
                         baseAttack: classData?.baseAttack ?? baseAttack,
                         baseSkill: classData?.baseSkill ?? baseSkill,
                         classSkills: classData?.classSkills
-                            ? new Set([
-                                  ...classSkills,
-                                  ...classData.classSkills,
-                              ])
-                            : classSkills,
+                            ? new Set([...classData.classSkills])
+                            : new Set([]),
+
                         specials: classData?.specials
                             ? [...classData.specials, ...specials]
                             : specials,
@@ -835,7 +839,6 @@ const centralizationReducer = (state: State, action: Action): State => {
                 }
                 case 'UPDATE_SKILL': {
                     const { skill, field, value } = action.payload;
-
                     // Validate skill in state
                     if (state.skills.skills[skill]) {
                         if (field !== 'learned') {
@@ -865,34 +868,40 @@ const centralizationReducer = (state: State, action: Action): State => {
                                     },
                                 },
                             };
-                        } else if (typeof value === 'boolean') {
-                            // If the field is 'learned', just update the related field without recalculating skillMod
-                            return {
-                                ...state,
-                                skills: {
-                                    ...state.skills, // Keep other fields in state.skills
-                                    skills: {
-                                        ...state.skills.skills, // Update only the skills part
-                                        [skill]: {
-                                            ...state.skills.skills[skill],
-                                            [field]: value,
-                                        },
-                                    },
-                                },
-                            };
-                        } else {
-                            console.warn(
-                                'Expected a boolean for "learned" field, got: ',
-                                typeof value
-                            );
-                            console.log(state);
-
-                            return state;
                         }
                     }
 
                     console.warn('No skill called', skill);
                     return state;
+                }
+                case 'UPDATE_SKILL_LEARNED': {
+                    const { skill, value } = action.payload;
+                    console.log('CENTRAL STATE LEARNED DETECTED', skill, value);
+
+                    if (
+                        state.skills.skills[skill] &&
+                        typeof value === 'boolean'
+                    ) {
+                        return {
+                            ...state,
+                            skills: {
+                                ...state.skills,
+                                skills: {
+                                    ...state.skills.skills,
+                                    [skill]: {
+                                        ...state.skills.skills[skill],
+                                        learned: value,
+                                    },
+                                },
+                            },
+                        };
+                    } else {
+                        console.warn(
+                            `No skill found for "${skill}" or invalid value: `,
+                            value
+                        );
+                        return state;
+                    }
                 }
                 default:
                     console.log('No changes made to skills');
