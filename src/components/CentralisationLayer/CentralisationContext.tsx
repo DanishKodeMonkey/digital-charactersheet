@@ -38,9 +38,13 @@ function useDebouncedDispatch(dispatch: React.Dispatch<Action>, delay: number) {
 
   // useCallback to memorise the function, this also ensures re-creation only when dispatch or delay changes.
   const useDebouncedDispatch = useCallback((action: Action) => {
+    console.log("bounced");
+    
     // When a action is dispatched, clear previous timer, resetting debounce.
     // This ensures dispatch is only sent when user stops typing.
     if (action.skipDebounce) {
+      console.log("Skipped bounce");
+      
       dispatch(action);
     } else {
       if (timerRef.current) {
