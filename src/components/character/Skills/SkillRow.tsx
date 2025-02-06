@@ -1,4 +1,4 @@
-import {useEffect} from 'react'
+import {useEffect, useState} from 'react'
 import { SkillRowProps } from "../../../types/character.ts";
 import { useCentralization } from "../../CentralisationLayer/CentralisationContext.tsx";
 
@@ -14,6 +14,10 @@ function SkillRow({ skill }: SkillRowProps) {
   const abilityMod = state.stats.modifiers[abilityName] || 0;
 
   const skillMod = ranks + abilityMod + miscMod;
+
+  const [inputValue, setInputValue] = useState(ranks.toString())
+  const [error, setError] = useState<boolean>(false) // local error state
+
   // calculate skillMod total
 useEffect(() =>{
   // set .has returns bool
@@ -34,11 +38,23 @@ useEffect(() =>{
 },[classSkills, skill.name, learned, dispatch])
 
   const updateRanks = (value: number) => {
+    const currentRanks = state.skills.skills[skill.name].ranks
+    const rankDifference = value - currentRanks
+
+    if(state.skills.skillPoints.current - rankDifference < 0){
+      console.warn("Not enough skill points! Skipped, reset to ", ranks);
+      setError(true)
+      setInputValue(ranks.toString())
+      setTimeout(() => setError(false), 2000);
+      return;
+    }else{
     dispatch({
       field: "skills",
       type: "UPDATE_SKILL",
       payload: { skill: skill.name, field: "ranks", value },
-    });
+      skipDebounce: true
+    })};
+    setInputValue(value.toString())
   };
   const updateMiscMod = (value: number) => {
     dispatch({
@@ -89,20 +105,26 @@ useEffect(() =>{
           />
         </div>
         <div className="w-1/4">
+        {error && (
+  <div className="absolute bg-red-500 text-white text-xs px-2 py-1 rounded-md">
+    Not enough skill points!
+  </div>
+)}
           <input
             className="input-micro"
             type="number"
             name="ranksModifier"
             id={`ranksModifier-${skill.name}`}
-            defaultValue={ranks.toString()}
+            value={inputValue}
             onFocus={(e) => {
               e.target.value = "";
             }} // Clear value on focus
+            onChange={(e) => setInputValue(e.target.value)}
             onBlur={(e) => {
               if (e.target.value === "") {
-                e.target.value = ranks.toString(); // Reset to original state if blank
+                setInputValue(ranks); // Reset to original state if blank
               } else {
-                updateRanks(Number(e.target.value)); // Update state with the new value
+                updateRanks(Number(e.target.value));// Update state with the new value
               }
             }}
           />
