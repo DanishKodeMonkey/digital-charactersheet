@@ -840,34 +840,57 @@ const centralizationReducer = (state: State, action: Action): State => {
                 case 'UPDATE_SKILL': {
                     const { skill, field, value } = action.payload;
                     // Validate skill in state
+
                     if (state.skills.skills[skill]) {
                         if (field !== 'learned') {
                             const updatedSkill = {
                                 ...state.skills.skills[skill],
                                 [field]: value,
                             };
+                            if (field === 'ranks') {
+                                // Determined ranks used,
+                                const ranksUsed =
+                                    value - state.skills.skills[skill].ranks;
+                                const newCurrentSkillPoints =
+                                    ranksUsed > 0
+                                        ? Math.max(
+                                              0,
+                                              state.skills.skillPoints.current -
+                                                  ranksUsed
+                                          ) // Decrease points if ranks increased
+                                        : Math.max(
+                                              0,
+                                              state.skills.skillPoints.current +
+                                                  Math.abs(ranksUsed)
+                                          ); // Increase points if ranks decreased
 
-                            // Recalculate skillMod total based on updated values
-                            const { ranks, miscMod, abilityName } =
-                                updatedSkill;
-                            const abilityMod =
-                                state.stats.modifiers[abilityName] || 0;
-                            const newSkillMod = abilityMod + ranks + miscMod;
+                                // Recalculate skillMod total based on updated values
+                                const { ranks, miscMod, abilityName } =
+                                    updatedSkill;
+                                const abilityMod =
+                                    state.stats.modifiers[abilityName] || 0;
+                                const newSkillMod =
+                                    abilityMod + ranks + miscMod;
 
-                            // Return updated state with new skill modifier, and rest of updatedSkill
-                            return {
-                                ...state,
-                                skills: {
-                                    ...state.skills, // Keep other fields in state.skills
+                                // Return updated state with new skill modifier, and rest of updatedSkill
+                                return {
+                                    ...state,
                                     skills: {
-                                        ...state.skills.skills, // Update only the skills part
-                                        [skill]: {
-                                            ...updatedSkill,
-                                            skillMod: newSkillMod,
+                                        ...state.skills,
+                                        skillPoints: {
+                                            ...state.skills.skillPoints,
+                                            current: newCurrentSkillPoints,
+                                        }, // Keep other fields in state.skills
+                                        skills: {
+                                            ...state.skills.skills, // Update only the skills part
+                                            [skill]: {
+                                                ...updatedSkill,
+                                                skillMod: newSkillMod,
+                                            },
                                         },
                                     },
-                                },
-                            };
+                                };
+                            }
                         }
                     }
 
