@@ -1,7 +1,6 @@
 import { Possession } from "../../types/inventory.ts";
 
 function InventoryRow({
-  index,
   possession,
   onUpdate,
   onRemove,
