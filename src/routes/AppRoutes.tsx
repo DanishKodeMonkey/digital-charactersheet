@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes } from "npm:react-router-dom@^7.0.2";
 import App from "../App.tsx";
-import { useAuth } from "../hooks/useAuth.ts";
+import { useAuth } from "../context/authentication/AuthContext.tsx";
 
 /* Mainly for authentication before going to app
 HUSKAT Verify character being used in app?
