@@ -1,5 +1,5 @@
-import { useCentralization } from "../../CentralisationLayer/CentralisationContext.tsx";
-import { ArmorClassType } from "../../CentralisationLayer/CentralisationLayer.ts";
+import { useCentralization } from "../../../context/CentralisationLayer/CentralisationContext.tsx";
+import { ArmorClassType } from "../../../context/CentralisationLayer/CentralisationLayer.ts";
 
 function ArmorClass() {
   // initialize the context, fetch state and dispatch action

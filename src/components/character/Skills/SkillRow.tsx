@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react'
 import { SkillRowProps } from "../../../types/character.ts";
-import { useCentralization } from "../../CentralisationLayer/CentralisationContext.tsx";
+import { useCentralization } from "../../../context/CentralisationLayer/CentralisationContext.tsx";
 
 // huskat: seperate types to typefile
 

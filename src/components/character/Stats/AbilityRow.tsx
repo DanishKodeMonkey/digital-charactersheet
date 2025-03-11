@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { AbilityRowProps } from "../../../types/character.ts";
-import { useCentralization } from "../../CentralisationLayer/CentralisationContext.tsx";
+import { useCentralization } from "../../../context/CentralisationLayer/CentralisationContext.tsx";
 
 // TODO, figure out why this re-renders twice
 const AbilityRow = React.memo(({ ability }: AbilityRowProps) => {

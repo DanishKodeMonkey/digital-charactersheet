@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useCentralization } from "../../CentralisationLayer/CentralisationContext.tsx";
+import { useCentralization } from "../../../context/CentralisationLayer/CentralisationContext.tsx";
 
 function Speed() {
   const { state, dispatch } = useCentralization();

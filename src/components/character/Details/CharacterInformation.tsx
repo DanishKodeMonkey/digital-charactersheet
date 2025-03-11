@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useCentralization } from "../../CentralisationLayer/CentralisationContext.tsx";
+import { useCentralization } from "../../../context/CentralisationLayer/CentralisationContext.tsx";
 
 interface Errors {
   [key: string]: string | undefined;

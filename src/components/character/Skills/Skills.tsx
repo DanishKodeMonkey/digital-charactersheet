@@ -1,6 +1,6 @@
 import { useMemo, useState, useEffect } from "react";
 import SkillRow from "./SkillRow.tsx";
-import { useCentralization } from "../../CentralisationLayer/CentralisationContext.tsx";
+import { useCentralization } from "../../../context/CentralisationLayer/CentralisationContext.tsx";
 
 function Skills() {
   const { state, dispatch } = useCentralization();

@@ -1,5 +1,5 @@
 import { useEffect} from "react";
-import { useCentralization } from "../../CentralisationLayer/CentralisationContext.tsx";
+import { useCentralization } from "../../../context/CentralisationLayer/CentralisationContext.tsx";
 
 interface SaveRowProps {
   saveType: "fortitude" | "reflex" | "will";

@@ -1,4 +1,4 @@
-import { useCentralization } from "../../CentralisationLayer/CentralisationContext.tsx";
+import { useCentralization } from "../../../context/CentralisationLayer/CentralisationContext.tsx";
 import {useEffect} from 'react'
 
 function Initiative() {

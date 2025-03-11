@@ -1,6 +1,6 @@
 import React from "react";
-import { useCentralization } from "../../CentralisationLayer/CentralisationContext.tsx";
-import { HealthStatus } from "../../CentralisationLayer/CentralisationLayer.ts";
+import { useCentralization } from "../../../context/CentralisationLayer/CentralisationContext.tsx";
+import { HealthStatus } from "../../../context/CentralisationLayer/CentralisationLayer.ts";
 
 /*
 DND 3.5e health hit die formula
