@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import {BrowserRouter as Router, Routes, Route, Navigate} from "react-router-dom"
 import Home from "./pages/Home.tsx";
 import { AuthRoutes, AppRoutes, UserRoutes } from "./routes/index.tsx";
+import { AuthProvider } from "./context/authentication/AuthContext.tsx";
 
 
 /* Entrypoint determines direction of user. */
@@ -38,6 +39,8 @@ const Main = () =>{
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <Main />
+    <AuthProvider>
+      <Main />
+    </AuthProvider>
   </React.StrictMode>,
 );
