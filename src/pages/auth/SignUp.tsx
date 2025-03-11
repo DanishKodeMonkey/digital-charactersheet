@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import {useNavigate} from "react-router-dom"
 import { auth } from "../../services/api.ts"
+import * as validator from "validator"
 
 
 /* HUSKAT: Remember ot implement options to sign up with OAuth sources (google and discord) */
@@ -19,9 +20,31 @@ const SignUp: React.FC = () =>{
 
     }
 
+    const validateForm = () =>{
+        // Validates all fields
+
+
+        if(!validator.isLength(formData.username, {min: 3 })){
+            setError("Username must be at least 3 characters long")
+            return false;
+        }
+        if(!validator.isEmail(formData.email)){
+            setError("invalid email address")
+            return false
+        }
+        if(!validator.isStrongPassword(formData.password, {minLength: 6})){
+            setError("Password must be at least 6 characters long")
+            return false;
+        }        
+        setError(null);
+        return true
+    }
+
     const handleSubmit = async(e: React.FormEvent) =>{
         e.preventDefault()
-        setError(null)
+        
+        if(!validateForm()) return
+
         setLoading(true)
         try{
             await auth.signUp(formData.username, formData.email, formData.password)
