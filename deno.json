@@ -27,6 +27,7 @@
     "react-dom": "npm:react-dom@^18.3.1",
     "tailwindcss": "npm:tailwindcss@^3.4.15",
     "vite": "npm:vite@^6.0.0",
-    "axios": "npm:axios@1.8.2"
+    "axios": "npm:axios@1.8.2",
+    "validator": "npm:validator@13.12.0"
   }
 }
