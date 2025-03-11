@@ -1,7 +1,7 @@
 import React from "react"
 import {Routes, Route, Navigate} from "react-router-dom"
 import UserPage from "../pages/user/UserPage.tsx"
-import { useAuth } from "../utils/useAuth.ts"
+import { useAuth } from "../hooks/useAuth.ts"
 
 
 const UserRoutes = () =>{

@@ -2,7 +2,7 @@ import React from "react";
 import {Routes, Route, Navigate} from "react-router-dom"
 import SignInPage from "../pages/auth/SignIn.tsx"
 import SignUpPage from "../pages/auth/SignUp.tsx"
-import { useAuth } from "../utils/useAuth.ts";
+import { useAuth } from "../hooks/useAuth.ts";
 
 const AuthRoutes = () =>{
     const isAuthenticated = useAuth()
