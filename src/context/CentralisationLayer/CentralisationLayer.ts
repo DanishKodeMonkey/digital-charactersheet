@@ -140,7 +140,7 @@ interface Skill {
     skillMod: number;
 }
 interface SkillPoints {
-    max: number;
+    maximum: number;
     current: number;
 }
 type Skills = {
@@ -807,7 +807,7 @@ const centralizationReducer = (state: State, action: Action): State => {
         case 'skills': {
             switch (action.type) {
                 case 'UPDATE_SKILL_POINTS': {
-                    const { max, current } = state.skills.skillPoints;
+                    const { maximum, current } = state.skills.skillPoints;
                     const { baseSkill } = state.characterDetails.class;
                     const { level } = state.characterDetails;
                     const intelligence =
@@ -816,14 +816,14 @@ const centralizationReducer = (state: State, action: Action): State => {
 
                     console.log(
                         'Calculating max',
-                        max,
+                        maximum,
                         baseSkill,
                         intelligence,
                         level
                     );
 
                     const newMaxSkills =
-                        (max + baseSkill + intelligence) *
+                        (maximum + baseSkill + intelligence) *
                         (level === 1 ? 4 : 1);
 
                     const newCurrentSkills =
@@ -835,7 +835,7 @@ const centralizationReducer = (state: State, action: Action): State => {
                         skills: {
                             ...state.skills,
                             skillPoints: {
-                                max: newMaxSkills,
+                                maximum: newMaxSkills,
                                 current: newCurrentSkills,
                             },
                         },

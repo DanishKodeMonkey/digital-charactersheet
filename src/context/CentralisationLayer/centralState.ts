@@ -103,7 +103,7 @@ export const centralState: State = {
         },
     },
     skills: {
-        skillPoints: { max: 0, current: 0 },
+        skillPoints: { maximum: 0, current: 0 },
         skills: {
             Appraise: {
                 learned: false,
