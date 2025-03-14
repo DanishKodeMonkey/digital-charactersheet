@@ -67,12 +67,7 @@ interface UpdateCharacterDetailsAction extends ActionBase {
     payload: { key: keyof CharacterDetails; value: string | number };
 }
 interface Stats {
-    strength: number;
-    dexterity: number;
-    constitution: number;
-    intelligence: number;
-    wisdom: number;
-    charisma: number;
+    scores: Record<AbilityName, number>;
     modifiers: Record<AbilityName, number>;
     tempScores: Record<AbilityName, number>;
     tempModifiers: Record<AbilityName, number>;
@@ -485,7 +480,7 @@ const centralizationReducer = (state: State, action: Action): State => {
                         return state;
                     }
 
-                    if (state.stats[stat] === value) {
+                    if (state.stats.scores[stat] === value) {
                         console.log('No changes made to stat value');
 
                         return state;
@@ -493,19 +488,20 @@ const centralizationReducer = (state: State, action: Action): State => {
 
                     // update state object with stat value
                     const newStats = {
-                        ...state.stats,
+                        ...state.stats.scores,
                         [stat]: value,
                     };
 
                     // update modifiers, re-calculate based on updated stats, acc = accumilator
-                    const modifiers = Object.keys(newStats).reduce(
+                    const newModifiers = Object.keys(newStats).reduce(
                         (acc, key) => {
                             if (
                                 key !== 'modifiers' &&
                                 key !== 'tempScores' &&
                                 key !== 'tempModifiers'
                             ) {
-                                const statValue = newStats[key as keyof Stats];
+                                const statValue =
+                                    newStats[key as keyof Stats['scores']];
                                 // typeguard to ensure statValue is number(stop screaming typescript thx)
                                 if (typeof statValue === 'number') {
                                     // If the stat value is greater than or equal to 10, calculate positive modifier
@@ -523,24 +519,28 @@ const centralizationReducer = (state: State, action: Action): State => {
                             }
                             return acc;
                         },
-                        {} as Record<string, number>
+                        {} as Record<AbilityName, number>
                     ); // accumilator initialiser, we push caluclated records to this
 
                     // return new state
                     return {
                         ...state,
-                        stats: { ...newStats, modifiers },
+                        stats: {
+                            ...state.stats,
+                            scores: newStats,
+                            modifiers: newModifiers,
+                        },
                     };
                 }
                 case 'UPDATE_TEMP_STAT': {
                     // similar to update_stat
                     const { stat, value } = action.payload;
-                    const tempScores = {
+                    const newTempScores = {
                         ...state.stats.tempScores,
                         [stat]: value,
                     };
 
-                    const tempModifiers = {
+                    const newTempModifiers = {
                         ...state.stats.tempModifiers,
                         [stat]:
                             value >= 0
@@ -550,7 +550,11 @@ const centralizationReducer = (state: State, action: Action): State => {
 
                     return {
                         ...state,
-                        stats: { ...state.stats, tempScores, tempModifiers },
+                        stats: {
+                            ...state.stats,
+                            tempScores: newTempScores,
+                            tempModifiers: newTempModifiers,
+                        },
                     };
                 }
                 // default case, if nothing else matches just return state
