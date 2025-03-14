@@ -1,6 +1,8 @@
 {
   "version": "4",
   "specifiers": {
+    "jsr:@std/assert@*": "1.0.11",
+    "jsr:@std/internal@^1.0.5": "1.0.5",
     "npm:@deno/vite-plugin@1": "1.0.1_vite@5.4.11",
     "npm:@eslint/js@^9.11.1": "9.16.0",
     "npm:@testing-library/react@*": "16.1.0_@testing-library+dom@10.4.0_@types+react@18.3.12_@types+react-dom@18.3.1_react@18.3.1_react-dom@18.3.1__react@18.3.1",
@@ -25,9 +27,24 @@
     "npm:tailwindcss@^3.4.15": "3.4.16_postcss@8.4.49",
     "npm:typescript-eslint@^8.7.0": "8.17.0_eslint@9.16.0_@typescript-eslint+parser@8.17.0__eslint@9.16.0__typescript@5.7.2_typescript@5.7.2",
     "npm:typescript@^5.5.3": "5.7.2",
+    "npm:validator@13.12.0": "13.12.0",
+    "npm:validator@^13.12.0": "13.12.0",
     "npm:vite@*": "6.0.2_@types+node@22.5.4",
     "npm:vite@6": "6.0.2_@types+node@22.5.4",
-    "npm:vite@^5.4.8": "5.4.11"
+    "npm:vite@^5.4.8": "5.4.11",
+    "npm:zod@3.24.2": "3.24.2",
+    "npm:zod@^3.24.2": "3.24.2"
+  },
+  "jsr": {
+    "@std/assert@1.0.11": {
+      "integrity": "2461ef3c368fe88bc60e186e7744a93112f16fd110022e113a0849e94d1c83c1",
+      "dependencies": [
+        "jsr:@std/internal"
+      ]
+    },
+    "@std/internal@1.0.5": {
+      "integrity": "54a546004f769c1ac9e025abd15a76b6671ddc9687e2313b67376125650dc7ba"
+    }
   },
   "npm": {
     "@alloc/quick-lru@5.2.0": {
@@ -1857,6 +1874,9 @@
     "util-deprecate@1.0.2": {
       "integrity": "sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw=="
     },
+    "validator@13.12.0": {
+      "integrity": "sha512-c1Q0mCiPlgdTVVVIJIrBuxNicYE+t/7oKeI9MWLj3fh/uq2Pxh/3eeWbVZ4OcGW1TUf53At0njHw5SMdA3tmMg=="
+    },
     "vite@5.4.11": {
       "integrity": "sha512-c7jFQRklXua0mTzneGW9QVyxFjUgwcihC4bXEtujIo2ouWCe1Ajt/amn2PCxYnhYfd5k09JX3SB7OYWFKYqj8Q==",
       "dependencies": [
@@ -1928,12 +1948,16 @@
     },
     "yocto-queue@0.1.0": {
       "integrity": "sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q=="
+    },
+    "zod@3.24.2": {
+      "integrity": "sha512-lY7CDW43ECgW9u1TcT3IoXHflywfVqDYze4waEz812jR/bZ8FHDsl7pFQoSZTz5N+2NqRXs8GBwnAwo3ZNxqhQ=="
     }
   },
   "workspace": {
     "dependencies": [
       "npm:@deno/vite-plugin@1",
       "npm:autoprefixer@^10.4.20",
+      "npm:axios@1.8.2",
       "npm:postcss@^8.4.49",
       "npm:react-dom@^18.3.1",
       "npm:react@^18.3.1",
@@ -1947,6 +1971,7 @@
         "npm:@types/react@^18.3.10",
         "npm:@vitejs/plugin-react@^4.3.2",
         "npm:autoprefixer@^10.4.20",
+        "npm:axios@^1.8.2",
         "npm:eslint-plugin-react-hooks@^5.1.0-rc.0",
         "npm:eslint-plugin-react-refresh@~0.4.12",
         "npm:eslint@^9.11.1",
