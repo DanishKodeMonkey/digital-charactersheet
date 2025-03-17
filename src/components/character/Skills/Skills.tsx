@@ -1,23 +1,23 @@
-import { useMemo, useState, useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import SkillRow from "./SkillRow.tsx";
 import { useCentralization } from "../../../context/CentralisationLayer/CentralisationContext.tsx";
 
 function Skills() {
   const { state, dispatch } = useCentralization();
 
-
-  const {max, current} = state.skills.skillPoints
-
+  const { max, current } = state.skills.skillPoints;
 
   // Calculate new max ranks when level changes
   useEffect(() => {
     dispatch({
-    field:"skills",
-    type:'UPDATE_SKILL_POINTS'
-    })
-  }, [state.characterDetails.level, state.stats.modifiers.intelligence, state.stats.tempModifiers.intelligence]);
-
-
+      field: "skills",
+      type: "UPDATE_SKILL_POINTS",
+    });
+  }, [
+    state.characterDetails.level,
+    state.stats.modifiers.intelligence,
+    state.stats.tempModifiers.intelligence,
+  ]);
 
   const skillNames = useMemo(() => Object.keys(state.skills.skills), [
     state.skills.skills,
@@ -51,7 +51,8 @@ function Skills() {
                 name="skillPoints"
                 id="skillPoints"
                 value={current}
-readOnly              />
+                readOnly
+              />
             </div>
           </div>
         </div>

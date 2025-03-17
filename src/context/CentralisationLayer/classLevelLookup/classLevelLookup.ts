@@ -1,16 +1,18 @@
 import type {
-    ClassSpellsShape,
-    ClassBaseSaves,
-} from '../CentralisationLayer.ts';
-import classProgressionData from './classProgression.json' with {type:"json"}
+  ClassBaseSaves,
+  ClassSpellsShape,
+} from "../CentralisationLayer.ts";
+import classProgressionData from "./classProgression.json" with {
+  type: "json",
+};
 
 export interface ClassLevelData {
-    baseAttack: number;
-    baseSkill?: number;
-    classSkills?: string[];
-    specials?: string[];
-    spells?: ClassSpellsShape;
-    baseSave?: ClassBaseSaves;
+  baseAttack: number;
+  baseSkill?: number;
+  classSkills?: string[];
+  specials?: string[];
+  spells?: ClassSpellsShape;
+  baseSave?: ClassBaseSaves;
 }
 
 // Entire progresison table for a class level, e.g {5, {classlevel data e.g baseAttack: number}}
@@ -21,26 +23,30 @@ export type ClassLookupTable = Record<string, ClassProgressionTable>;
 
 // Default value fallback
 const DEFAULT_LEVEL_DATA: ClassLevelData = {
-    baseAttack: 0,
-    baseSkill: 0,
-    classSkills: [],
-    specials: [],
-    baseSave: {
-        fortitudeBase: 0,
-        reflexBase: 0,
-        willBase: 0,
-    },
+  baseAttack: 0,
+  baseSkill: 0,
+  classSkills: [],
+  specials: [],
+  baseSave: {
+    fortitudeBase: 0,
+    reflexBase: 0,
+    willBase: 0,
+  },
 };
 
 // Clientside POC solution
 
-export const classProgression: ClassLookupTable = classProgressionData
+export const classProgression: ClassLookupTable = classProgressionData;
 
-export function classLookup(className: string, level: number):ClassLevelData | null{
-    const classData = classProgression[className.toLowerCase()]
-    return classData ? classData[level] || DEFAULT_LEVEL_DATA : DEFAULT_LEVEL_DATA
+export function classLookup(
+  className: string,
+  level: number,
+): ClassLevelData | null {
+  const classData = classProgression[className.toLowerCase()];
+  return classData
+    ? classData[level] || DEFAULT_LEVEL_DATA
+    : DEFAULT_LEVEL_DATA;
 }
-
 
 //API solution draft
 /* let classProgression: ClassLookupTable | null = null; */

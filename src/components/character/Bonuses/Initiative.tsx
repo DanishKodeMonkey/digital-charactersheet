@@ -1,23 +1,24 @@
 import { useCentralization } from "../../../context/CentralisationLayer/CentralisationContext.tsx";
-import {useEffect} from 'react'
+import { useEffect } from "react";
 
 function Initiative() {
   const { state, dispatch } = useCentralization();
 
-  const miscModifier = state.bonus.initiative.miscModifier
-  const dexterity = state.stats.modifiers.dexterity + state.stats.tempModifiers.dexterity;
-  const initiativeTotal = state.bonus.initiative.initiativeTotal
+  const miscModifier = state.bonus.initiative.miscModifier;
+  const dexterity = state.stats.modifiers.dexterity +
+    state.stats.tempModifiers.dexterity;
+  const initiativeTotal = state.bonus.initiative.initiativeTotal;
 
   const updateInitiative = (newMiscModifier: number) => {
     dispatch({
       field: "bonus",
       type: "UPDATE_INITIATIVE",
-      payload: { miscModifier: newMiscModifier},
+      payload: { miscModifier: newMiscModifier },
     });
   };
-  useEffect(() =>{
-    updateInitiative(miscModifier)
-  }, [dexterity])
+  useEffect(() => {
+    updateInitiative(miscModifier);
+  }, [dexterity]);
 
   return (
     <div className="flex flex-col align-middle m-5 text-center">
@@ -53,7 +54,7 @@ function Initiative() {
           <label className="input-label" htmlFor="miscMod">
             Misc <br /> modifier
           </label>
-                   <input
+          <input
             className="input-base w-full"
             type="number"
             name="miscModifier"

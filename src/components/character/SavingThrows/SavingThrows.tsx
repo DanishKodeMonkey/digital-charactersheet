@@ -1,14 +1,14 @@
-import React from 'react'
+import React from "react";
 import SaveRow from "./SaveRow.tsx";
 
 function SavingThrows() {
-
   // Map saveType to corresponding ability modifier name
-  const saveTypeToAbilityMap: Record<"fortitude" | "reflex" | "will", string> ={
-    fortitude: "constitution",
-    reflex: "dexterity",
-    will: "wisdom",
-  }
+  const saveTypeToAbilityMap: Record<"fortitude" | "reflex" | "will", string> =
+    {
+      fortitude: "constitution",
+      reflex: "dexterity",
+      will: "wisdom",
+    };
 
   // save types to itterate over
   const saveTypes: Array<"fortitude" | "reflex" | "will"> = [
@@ -50,22 +50,21 @@ function SavingThrows() {
         <hr className="border-b-2 m-1" />
         <div className="grid grid-rows-3 grid-cols-[1fr,2fr] pr-1">
           {saveTypes.map((saveType) => {
-            const ability = saveTypeToAbilityMap[saveType]
+            const ability = saveTypeToAbilityMap[saveType];
 
-            return(
+            return (
               <React.Fragment key={saveType}>
                 <div>
                   <h1 className="text-sm capitalize">
                     {saveType}
                   </h1>
                   <h2 className="text-xs">({ability})</h2>
-
                 </div>
                 <div>
                   <SaveRow saveType={saveType} />
                 </div>
               </React.Fragment>
-            )
+            );
           })}
         </div>
       </div>

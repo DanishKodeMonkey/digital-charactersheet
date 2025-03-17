@@ -5,14 +5,17 @@ import { useAuth } from "../context/authentication/AuthContext.tsx";
 /* Mainly for authentication before going to app
 HUSKAT Verify character being used in app?
 */
-const AppRoutes = () =>{
-    const isAuthenticated = useAuth()
+const AppRoutes = () => {
+  const isAuthenticated = useAuth();
 
-    return (
-        <Routes>
-            <Route path="/*" element={isAuthenticated ? <App /> : <Navigate to="/auth/signin" />} />
-        </Routes>
-    )
-}
+  return (
+    <Routes>
+      <Route
+        path="/*"
+        element={isAuthenticated ? <App /> : <Navigate to="/auth/signin" />}
+      />
+    </Routes>
+  );
+};
 
-export default AppRoutes
+export default AppRoutes;

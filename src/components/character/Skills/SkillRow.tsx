@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'
+import { useEffect, useState } from "react";
 import { SkillRowProps } from "../../../types/character.ts";
 import { useCentralization } from "../../../context/CentralisationLayer/CentralisationContext.tsx";
 
@@ -10,52 +10,50 @@ function SkillRow({ skill }: SkillRowProps) {
   const { learned, abilityName, ranks, miscMod } =
     state.skills.skills[skill.name];
 
-  const classSkills = state.characterDetails.class.classSkills as Set<string>
+  const classSkills = state.characterDetails.class.classSkills as Set<string>;
   const abilityMod = state.stats.modifiers[abilityName] || 0;
 
   const skillMod = ranks + abilityMod + miscMod;
 
-  const [inputValue, setInputValue] = useState(ranks.toString())
-  const [error, setError] = useState<boolean>(false) // local error state
+  const [inputValue, setInputValue] = useState(ranks.toString());
+  const [error, setError] = useState<boolean>(false); // local error state
 
   // calculate skillMod total
-useEffect(() =>{
-  // set .has returns bool
-  const isClassSkill = classSkills.has(skill.name)
-  
-  // isClassSkill and learned different? Update to match
-  if(isClassSkill !== learned){
-    
-    dispatch({
-      field: "skills",
-      type: "UPDATE_SKILL_LEARNED",
-      payload: {skill: skill.name, value: isClassSkill},
-      skipDebounce: true
-      
-    })
-    
-  }
-},[classSkills, skill.name, learned, dispatch])
+  useEffect(() => {
+    // set .has returns bool
+    const isClassSkill = classSkills.has(skill.name);
+
+    // isClassSkill and learned different? Update to match
+    if (isClassSkill !== learned) {
+      dispatch({
+        field: "skills",
+        type: "UPDATE_SKILL_LEARNED",
+        payload: { skill: skill.name, value: isClassSkill },
+        skipDebounce: true,
+      });
+    }
+  }, [classSkills, skill.name, learned, dispatch]);
 
   const updateRanks = (value: number) => {
-    const currentRanks = state.skills.skills[skill.name].ranks
-    const rankDifference = value - currentRanks
+    const currentRanks = state.skills.skills[skill.name].ranks;
+    const rankDifference = value - currentRanks;
 
-    if(state.skills.skillPoints.current - rankDifference < 0){
+    if (state.skills.skillPoints.current - rankDifference < 0) {
       console.warn("Not enough skill points! Skipped, reset to ", ranks);
-      setError(true)
-      setInputValue(ranks.toString())
+      setError(true);
+      setInputValue(ranks.toString());
       setTimeout(() => setError(false), 2000);
       return;
-    }else{
-      const spentRanks = learned ? value : value * 2
-    dispatch({
-      field: "skills",
-      type: "UPDATE_SKILL",
-      payload: { skill: skill.name, field: "ranks", value: spentRanks },
-      skipDebounce: true
-    })};
-    setInputValue(value.toString())
+    } else {
+      const spentRanks = learned ? value : value * 2;
+      dispatch({
+        field: "skills",
+        type: "UPDATE_SKILL",
+        payload: { skill: skill.name, field: "ranks", value: spentRanks },
+        skipDebounce: true,
+      });
+    }
+    setInputValue(value.toString());
   };
   const updateMiscMod = (value: number) => {
     dispatch({
@@ -75,7 +73,7 @@ useEffect(() =>{
           id="learned"
           checked={learned}
           readOnly
-          />
+        />
       </div>
       <label className="w-1/3 text-sm" htmlFor={`${skill.name}`}>
         {skill.name}
@@ -106,11 +104,11 @@ useEffect(() =>{
           />
         </div>
         <div className="w-1/4">
-        {error && (
-  <div className="absolute bg-red-500 text-white text-xs px-2 py-1 rounded-md">
-    Not enough skill points!
-  </div>
-)}
+          {error && (
+            <div className="absolute bg-red-500 text-white text-xs px-2 py-1 rounded-md">
+              Not enough skill points!
+            </div>
+          )}
           <input
             className="input-micro"
             type="number"
@@ -125,7 +123,7 @@ useEffect(() =>{
               if (e.target.value === "") {
                 setInputValue(ranks); // Reset to original state if blank
               } else {
-                updateRanks(Number(e.target.value));// Update state with the new value
+                updateRanks(Number(e.target.value)); // Update state with the new value
               }
             }}
           />

@@ -13,7 +13,7 @@ const AbilityRow = React.memo(({ ability }: AbilityRowProps) => {
   const tempMod = state.stats.tempModifiers[abilityKey] || 0;
 
   const [localScore, setLocalScore] = useState(score);
-  const [localTempScore, setLocalTempScore] = useState(tempScore)
+  const [localTempScore, setLocalTempScore] = useState(tempScore);
 
   // Sync local UI display to central state when update is saved
   useEffect(() => {
@@ -31,7 +31,7 @@ const AbilityRow = React.memo(({ ability }: AbilityRowProps) => {
   };
 
   const updateTempStat = (value: number) => {
-    setLocalTempScore(value)
+    setLocalTempScore(value);
     dispatch({
       field: "stats",
       type: "UPDATE_TEMP_STAT",

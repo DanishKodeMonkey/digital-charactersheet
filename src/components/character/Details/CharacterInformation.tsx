@@ -50,39 +50,38 @@ function CharacterInformation() {
     weight: 0,
     eyes: "",
     hair: "",
-  })
-
-// Sync local state with centralState on mount and when centralState updates
-
-useEffect(() => {
-  setInputValues({
-    characterName: state.characterDetails.characterName || "",
-    playerName: state.characterDetails.playerName || "",
-    class: state.characterDetails.class.className || "",
-    race: state.characterDetails.race.raceName || "",
-    alignment: state.characterDetails.alignment || "",
-    deity: state.characterDetails.deity || "",
-    level: state.characterDetails.level || 0,
-    sizeName: state.characterDetails.size.sizeName || "",
-    age: state.characterDetails.age || 0,
-    sex: state.characterDetails.sex || "",
-    height: state.characterDetails.height || 0,
-    weight: state.characterDetails.weight || 0,
-    eyes: state.characterDetails.eyes || "",
-    hair: state.characterDetails.hair || "",
   });
-}, [state.characterDetails]); // Reacts to state updates
 
+  // Sync local state with centralState on mount and when centralState updates
+
+  useEffect(() => {
+    setInputValues({
+      characterName: state.characterDetails.characterName || "",
+      playerName: state.characterDetails.playerName || "",
+      class: state.characterDetails.class.className || "",
+      race: state.characterDetails.race.raceName || "",
+      alignment: state.characterDetails.alignment || "",
+      deity: state.characterDetails.deity || "",
+      level: state.characterDetails.level || 0,
+      sizeName: state.characterDetails.size.sizeName || "",
+      age: state.characterDetails.age || 0,
+      sex: state.characterDetails.sex || "",
+      height: state.characterDetails.height || 0,
+      weight: state.characterDetails.weight || 0,
+      eyes: state.characterDetails.eyes || "",
+      hair: state.characterDetails.hair || "",
+    });
+  }, [state.characterDetails]); // Reacts to state updates
 
   const handleChange = (
     key: keyof typeof state.characterDetails,
-    value: string | number
+    value: string | number,
   ) => {
     // Update local state for UI
-    setInputValues((prev) =>({...prev,[key]:  value}))
+    setInputValues((prev) => ({ ...prev, [key]: value }));
     // Start by setting the error to undefined (clear any previous error)
     setErrors((prev: Errors) => ({ ...prev, [key]: undefined }));
-  
+
     switch (key) {
       case "class":
         dispatch({
@@ -91,46 +90,50 @@ useEffect(() => {
           payload: { value },
         });
         break;
-  
-        case "level":{
-          const level = Number(value);
-          console.log('Triggered level adjust with', level);
-          console.log('Current level', state.characterDetails.level);
-          
-          
-          // Validate level range
-          if (level < 1 || level > 20) {
-            console.log('Level not in range', level);
-            
-            setErrors((prev: Errors) => ({
-              ...prev,
-              [key]: "Invalid level, must be between 1 and 20.",
-            }));
-            return; // Early return to prevent dispatch if validation fails
-          }
-    
-          // Validate level progression (cannot go back in levels)
-          if (level < Number(state.characterDetails.level)) {
-            console.log(`Level lower than saved value`, level, state.characterDetails.level);
-            
-            setErrors((prev: Errors) => ({
-              ...prev,
-              [key]: `Invalid level, must be above saved level of ${state.characterDetails.level}`,
-            }));
-            return; // Early return to prevent dispatch if validation fails
-          }
-    
-          // If level passes validation, dispatch the action
-          else{
-            console.log("Passed check, dispatching", level);
-            
+
+      case "level": {
+        const level = Number(value);
+        console.log("Triggered level adjust with", level);
+        console.log("Current level", state.characterDetails.level);
+
+        // Validate level range
+        if (level < 1 || level > 20) {
+          console.log("Level not in range", level);
+
+          setErrors((prev: Errors) => ({
+            ...prev,
+            [key]: "Invalid level, must be between 1 and 20.",
+          }));
+          return; // Early return to prevent dispatch if validation fails
+        }
+
+        // Validate level progression (cannot go back in levels)
+        if (level < Number(state.characterDetails.level)) {
+          console.log(
+            `Level lower than saved value`,
+            level,
+            state.characterDetails.level,
+          );
+
+          setErrors((prev: Errors) => ({
+            ...prev,
+            [key]:
+              `Invalid level, must be above saved level of ${state.characterDetails.level}`,
+          }));
+          return; // Early return to prevent dispatch if validation fails
+        } // If level passes validation, dispatch the action
+        else {
+          console.log("Passed check, dispatching", level);
+
           dispatch({
             field: "characterDetails",
             type: "UPDATE_CHARACTER_DETAIL_LEVEL",
             payload: { value: level },
           });
-          break;}}
-  
+          break;
+        }
+      }
+
       case "race":
         dispatch({
           field: "characterDetails",
@@ -138,7 +141,7 @@ useEffect(() => {
           payload: { value },
         });
         break;
-  
+
       case "alignment":
         if (!ALIGNMENT_OPTIONS.includes(value as string)) {
           setErrors((prev: Errors) => ({
@@ -153,7 +156,7 @@ useEffect(() => {
           });
         }
         break;
-  
+
       case "size":
         if (!SIZE_OPTIONS.includes(value as string)) {
           setErrors((prev: Errors) => ({
@@ -168,7 +171,7 @@ useEffect(() => {
           });
         }
         break;
-  
+
       default:
         // Handle other fields that don't have validation or specific rules
         dispatch({
@@ -179,7 +182,6 @@ useEffect(() => {
         break;
     }
   };
-  
 
   return (
     <div className="container mx-auto">

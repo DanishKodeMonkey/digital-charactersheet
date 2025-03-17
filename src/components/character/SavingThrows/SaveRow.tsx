@@ -1,34 +1,32 @@
-import { useEffect} from "react";
+import { useEffect } from "react";
 import { useCentralization } from "../../../context/CentralisationLayer/CentralisationContext.tsx";
 
 interface SaveRowProps {
   saveType: "fortitude" | "reflex" | "will";
 }
 
-
-function SaveRow({saveType}: SaveRowProps) {
-  const {state, dispatch} = useCentralization()
+function SaveRow({ saveType }: SaveRowProps) {
+  const { state, dispatch } = useCentralization();
 
   // fetch relevant data from state
-  const saveThrow = state.savingThrows[saveType]
-  
+  const saveThrow = state.savingThrows[saveType];
+
   const abilityMod = (() => {
     switch (saveType) {
       case "fortitude":
-        
-        return state.stats.modifiers.constitution + state.stats.tempModifiers.constitution;
+        return state.stats.modifiers.constitution +
+          state.stats.tempModifiers.constitution;
       case "reflex":
-        
-        return state.stats.modifiers.dexterity + state.stats.tempModifiers.dexterity;
+        return state.stats.modifiers.dexterity +
+          state.stats.tempModifiers.dexterity;
       case "will":
-        
         return state.stats.modifiers.wisdom + state.stats.tempModifiers.wisdom;
       default:
         return 0;
     }
   })();
 
-  const baseMod= (() => {
+  const baseMod = (() => {
     switch (saveType) {
       case "fortitude":
         return state.characterDetails.class.baseSave.fortitudeBase;
@@ -41,23 +39,21 @@ function SaveRow({saveType}: SaveRowProps) {
     }
   })();
 
-
-  const handleChange = (field: keyof typeof saveThrow, value: number) =>{
+  const handleChange = (field: keyof typeof saveThrow, value: number) => {
     dispatch({
       field: "savingThrows",
       type: "UPDATE_SAVE_THROW_TOTAL",
-      payload: {saveType, field, value}
-    })
-  }
+      payload: { saveType, field, value },
+    });
+  };
 
-
-useEffect(()=>{
- 
-  dispatch({
-    field: 'savingThrows', type:"UPDATE_SAVE_THROW_ABILITY_MODIFIER",
-    payload: {saveType}
-  })
-},[abilityMod, baseMod, dispatch])
+  useEffect(() => {
+    dispatch({
+      field: "savingThrows",
+      type: "UPDATE_SAVE_THROW_ABILITY_MODIFIER",
+      payload: { saveType },
+    });
+  }, [abilityMod, baseMod, dispatch]);
 
   return (
     <div className="flex">
@@ -74,7 +70,7 @@ useEffect(()=>{
         type="number"
         name="baseMod"
         id="baseMod"
-        value={baseMod  || 0}
+        value={baseMod || 0}
         className="input-tiny"
         disabled
       />
@@ -92,7 +88,7 @@ useEffect(()=>{
         type="number"
         name="magicMod"
         id="magicMod"
-        value={saveThrow.magicMod|| 0}
+        value={saveThrow.magicMod || 0}
         disabled
         className="input-tiny"
       />
@@ -102,7 +98,6 @@ useEffect(()=>{
         name="miscMod"
         id="miscMod"
         className="input-tiny"
-
         defaultValue={saveThrow.miscMod.toString() || 0}
         onFocus={(e) => {
           e.target.value = "";
@@ -121,7 +116,6 @@ useEffect(()=>{
         name="tempMod"
         id="tempMod"
         className="input-tiny"
-
         defaultValue={saveThrow.tempMod.toString() || 0}
         onFocus={(e) => {
           e.target.value = "";
