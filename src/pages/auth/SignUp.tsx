@@ -83,8 +83,8 @@ const SignUp: React.FC = () =>{
                 <p>Already have an account? <a href="/auth/signin">Sign in!</a></p>
 
                 {/* HUSKAT implement Oauth logic */}
-                <button disabled className="oauth-btn">Sign up with Google</button>
-                <button disabled className="oauth-btn">Sign up with Discord</button>
+                <button onClick={() => alert("Coming soon")} className="oauth-btn">Sign up with Google</button>
+                <button onClick={() => alert("Coming soon")} className="oauth-btn">Sign up with Discord</button>
         </div>
     )
 }
