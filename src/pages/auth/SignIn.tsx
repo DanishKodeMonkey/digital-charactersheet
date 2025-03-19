@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { auth } from "../../services/api.ts";
 import { z } from "zod";
+import { useAuth } from "../../context/authentication/AuthContext.tsx";
 
 // Validation schema
 // HUSKAT update to include validation for oauth when implemented
@@ -18,6 +19,7 @@ const SignIn = () => {
   >({});
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const {login} = useAuth()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // Updates form state, and clears validation errors until a neww one occours
@@ -47,9 +49,7 @@ const SignIn = () => {
     // Starts process to send authentication post to API
     setLoading(true);
     try {
-      const response = await auth.signIn(formData.email, formData.password);
-      localStorage.setItem("access_token", response.access_token);
-      localStorage.setItem("refresh_token", response.refresh_token);
+      const response = await auth.signIn(formData.email, formData.password, login);
       navigate("/home");
     } catch (err) {
       setError(err.message);
@@ -91,12 +91,10 @@ const SignIn = () => {
         {error && <p className="error">{error}</p>} {/* Submit error */}
         <button
           type="submit"
-          disabled={loading || Object.keys(validationErrors).length > 0}
+          disabled={loading}
         >
           {loading
             ? "Signing in..."
-            : Object.keys(validationErrors).length > 0
-            ? "Changes required "
             : "Sign In"}
         </button>
       </form>

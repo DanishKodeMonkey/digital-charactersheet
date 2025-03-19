@@ -17,7 +17,7 @@ const Home = () => {
         )
         : (
           <h2>
-            <a href="/auth">Please sign in to continue.</a>
+            <a href="/auth/signin">Please sign in to continue.</a>
           </h2>
         )}
     </div>
