@@ -9,18 +9,25 @@ import {
 import Home from "./pages/Home.tsx";
 import { AppRoutes, AuthRoutes, UserRoutes } from "./routes/index.tsx";
 import { AuthProvider } from "./context/authentication/AuthContext.tsx";
+import SignIn from "./pages/auth/SignIn.tsx";
+import SignUp from "./pages/auth/SignUp.tsx";
 
 /* Entrypoint determines direction of user. */
 
 const Main = () => {
   return (
+    
     <Router>
       <Routes>
         {/* Landing page, determines where to send user */}
         <Route path="/" element={<Home />} />
 
         {/* Authentication page, Login and signup */}
-        <Route path="/auth/*" element={<AuthRoutes />} />
+        <Route path="auth" element={<AuthRoutes />} >
+          <Route path="signin" element={<SignIn />} />
+          <Route path="signup" element={<SignUp />} />
+        </Route>
+        
 
         {/* App layer, the actual character sheet app */}
         <Route path="/app/" element={<AppRoutes />} />
