@@ -18,6 +18,10 @@
     "npm:eslint-plugin-react-refresh@~0.4.12": "0.4.16_eslint@9.16.0",
     "npm:eslint@^9.11.1": "9.16.0",
     "npm:globals@^15.9.0": "15.13.0",
+    "npm:js-cookie@3.0.5": "3.0.5",
+    "npm:js-cookie@^3.0.5": "3.0.5",
+    "npm:jwt-decode@4": "4.0.0",
+    "npm:jwt-decode@4.0.0": "4.0.0",
     "npm:postcss@^8.4.47": "8.4.49",
     "npm:postcss@^8.4.49": "8.4.49",
     "npm:react-dom@^18.3.1": "18.3.1_react@18.3.1",
@@ -1330,6 +1334,9 @@
     "jiti@1.21.6": {
       "integrity": "sha512-2yTgeWTWzMWkHu6Jp9NKgePDaYHbntiwvYuuJLbbN9vl7DC9DvXKOB2BC3ZZ92D3cvV/aflH0osDfwpHepQ53w=="
     },
+    "js-cookie@3.0.5": {
+      "integrity": "sha512-cEiJEAEoIbWfCZYKWhVwFuvPX1gETRYPw6LlaTKoxD3s2AkXzkCjnp6h0V77ozyqj0jakteJ4YqDJT830+lVGw=="
+    },
     "js-tokens@4.0.0": {
       "integrity": "sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ=="
     },
@@ -1353,6 +1360,9 @@
     },
     "json5@2.2.3": {
       "integrity": "sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg=="
+    },
+    "jwt-decode@4.0.0": {
+      "integrity": "sha512-+KJGIyHgkGuIq3IEBNftfhW/LfWhXUIY6OmyVWjliu5KH1y0fw7VQ8YndE2O4qZdMSd9SqbnC8GOcZEy0Om7sA=="
     },
     "keyv@4.5.4": {
       "integrity": "sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==",
@@ -1958,11 +1968,13 @@
       "npm:@deno/vite-plugin@1",
       "npm:autoprefixer@^10.4.20",
       "npm:axios@1.8.2",
+      "npm:jwt-decode@4.0.0",
       "npm:postcss@^8.4.49",
       "npm:react-dom@^18.3.1",
       "npm:react@^18.3.1",
       "npm:tailwindcss@^3.4.15",
-      "npm:vite@6"
+      "npm:vite@6",
+      "npm:zod@3.24.2"
     ],
     "packageJson": {
       "dependencies": [
@@ -1976,6 +1988,7 @@
         "npm:eslint-plugin-react-refresh@~0.4.12",
         "npm:eslint@^9.11.1",
         "npm:globals@^15.9.0",
+        "npm:jwt-decode@4",
         "npm:postcss@^8.4.47",
         "npm:react-dom@^18.3.1",
         "npm:react-router-dom@^7.0.2",
@@ -1983,7 +1996,8 @@
         "npm:tailwindcss@^3.4.14",
         "npm:typescript-eslint@^8.7.0",
         "npm:typescript@^5.5.3",
-        "npm:vite@^5.4.8"
+        "npm:vite@^5.4.8",
+        "npm:zod@^3.24.2"
       ]
     }
   }
