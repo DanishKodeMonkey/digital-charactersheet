@@ -7,8 +7,7 @@ HUSKAT Verify character being used in app?
 const AppRoutes = () => {
   const isAuthenticated = useAuth();
 
-  return <App />
-
+  return <App />;
 };
 
 export default AppRoutes;

@@ -16,18 +16,16 @@ import SignUp from "./pages/auth/SignUp.tsx";
 
 const Main = () => {
   return (
-    
     <Router>
       <Routes>
         {/* Landing page, determines where to send user */}
         <Route path="/" element={<Home />} />
 
         {/* Authentication page, Login and signup */}
-        <Route path="auth" element={<AuthRoutes />} >
+        <Route path="auth" element={<AuthRoutes />}>
           <Route path="signin" element={<SignIn />} />
           <Route path="signup" element={<SignUp />} />
         </Route>
-        
 
         {/* App layer, the actual character sheet app */}
         <Route path="/app/" element={<AppRoutes />} />

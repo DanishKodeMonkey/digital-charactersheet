@@ -31,7 +31,7 @@ const SignUp: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     console.log("click");
-    
+
     e.preventDefault();
     setError(null);
 
@@ -106,7 +106,7 @@ const SignUp: React.FC = () => {
         {/* Show API error messages */}
 
         <button
-        className="btn border-2"
+          className="btn border-2"
           type="submit"
           onSubmit={handleSubmit}
           disabled={loading}

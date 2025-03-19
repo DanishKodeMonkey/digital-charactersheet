@@ -19,7 +19,7 @@ const SignIn = () => {
   >({});
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const {login} = useAuth()
+  const { login } = useAuth();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // Updates form state, and clears validation errors until a neww one occours
@@ -49,7 +49,11 @@ const SignIn = () => {
     // Starts process to send authentication post to API
     setLoading(true);
     try {
-      const response = await auth.signIn(formData.email, formData.password, login);
+      const response = await auth.signIn(
+        formData.email,
+        formData.password,
+        login,
+      );
       navigate("/home");
     } catch (err) {
       setError(err.message);
@@ -93,9 +97,7 @@ const SignIn = () => {
           type="submit"
           disabled={loading}
         >
-          {loading
-            ? "Signing in..."
-            : "Sign In"}
+          {loading ? "Signing in..." : "Sign In"}
         </button>
       </form>
       <p>
