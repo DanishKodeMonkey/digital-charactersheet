@@ -10,6 +10,11 @@ if (!API_URL) {
     throw new Error('Please define API url in environment variables');
 }
 
+const api = axios.create({
+    baseURL: API_URL,
+});
+
+
 type ApiError = {
     status: number | 'Unknown';
     message: string;
@@ -100,6 +105,14 @@ export const auth = {
             await axios.post(`${API_URL}/auth/signout`);
         } catch (error) {
             handleAPIError(error);
+        }
+    },
+};
+
+export const character = {
+    test: async () => {
+        try{
+            const response = axios.get(`${API_URL}/character/test`)
         }
     },
 };

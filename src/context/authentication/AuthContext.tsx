@@ -13,7 +13,7 @@ interface AuthContextType {
 }
 
 // helper functions for handling tokens
-const getAccessToken = () => sessionStorage.getItem("access_token");
+export const getAccessToken = () => sessionStorage.getItem("access_token");
 const getRefreshToken = () => Cookies.get("refresh_token");
 const getUsername = () => sessionStorage.getItem("username");
 // Create context layer
@@ -125,7 +125,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   // wrapper, including methods and user object to child components
   return (
-    <AuthContext.Provider value={{ user, accessToken, isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ user, accessToken, isAuthenticated, login, logout}}>
       {children}
     </AuthContext.Provider>
   );
