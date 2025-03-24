@@ -11,6 +11,11 @@ import { AppRoutes, AuthRoutes, UserRoutes } from "./routes/index.tsx";
 import { AuthProvider } from "./context/authentication/AuthContext.tsx";
 import SignIn from "./pages/auth/SignIn.tsx";
 import SignUp from "./pages/auth/SignUp.tsx";
+import Overview from "./pages/character/Overview.tsx";
+import Inventory from "./pages/character/Inventory.tsx";
+import Character from "./pages/character/Character.tsx";
+import Spells from "./pages/character/Spells.tsx";
+import App from "./App.tsx";
 
 /* Entrypoint determines direction of user. */
 
@@ -28,7 +33,12 @@ const Main = () => {
         </Route>
 
         {/* App layer, the actual character sheet app */}
-        <Route path="/app/" element={<AppRoutes />} />
+        <Route path="app" element={<AppRoutes />}>
+              <Route index element={<Overview />} />
+              <Route path="inventory" element={<Inventory />} />
+              <Route path="character" element={<Character />} />
+              <Route path="spells" element={<Spells />} />
+        </Route>
 
         {/* User Settings / Profile management */}
         <Route path="/user/" element={<UserRoutes />} />
