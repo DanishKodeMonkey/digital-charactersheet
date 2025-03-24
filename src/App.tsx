@@ -1,7 +1,8 @@
 /// <reference path="./images.d.ts" />
-import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate} from "react-router-dom";
 import "./App.css";
 
+import {useAuth } from "./context/authentication/AuthContext.tsx";
 
 import AppRoutes from "./routes/AppRoutes.tsx";
 import Overview from "./pages/character/Overview.tsx";
@@ -19,8 +20,11 @@ import UserRoutes from "./routes/UserRoutes.tsx";
 
 
 function App() {
+  const {accessToken} = useAuth()
+
   return (
     <Router>
+
       <Routes>
         {/* Landing page, determines where to send user */}
         <Route path="/" element={<Home />} />
@@ -32,7 +36,7 @@ function App() {
         </Route>
 
         {/* App layer, the actual character sheet app */}
-        <Route path="app" element={<AppRoutes />}>
+        <Route path="app" element={accessToken ? <AppRoutes /> : <Navigate to="/auth/signin" />}>
               <Route index element={<Overview />} />
               <Route path="inventory" element={<Inventory />} />
               <Route path="character" element={<Character />} />
@@ -40,11 +44,13 @@ function App() {
         </Route>
 
         {/* User Settings / Profile management */}
-        <Route path="/user/" element={<UserRoutes />} />
+        <Route path="/user/" element={accessToken ? <UserRoutes /> : <Navigate to="/auth/signin" />} />
 
         {/* Final catch-all, re-route to home */}
-        <Route path="*" element={<Navigate to="/" />} />
+        <Route path="*" element={<Navigate to="/" />}/>
+
       </Routes>
+
     </Router>
 
   );

@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import {useNavigate} from "react-router-dom"
 import { jwtDecode } from "jwt-decode";
 import { auth } from "../../services/api.ts";
 import Cookies from "js-cookie";
@@ -6,6 +7,7 @@ import Cookies from "js-cookie";
 interface AuthContextType {
   user: { username: string } | null;
   isAuthenticated: boolean;
+  accessToken: string;
   login: (token: string, username: string) => void;
   logout: () => void;
 }
@@ -13,7 +15,7 @@ interface AuthContextType {
 // helper functions for handling tokens
 const getAccessToken = () => sessionStorage.getItem("access_token");
 const getRefreshToken = () => Cookies.get("refresh_token");
-const getUsername = () => localStorage.getItem("username");
+const getUsername = () => sessionStorage.getItem("username");
 // Create context layer
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -22,23 +24,41 @@ const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<{ username: string } | null>(null);
+  const [accessToken, setAccessToken] = useState<string | null>(getAccessToken())
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     const checkAuth = async () => {
+      console.log(isAuthenticated);
+      
       const token = getAccessToken();
+      const refresh = getRefreshToken()
       const username = getUsername();
+      console.log(`TOKEN: ${accessToken}, username: ${username}, authenticated: ${isAuthenticated} refresh: ${refresh}`);
+    
 
+      if(!token || !username){
+        logout()
+        return
+      }
       // Verify existence of token and username
       if (token && username) {
+        console.log(`TOKEN: ${token}, username: ${username}, authenticated: ${isAuthenticated} refresh: ${refresh}`);
+
+        console.log("PING2");
+        
         // Attempt ot validate access token
         if (verifyToken(token)) {
+          console.log(`TOKEN: ${token}, username: ${username}, authenticated: ${isAuthenticated} refresh: ${refresh}`);
+          
           setUser({ username });
+          setAccessToken(token)
           setIsAuthenticated(true);
           //If failed, attempt to refresh access token
         } else if (await refreshAccessToken()) {
           const updatedUsername = getUsername();
           setUser({ username: updatedUsername ?? username });
+          setAccessToken(getAccessToken())
           setIsAuthenticated(true);
           // if failed, wipe credentials
         } else {
@@ -51,11 +71,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     // on mount
   }, []);
 
+  useEffect(() => {
+    console.log(`isAuthenticated updated: ${isAuthenticated}`);
+  }, [isAuthenticated]); // Watch isAuthenticated state changes
+
   const login = (access_token: string, username: string) => {
     sessionStorage.setItem("access_token", access_token);
     sessionStorage.setItem("username", username);
 
     setUser({ username });
+    setAccessToken(access_token)
     setIsAuthenticated(true);
   };
 
@@ -65,7 +90,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     sessionStorage.removeItem("username");
 
     setUser(null);
-    setIsAuthenticated(false);
+    setAccessToken(null)
+    setIsAuthenticated(false);  
+
   };
 
   // Verify access token date.
@@ -98,7 +125,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   // wrapper, including methods and user object to child components
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ user, accessToken, isAuthenticated, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

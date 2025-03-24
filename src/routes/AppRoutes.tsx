@@ -1,6 +1,5 @@
 import App from "../App.tsx";
 import {Outlet} from "react-router-dom"
-import { useAuth } from "../context/authentication/AuthContext.tsx";
 import { CentralizationProvider } from "../context/CentralisationLayer/CentralisationContext.tsx";
 import Header from "../components/Header.tsx";
 
@@ -8,8 +7,6 @@ import Header from "../components/Header.tsx";
 HUSKAT Verify character being used in app?
 */
 const AppRoutes = () => {
-  const isAuthenticated = useAuth();
-
   return(
   <CentralizationProvider>
     <div className="App">
