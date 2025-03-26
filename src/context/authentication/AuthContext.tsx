@@ -14,7 +14,6 @@ interface AuthContextType {
 
 // helper functions for handling tokens
 export const getAccessToken = () => sessionStorage.getItem("access_token");
-const getRefreshToken = () => Cookies.get("refresh_token");
 const getUsername = () => sessionStorage.getItem("username");
 // Create context layer
 
@@ -28,40 +27,38 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    const checkAuth = async () => {
-      console.log(isAuthenticated);
-      
+    const checkAuth = async () => {      
       const token = getAccessToken();
-      const refresh = getRefreshToken()
       const username = getUsername();
-      console.log(`TOKEN: ${accessToken}, username: ${username}, authenticated: ${isAuthenticated} refresh: ${refresh}`);
+      console.log("MOUNT AUTH CHECK COMMENCE");
+      
+      console.log(`TOKEN: ${accessToken}, username: ${username}, authenticated: ${isAuthenticated} `);
     
 
       if(!token || !username){
+        console.error("TOKEN OR USERNAME MISSING!");
+        
         logout()
         return
       }
       // Verify existence of token and username
       if (token && username) {
-        console.log(`TOKEN: ${token}, username: ${username}, authenticated: ${isAuthenticated} refresh: ${refresh}`);
+        console.log(`TOKEN: ${token}, username: ${username}, authenticated: ${isAuthenticated} `);
 
         console.log("PING2");
         
+        const isVerified = await verifyToken()
         // Attempt ot validate access token
-        if (verifyToken(token)) {
-          console.log(`TOKEN: ${token}, username: ${username}, authenticated: ${isAuthenticated} refresh: ${refresh}`);
+        if (isVerified) {
+          console.log("AUTHENTICATION VERIFIED!");
+          login(token, username)
           
-          setUser({ username });
-          setAccessToken(token)
-          setIsAuthenticated(true);
+
+
           //If failed, attempt to refresh access token
-        } else if (await refreshAccessToken()) {
-          const updatedUsername = getUsername();
-          setUser({ username: updatedUsername ?? username });
-          setAccessToken(getAccessToken())
-          setIsAuthenticated(true);
-          // if failed, wipe credentials
         } else {
+          console.error("AUTHENTICATION FAILED SUCCESSFULLY!");
+          
           logout();
         }
       }
@@ -97,18 +94,26 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   // Verify access token date.
   // TODO: Verify tokens against API instead of local extension.
-  const verifyToken = (token: string) => {
-    try {
-      const decoded: { exp: number } = jwtDecode(token);
-      return decoded.exp * 1000 > Date.now();
-    } catch {
-      return false;
-    }
-  };
-  const refreshAccessToken = async () => {
-    const refreshToken = getRefreshToken();
-    if (!refreshToken) return false;
+  const verifyToken = async () => {
+    const tokenExists = getAccessToken()
+    if(!tokenExists) return false;
 
+    try{
+      const verified = await auth.verifyToken()
+      if(verified){
+        return true
+      }
+    }catch(error){
+      console.warn("Access token validation failed...", error);
+      return false
+      
+    }
+    return false
+    
+
+  };
+
+  const refreshAccessToken = async () => {
     try {
       const response = await auth.refreshToken();
       const { access_token, username } = response;

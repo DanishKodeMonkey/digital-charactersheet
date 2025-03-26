@@ -1,7 +1,6 @@
 // API interaction layer.
 
 import axios from 'axios';
-import Cookies from 'js-cookie';
 
 // Define API base URL
 const API_URL = import.meta.env.VITE_API_URL;
@@ -13,7 +12,6 @@ if (!API_URL) {
 const api = axios.create({
     baseURL: API_URL,
 });
-
 
 type ApiError = {
     status: number | 'Unknown';
@@ -72,33 +70,50 @@ export const auth = {
         }
     },
     refreshToken: async () => {
-        const refreshToken = Cookies.get('refresh_token');
-        if (!refreshToken) {
-            throw new Error('No refresh token available');
-        }
         try {
-            const response = await axios.post(`${API_URL}/auth/refresh`, {
-                refresh_token: refreshToken,
-            });
+            const response = await axios.post(
+                `${API_URL}/auth/refresh`,
+                {},
+                { withCredentials: true }
+            );
             return response.data;
         } catch (error) {
             handleAPIError(error);
         }
     },
-    verifyToken: async (accessToken: string, refreshToken: string) => {
+    verifyToken: async () => {
+        console.log('ATTEMPTING TO VERIFY');
+        /* VERIFY THAT COOKIES ARE BEING SAVED FROM API */
+        const currentAccessToken = sessionStorage.getItem('access_token');
+        console.log(currentAccessToken);
+
         try {
             const response = await axios.post(`${API_URL}/auth/verify`, {
-                accessToken,
-                refreshToken,
+                access_token: currentAccessToken,
+                withCredentials: true,
             });
-            const { access_token } = response.data;
-            if (access_token) {
-                sessionStorage.setItem('access_token', access_token);
+            console.log(response.data);
+
+            if (response.data.access_token) {
+                // Success, return new token
+                return response.data.access_token;
             }
         } catch (error) {
-            handleAPIError(error);
-            return false;
+            console.warn(
+                'Access token validation failed... attempting refresh...',
+                error
+            );
+            try {
+                const refreshResponse = await auth.refreshToken();
+                if (refreshResponse.access_token) {
+                    return refreshResponse.access_token;
+                }
+            } catch (refreshError) {
+                console.error('Token refresh failed', refreshError);
+                return false;
+            }
         }
+        return false;
     },
     signout: async () => {
         try {
@@ -109,10 +124,11 @@ export const auth = {
     },
 };
 
-export const character = {
+/* export const character = {
     test: async () => {
         try{
             const response = axios.get(`${API_URL}/character/test`)
         }
     },
 };
+ */
