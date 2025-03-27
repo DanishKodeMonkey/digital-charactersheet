@@ -42,10 +42,14 @@ export const auth = {
         login: (access_token: string, username: string) => void
     ) => {
         try {
-            const response = await axios.post(`${API_URL}/auth/signin`, {
-                email,
-                password,
-            });
+            const response = await axios.post(
+                `${API_URL}/auth/signin`,
+                {
+                    email,
+                    password,
+                },
+                { withCredentials: true }
+            );
             console.log(response);
 
             const { access_token, username } = response.data;
@@ -88,11 +92,14 @@ export const auth = {
         console.log(currentAccessToken);
 
         try {
-            const response = await axios.post(`${API_URL}/auth/verify`, {
-                access_token: currentAccessToken,
-                withCredentials: true,
-            });
-            console.log(response.data);
+            const response = await axios.post(
+                `${API_URL}/auth/verify`,
+                {
+                    access_token: currentAccessToken,
+                },
+                { withCredentials: true }
+            );
+            console.log(response);
 
             if (response.data.access_token) {
                 // Success, return new token
